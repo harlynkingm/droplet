@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		792A7FB81DD000F300612463 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FB71DD000F300612463 /* AppDelegate.swift */; };
-		792A7FBA1DD000F300612463 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FB91DD000F300612463 /* ViewController.swift */; };
+		792A7FBA1DD000F300612463 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FB91DD000F300612463 /* CameraViewController.swift */; };
 		792A7FBD1DD000F300612463 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FBB1DD000F300612463 /* Main.storyboard */; };
 		792A7FBF1DD000F300612463 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FBE1DD000F300612463 /* Assets.xcassets */; };
 		792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FC01DD000F300612463 /* LaunchScreen.storyboard */; };
 		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
+		792A7FE61DD0192200612463 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FE51DD0192200612463 /* CameraModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +37,7 @@
 /* Begin PBXFileReference section */
 		792A7FB41DD000F300612463 /* Droplight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Droplight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FB71DD000F300612463 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		792A7FB91DD000F300612463 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		792A7FB91DD000F300612463 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		792A7FBC1DD000F300612463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		792A7FBE1DD000F300612463 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		792A7FC11DD000F300612463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		792A7FD31DD000F300612463 /* DroplightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroplightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
 		792A7FD91DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		792A7FE51DD0192200612463 /* CameraModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
-				792A7FB91DD000F300612463 /* ViewController.swift */,
+				792A7FB91DD000F300612463 /* CameraViewController.swift */,
+				792A7FE51DD0192200612463 /* CameraModel.swift */,
 				792A7FBB1DD000F300612463 /* Main.storyboard */,
 				792A7FBE1DD000F300612463 /* Assets.xcassets */,
 				792A7FC01DD000F300612463 /* LaunchScreen.storyboard */,
@@ -193,6 +196,7 @@
 				TargetAttributes = {
 					792A7FB31DD000F300612463 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 5N89N8NB8R;
 					};
 					792A7FC71DD000F300612463 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -256,8 +260,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				792A7FBA1DD000F300612463 /* ViewController.swift in Sources */,
+				792A7FBA1DD000F300612463 /* CameraViewController.swift in Sources */,
 				792A7FB81DD000F300612463 /* AppDelegate.swift in Sources */,
+				792A7FE61DD0192200612463 /* CameraModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +406,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Droplight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.self.Droplight;
@@ -412,6 +419,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Droplight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.self.Droplight;
