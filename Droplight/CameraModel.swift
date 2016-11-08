@@ -20,7 +20,7 @@ class CameraModel: NSObject {
     weak var delegate : CameraDelegate?
     
     var session: AVCaptureSession!
-    var sessionQueue: dispatch_queue_t!
+    var sessionQueue: DispatchQueue!
     var stillImageOutput: AVCaptureStillImageOutput?
     
     init(sender: AnyObject) {
@@ -33,15 +33,15 @@ class CameraModel: NSObject {
     func initializeSession() {
         self.session = AVCaptureSession()
         self.session.sessionPreset = AVCaptureSessionPresetPhoto
-        self.sessionQueue = dispatch_queue_create("camera session", DISPATCH_QUEUE_SERIAL)
+        self.sessionQueue = DispatchQueue(label: "camera session", attributes: [])
         
-        dispatch_async(self.sessionQueue) {
+        self.sessionQueue.async {
             self.session.beginConfiguration()
             self.addVideoInput()
             self.addStillImageOutput()
             self.session.commitConfiguration()
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 NSLog("Session initialization did complete")
                 self.delegate?.cameraSessionConfigurationDidComplete()
             }
@@ -53,20 +53,20 @@ class CameraModel: NSObject {
     }
     
     func startCamera() {
-        dispatch_async(self.sessionQueue) {
+        self.sessionQueue.async {
             self.session.startRunning()
         }
     }
     
     func stopCamera() {
-        dispatch_async(self.sessionQueue) {
+        self.sessionQueue.async {
             self.session.stopRunning()
         }
     }
     
-    func captureStillImage(completed: (image: UIImage?) -> Void) {
+    func captureStillImage(_ completed: @escaping (_ image: UIImage?) -> Void) {
         if let imageOutput = self.stillImageOutput {
-            dispatch_async(self.sessionQueue, { () -> Void in
+            self.sessionQueue.async(execute: { () -> Void in
                 var videoConnection: AVCaptureConnection?
                 for connection in imageOutput.connections {
                     let c = connection as! AVCaptureConnection
@@ -85,17 +85,17 @@ class CameraModel: NSObject {
                 }
                 
                 if videoConnection != nil {
-                    imageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: { (imageSampleBuffer: CMSampleBufferRef!, error) -> Void in
+                    imageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (imageSampleBuffer: CMSampleBuffer!, error) -> Void in
                         let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
                         let image: UIImage? = UIImage(data: imageData!)!
                         
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             completed(image: image)
                         }
                     })
                 } else {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        completed(image: nil)
+                    DispatchQueue.main.async {
+                        completed(nil)
                     }
                 }
             })
@@ -103,7 +103,7 @@ class CameraModel: NSObject {
     }
     
     func addVideoInput() {
-        let device: AVCaptureDevice = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo, position: AVCaptureDevicePosition.Back)
+        let device: AVCaptureDevice = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo as NSString, position: AVCaptureDevicePosition.back)
         do {
             let input = try AVCaptureDeviceInput(device: device)
             if self.session.canAddInput(input){
@@ -123,8 +123,8 @@ class CameraModel: NSObject {
         }
     }
     
-    func deviceWithMediaTypeWithPosition(mediaType: NSString, position: AVCaptureDevicePosition) -> AVCaptureDevice {
-        let devices: NSArray = AVCaptureDevice.devicesWithMediaType(mediaType as String)
+    func deviceWithMediaTypeWithPosition(_ mediaType: NSString, position: AVCaptureDevicePosition) -> AVCaptureDevice {
+        let devices: NSArray = AVCaptureDevice.devices(withMediaType: mediaType as String) as NSArray
         var captureDevice: AVCaptureDevice = devices.firstObject as! AVCaptureDevice
         for device in devices {
             let d = device as! AVCaptureDevice
@@ -137,23 +137,23 @@ class CameraModel: NSObject {
     }
     
     func setObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Camera.sessionDidStart(_:)), name: AVCaptureSessionDidStartRunningNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Camera.sessionDidStop(_:)), name: AVCaptureSessionDidStopRunningNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CameraModel.sessionDidStart(_:)), name: NSNotification.Name.AVCaptureSessionDidStartRunning, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CameraModel.sessionDidStop(_:)), name: NSNotification.Name.AVCaptureSessionDidStopRunning, object: nil)
     }
     
     func removeObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    func sessionDidStart(notification: NSNotification) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func sessionDidStart(_ notification: Notification) {
+        DispatchQueue.main.async {
             NSLog("Session did start")
             self.delegate?.cameraSessionDidBegin()
         }
     }
     
-    func sessionDidStop(notification: NSNotification) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func sessionDidStop(_ notification: Notification) {
+        DispatchQueue.main.async {
             NSLog("Session did stop")
             self.delegate?.cameraSessionDidStop()
         }

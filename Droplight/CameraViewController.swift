@@ -27,7 +27,7 @@ class CameraViewController: UIViewController, CameraDelegate {
         self.initializeCamera()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.establishVideoPreviewArea()
     }
@@ -41,10 +41,12 @@ class CameraViewController: UIViewController, CameraDelegate {
     }
     
     func establishVideoPreviewArea() {
-        self.preview = AVCaptureVideoPreviewLayer(session: self.camera!.session)
-        self.preview!.videoGravity = AVLayerVideoGravityResizeAspectFill
-        self.preview!.frame = self.previewView.bounds
-        self.previewView.layer.addSublayer(self.preview!)
+        if var videoPreview = self.preview {
+            videoPreview = AVCaptureVideoPreviewLayer(session: self.camera!.session)
+            videoPreview.videoGravity = AVLayerVideoGravityResizeAspectFill
+            videoPreview.frame = self.previewView.bounds
+            self.previewView.layer.addSublayer(videoPreview)
+        }
     }
 
     func cameraSessionConfigurationDidComplete() {
@@ -52,13 +54,13 @@ class CameraViewController: UIViewController, CameraDelegate {
     }
     
     func cameraSessionDidBegin() {
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.previewView.alpha = 1.0
         })
     }
     
     func cameraSessionDidStop() {
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.previewView.alpha = 0.0
         })
     }
