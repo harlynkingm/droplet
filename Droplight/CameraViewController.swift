@@ -9,60 +9,71 @@
 import UIKit
 import AVFoundation
 
-class CameraViewController: UIViewController, CameraDelegate {
+class CameraViewController: UIViewController {
     
-    @IBOutlet weak var stillView: UIImageView!
+    @IBOutlet weak var captureImageView: UIImageView!
     @IBOutlet weak var previewView: UIView!
     
-    var preview : AVCaptureVideoPreviewLayer?
-    
-    var camera : CameraModel?
+    var session: AVCaptureSession?
+    var stillImageOutput: AVCaptureStillImageOutput?
+    var previewLayer : AVCaptureVideoPreviewLayer?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    override var prefersStatusBarHidden : Bool {
+        return true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initializeCamera()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.establishVideoPreviewArea()
+        previewLayer!.frame = previewView.bounds
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated)
+        // Start capture session
+        session = AVCaptureSession()
+        session!.sessionPreset = AVCaptureSessionPreset1920x1080
+        
+        // Select camera
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        
+        // Prepare input
+        var input: AVCaptureDeviceInput!
+        do {
+            input = try AVCaptureDeviceInput(device: backCamera)
+            // Move on if back camera exists
+            if session!.canAddInput(input){
+                session!.addInput(input)
+                stillImageOutput = AVCaptureStillImageOutput()
+                stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+                // Move on if you can add image output
+                if session!.canAddOutput(stillImageOutput){
+                    session!.addOutput(stillImageOutput)
+                    previewLayer = AVCaptureVideoPreviewLayer(session: session)
+                    previewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
+                    previewLayer!.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
+                    previewView.layer.addSublayer(previewLayer!)
+                    session!.startRunning()
+                }
+            }
+        } catch {
+            input = nil
+            print("ERROR")
+            print(error.localizedDescription)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func initializeCamera() {
-        self.camera = CameraModel(sender: self)
-    }
-    
-    func establishVideoPreviewArea() {
-        if var videoPreview = self.preview {
-            videoPreview = AVCaptureVideoPreviewLayer(session: self.camera!.session)
-            videoPreview.videoGravity = AVLayerVideoGravityResizeAspectFill
-            videoPreview.frame = self.previewView.bounds
-            self.previewView.layer.addSublayer(videoPreview)
-        }
-    }
-
-    func cameraSessionConfigurationDidComplete() {
-        self.camera!.startCamera()
-    }
-    
-    func cameraSessionDidBegin() {
-        UIView.animate(withDuration: 0.1, animations: { () -> Void in
-            self.previewView.alpha = 1.0
-        })
-    }
-    
-    func cameraSessionDidStop() {
-        UIView.animate(withDuration: 0.1, animations: { () -> Void in
-            self.previewView.alpha = 0.0
-        })
-    }
 }
 

@@ -14,7 +14,6 @@
 		792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FC01DD000F300612463 /* LaunchScreen.storyboard */; };
 		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
-		792A7FE61DD0192200612463 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FE51DD0192200612463 /* CameraModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +47,6 @@
 		792A7FD31DD000F300612463 /* DroplightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroplightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
 		792A7FD91DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		792A7FE51DD0192200612463 /* CameraModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +99,6 @@
 			children = (
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
 				792A7FB91DD000F300612463 /* CameraViewController.swift */,
-				792A7FE51DD0192200612463 /* CameraModel.swift */,
 				792A7FBB1DD000F300612463 /* Main.storyboard */,
 				792A7FBE1DD000F300612463 /* Assets.xcassets */,
 				792A7FC01DD000F300612463 /* LaunchScreen.storyboard */,
@@ -191,7 +188,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = MHK;
 				TargetAttributes = {
 					792A7FB31DD000F300612463 = {
@@ -265,7 +262,6 @@
 			files = (
 				792A7FBA1DD000F300612463 /* CameraViewController.swift in Sources */,
 				792A7FB81DD000F300612463 /* AppDelegate.swift in Sources */,
-				792A7FE61DD0192200612463 /* CameraModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,8 +330,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -380,8 +378,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -400,6 +400,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
