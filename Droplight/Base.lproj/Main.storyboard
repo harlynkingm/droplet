@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,20 +23,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3T4-1f-H1u" userLabel="Capture">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRt-FS-DNN">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heV-VO-v2o" userLabel="Camera">
+                                <rect key="frame" x="150" y="583" width="74" height="74"/>
+                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="camera"/>
+                                <connections>
+                                    <action selector="snapPhotoWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l0K-gh-8nI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mkd-PL-3gN" userLabel="Profile">
+                                <rect key="frame" x="12" y="600" width="41" height="40"/>
+                                <inset key="contentEdgeInsets" minX="7" minY="3" maxX="7" maxY="3"/>
+                                <state key="normal" image="droplet"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3T4-1f-H1u" userLabel="Capture">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJj-xj-NDd" userLabel="Locations">
+                                <rect key="frame" x="306" y="600" width="41" height="40"/>
+                                <inset key="contentEdgeInsets" minX="7" minY="3" maxX="7" maxY="3"/>
+                                <state key="normal" image="droplet"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Mkd-PL-3gN" firstAttribute="centerY" secondItem="heV-VO-v2o" secondAttribute="centerY" id="4rl-o5-iiy"/>
+                            <constraint firstItem="Mkd-PL-3gN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="12" id="9Ps-rJ-HBl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jJj-xj-NDd" secondAttribute="trailing" constant="12" id="Lco-U0-pVq"/>
+                            <constraint firstItem="heV-VO-v2o" firstAttribute="bottom" secondItem="fRt-FS-DNN" secondAttribute="baseline" constant="-10" id="Va2-DE-0EZ"/>
                             <constraint firstItem="fRt-FS-DNN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VkV-dE-9BQ"/>
+                            <constraint firstItem="heV-VO-v2o" firstAttribute="centerX" secondItem="fRt-FS-DNN" secondAttribute="centerX" id="WVw-td-5aT"/>
                             <constraint firstAttribute="trailing" secondItem="fRt-FS-DNN" secondAttribute="trailing" id="bTl-FY-N5M"/>
                             <constraint firstItem="fRt-FS-DNN" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="fgO-7a-xHx"/>
+                            <constraint firstItem="jJj-xj-NDd" firstAttribute="centerY" secondItem="heV-VO-v2o" secondAttribute="centerY" id="hTf-dQ-IPL"/>
                             <constraint firstItem="fRt-FS-DNN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="y1r-UR-D5p"/>
                         </constraints>
                     </view>
@@ -42,8 +68,11 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="captureButton" destination="heV-VO-v2o" id="H6N-2h-YrU"/>
                         <outlet property="captureImageView" destination="3T4-1f-H1u" id="Hma-m3-pyU"/>
+                        <outlet property="locationButton" destination="jJj-xj-NDd" id="S75-Jf-WvR"/>
                         <outlet property="previewView" destination="fRt-FS-DNN" id="dbF-kF-vmp"/>
+                        <outlet property="profileButton" destination="Mkd-PL-3gN" id="ZnR-x0-2bd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -51,4 +80,8 @@
             <point key="canvasLocation" x="140" y="135.38230884557723"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="camera" width="74" height="74"/>
+        <image name="droplet" width="27" height="34"/>
+    </resources>
 </document>

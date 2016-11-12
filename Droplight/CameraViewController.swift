@@ -13,6 +13,9 @@ class CameraViewController: UIViewController {
     
     @IBOutlet weak var captureImageView: UIImageView!
     @IBOutlet weak var previewView: UIView!
+    @IBOutlet weak var captureButton: UIButton!
+    @IBOutlet weak var profileButton: UIButton!
+    @IBOutlet weak var locationButton: UIButton!
     
     var session: AVCaptureSession?
     var stillImageOutput: AVCaptureStillImageOutput?
@@ -33,6 +36,10 @@ class CameraViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         previewLayer!.frame = previewView.bounds
+        blurButton(button: captureButton, radius: 35)
+        blurButton(button: profileButton, radius: 20)
+        blurButton(button: locationButton, radius: 20)
+        locationButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -73,6 +80,30 @@ class CameraViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    @IBAction func snapPhoto (sender: UIButton) {
+        if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo){
+            stillImageOutput?.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (sampleBuffer, error) -> Void in
+                if sampleBuffer != nil {
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let dataProvider = CGDataProvider(data: imageData as! CFData)
+                    let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
+                    let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.up)
+                    self.captureImageView.image = image
+                }
+            })
+        }
+    }
+    
+    func blurButton(button: UIButton, radius: CGFloat){
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
+        blur.frame = button.bounds
+        blur.isUserInteractionEnabled = false
+        blur.layer.cornerRadius = radius
+        blur.clipsToBounds = true
+        blur.alpha = 0.5
+        button.insertSubview(blur, at: 0)
     }
     
 }
