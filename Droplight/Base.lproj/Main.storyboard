@@ -32,7 +32,7 @@
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" image="camera"/>
                                 <connections>
-                                    <action selector="snapPhotoWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l0K-gh-8nI"/>
+                                    <action selector="snapPhoto" destination="BYZ-38-t0r" eventType="touchUpInside" id="6FK-q9-az9"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mkd-PL-3gN" userLabel="Profile">
@@ -40,12 +40,8 @@
                                 <inset key="contentEdgeInsets" minX="7" minY="3" maxX="7" maxY="3"/>
                                 <state key="normal" image="droplet"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3T4-1f-H1u" userLabel="Capture">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJj-xj-NDd" userLabel="Locations">
-                                <rect key="frame" x="306" y="600" width="41" height="40"/>
+                                <rect key="frame" x="318" y="600" width="41" height="40"/>
                                 <inset key="contentEdgeInsets" minX="7" minY="3" maxX="7" maxY="3"/>
                                 <state key="normal" image="droplet"/>
                             </button>
@@ -54,7 +50,7 @@
                         <constraints>
                             <constraint firstItem="Mkd-PL-3gN" firstAttribute="centerY" secondItem="heV-VO-v2o" secondAttribute="centerY" id="4rl-o5-iiy"/>
                             <constraint firstItem="Mkd-PL-3gN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="12" id="9Ps-rJ-HBl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="jJj-xj-NDd" secondAttribute="trailing" constant="12" id="Lco-U0-pVq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jJj-xj-NDd" secondAttribute="trailing" id="Lco-U0-pVq"/>
                             <constraint firstItem="heV-VO-v2o" firstAttribute="bottom" secondItem="fRt-FS-DNN" secondAttribute="baseline" constant="-10" id="Va2-DE-0EZ"/>
                             <constraint firstItem="fRt-FS-DNN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VkV-dE-9BQ"/>
                             <constraint firstItem="heV-VO-v2o" firstAttribute="centerX" secondItem="fRt-FS-DNN" secondAttribute="centerX" id="WVw-td-5aT"/>
@@ -69,19 +65,84 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="captureButton" destination="heV-VO-v2o" id="H6N-2h-YrU"/>
-                        <outlet property="captureImageView" destination="3T4-1f-H1u" id="Hma-m3-pyU"/>
                         <outlet property="locationButton" destination="jJj-xj-NDd" id="S75-Jf-WvR"/>
                         <outlet property="previewView" destination="fRt-FS-DNN" id="dbF-kF-vmp"/>
                         <outlet property="profileButton" destination="Mkd-PL-3gN" id="ZnR-x0-2bd"/>
+                        <segue destination="ipU-gX-kxI" kind="show" identifier="TakePicture" animates="NO" id="afM-LF-ixK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="140" y="135.38230884557723"/>
         </scene>
+        <!--Picture View Controller-->
+        <scene sceneID="k3s-Nc-99Z">
+            <objects>
+                <viewController storyboardIdentifier="PictureViewController" id="ipU-gX-kxI" customClass="PictureViewController" customModule="Droplight" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="auz-Tf-Lvy"/>
+                        <viewControllerLayoutGuide type="bottom" id="iY0-mS-4rh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7H1-YX-BMF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="omV-3u-Coh">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4w-MD-oIq" userLabel="Close">
+                                <rect key="frame" x="16" y="601" width="42" height="42"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="close"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="ClosePicture" animates="NO" id="4nt-JX-q8u"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7J5-4g-UVA" userLabel="Upload">
+                                <rect key="frame" x="152" y="587" width="70" height="70"/>
+                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="upload"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1K-8r-GvX" userLabel="Download">
+                                <rect key="frame" x="318" y="601.5" width="41" height="41"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="7" maxX="8" maxY="7"/>
+                                <state key="normal" image="download"/>
+                                <connections>
+                                    <action selector="saveImage" destination="ipU-gX-kxI" eventType="touchUpInside" id="BEy-Va-vpx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="omV-3u-Coh" firstAttribute="width" secondItem="7H1-YX-BMF" secondAttribute="width" id="Dog-2m-dOx"/>
+                            <constraint firstItem="M4w-MD-oIq" firstAttribute="leading" secondItem="7H1-YX-BMF" secondAttribute="leadingMargin" id="GtU-RV-QE0"/>
+                            <constraint firstItem="7J5-4g-UVA" firstAttribute="centerX" secondItem="7H1-YX-BMF" secondAttribute="centerX" id="KJl-GR-aIF"/>
+                            <constraint firstItem="omV-3u-Coh" firstAttribute="height" secondItem="7H1-YX-BMF" secondAttribute="height" id="MZ3-aQ-CKZ"/>
+                            <constraint firstItem="iY0-mS-4rh" firstAttribute="top" secondItem="7J5-4g-UVA" secondAttribute="bottom" constant="10" id="TLc-tL-uRH"/>
+                            <constraint firstItem="omV-3u-Coh" firstAttribute="centerY" secondItem="7H1-YX-BMF" secondAttribute="centerY" id="YHf-vn-h3P"/>
+                            <constraint firstItem="M4w-MD-oIq" firstAttribute="centerY" secondItem="7J5-4g-UVA" secondAttribute="centerY" id="on3-a1-aoA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="K1K-8r-GvX" secondAttribute="trailing" id="wEG-sk-xxq"/>
+                            <constraint firstItem="K1K-8r-GvX" firstAttribute="centerY" secondItem="7J5-4g-UVA" secondAttribute="centerY" id="wne-AV-zdR"/>
+                            <constraint firstItem="omV-3u-Coh" firstAttribute="centerX" secondItem="7H1-YX-BMF" secondAttribute="centerX" id="yNi-tI-xFq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="M4w-MD-oIq" id="th1-7k-Ufg"/>
+                        <outlet property="imageView" destination="omV-3u-Coh" id="1zO-7m-kOn"/>
+                        <outlet property="saveButton" destination="K1K-8r-GvX" id="0Ao-Yg-lwZ"/>
+                        <outlet property="uploadButton" destination="7J5-4g-UVA" id="mzF-yq-iyb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H5J-DS-wBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="956" y="135"/>
+        </scene>
     </scenes>
     <resources>
         <image name="camera" width="74" height="74"/>
+        <image name="close" width="22" height="21"/>
+        <image name="download" width="25" height="27"/>
         <image name="droplet" width="27" height="34"/>
+        <image name="upload" width="70" height="70"/>
     </resources>
 </document>

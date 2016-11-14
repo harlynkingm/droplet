@@ -14,6 +14,8 @@
 		792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FC01DD000F300612463 /* LaunchScreen.storyboard */; };
 		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
+		79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA31DD79A9F002A373B /* PictureViewController.swift */; };
+		79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA51DD7C3B5002A373B /* EffectsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		792A7FD31DD000F300612463 /* DroplightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroplightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
 		792A7FD91DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79F08BA31DD79A9F002A373B /* PictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureViewController.swift; sourceTree = "<group>"; };
+		79F08BA51DD7C3B5002A373B /* EffectsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			children = (
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
 				792A7FB91DD000F300612463 /* CameraViewController.swift */,
+				79F08BA31DD79A9F002A373B /* PictureViewController.swift */,
+				79F08BA51DD7C3B5002A373B /* EffectsController.swift */,
 				792A7FBB1DD000F300612463 /* Main.storyboard */,
 				792A7FBE1DD000F300612463 /* Assets.xcassets */,
 				792A7FC01DD000F300612463 /* LaunchScreen.storyboard */,
@@ -261,6 +267,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				792A7FBA1DD000F300612463 /* CameraViewController.swift in Sources */,
+				79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */,
+				79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */,
 				792A7FB81DD000F300612463 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
