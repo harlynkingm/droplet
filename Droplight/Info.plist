@@ -44,6 +44,8 @@
 	<string>UIStatusBarStyleDefault</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The photo library will be used to save images.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The app uses this information to show your location.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

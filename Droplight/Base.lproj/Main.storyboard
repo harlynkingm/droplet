@@ -111,6 +111,13 @@
                                     <action selector="saveImage" destination="ipU-gX-kxI" eventType="touchUpInside" id="BEy-Va-vpx"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rU-pR-hes" userLabel="Location">
+                                <rect key="frame" x="151.5" y="15" width="73" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="16"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -120,6 +127,8 @@
                             <constraint firstItem="omV-3u-Coh" firstAttribute="height" secondItem="7H1-YX-BMF" secondAttribute="height" id="MZ3-aQ-CKZ"/>
                             <constraint firstItem="iY0-mS-4rh" firstAttribute="top" secondItem="7J5-4g-UVA" secondAttribute="bottom" constant="10" id="TLc-tL-uRH"/>
                             <constraint firstItem="omV-3u-Coh" firstAttribute="centerY" secondItem="7H1-YX-BMF" secondAttribute="centerY" id="YHf-vn-h3P"/>
+                            <constraint firstItem="8rU-pR-hes" firstAttribute="top" secondItem="auz-Tf-Lvy" secondAttribute="bottom" constant="15" id="YyU-bo-oss"/>
+                            <constraint firstItem="8rU-pR-hes" firstAttribute="centerX" secondItem="7H1-YX-BMF" secondAttribute="centerX" id="mtj-wq-ZIL"/>
                             <constraint firstItem="M4w-MD-oIq" firstAttribute="centerY" secondItem="7J5-4g-UVA" secondAttribute="centerY" id="on3-a1-aoA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="K1K-8r-GvX" secondAttribute="trailing" id="wEG-sk-xxq"/>
                             <constraint firstItem="K1K-8r-GvX" firstAttribute="centerY" secondItem="7J5-4g-UVA" secondAttribute="centerY" id="wne-AV-zdR"/>
@@ -129,13 +138,14 @@
                     <connections>
                         <outlet property="closeButton" destination="M4w-MD-oIq" id="th1-7k-Ufg"/>
                         <outlet property="imageView" destination="omV-3u-Coh" id="1zO-7m-kOn"/>
+                        <outlet property="locationText" destination="8rU-pR-hes" id="UR1-UY-iUl"/>
                         <outlet property="saveButton" destination="K1K-8r-GvX" id="0Ao-Yg-lwZ"/>
                         <outlet property="uploadButton" destination="7J5-4g-UVA" id="mzF-yq-iyb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H5J-DS-wBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="956" y="135"/>
+            <point key="canvasLocation" x="956" y="134.48275862068968"/>
         </scene>
     </scenes>
     <resources>

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Handles image effects like background blur
 class EffectsController {
     
     func blurView(view: UIView, radius: CGFloat){
@@ -17,7 +18,12 @@ class EffectsController {
         blur.layer.cornerRadius = radius
         blur.clipsToBounds = true
         blur.alpha = 0.8
-        view.insertSubview(blur, at: 0)
+        if view is UILabel {
+            view.superview?.addSubview(blur)
+            blur.addSubview(view)
+        } else {
+            view.insertSubview(blur, at: 0)
+        }
     }
     
 }

@@ -21,6 +21,7 @@ class CameraViewController: UIViewController {
     var previewLayer : AVCaptureVideoPreviewLayer?
     
     var e : EffectsController = EffectsController()
+    var l : LocationController?
     
     var prepImage : UIImage?
     
@@ -34,6 +35,8 @@ class CameraViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupGestures()
+        setupLocation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,7 +95,42 @@ class CameraViewController: UIViewController {
         if segue.identifier == "TakePicture" {
             if let destination = segue.destination as? PictureViewController {
                 destination.currentImage = self.prepImage
+                destination.l = self.l
             }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touchPoint = touches.first {
+            let yDiff = touchPoint.previousLocation(in: previewView).y - touchPoint.location(in: previewView).y
+            setZoom(distance: yDiff)
+        }
+    }
+    
+    func setZoom(distance: CGFloat){
+        let input = self.session?.inputs.first as? AVCaptureDeviceInput
+        do {
+            try input?.device.lockForConfiguration()
+        } catch {
+            return
+        }
+        let min = CGFloat(1.0)
+        let max = (input?.device.activeFormat.videoMaxZoomFactor)!
+        let newZoom = (input?.device.videoZoomFactor)! + (distance * 0.008)
+        //input?.device.ramp(toVideoZoomFactor: CGFloat.minimum(CGFloat.maximum(min, newZoom), max), withRate: 10.0)
+        input?.device.videoZoomFactor = CGFloat.minimum(CGFloat.maximum(min, newZoom), max)
+        input?.device.unlockForConfiguration()
+    }
+    
+    func setupGestures(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(snapPhoto))
+        tap.numberOfTapsRequired = 2
+        previewView.addGestureRecognizer(tap)
+    }
+    
+    func setupLocation(){
+        if l == nil {
+            l = LocationController()
         }
     }
     

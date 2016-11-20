@@ -9,16 +9,18 @@
 import UIKit
 import AVFoundation
 
-class PictureViewController: UIViewController {
+class PictureViewController: UIViewController, LocationControllerDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var uploadButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var locationText: UILabel!
     
     var currentImage : UIImage?
     
     var e: EffectsController = EffectsController()
+    var l: LocationController?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -30,6 +32,8 @@ class PictureViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        l?.delegate = self
+        updateLocationText()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,6 +41,7 @@ class PictureViewController: UIViewController {
         e.blurView(view: uploadButton, radius: uploadButton.bounds.width/2)
         e.blurView(view: closeButton, radius: 20)
         e.blurView(view: saveButton, radius: 20)
+        //e.blurView(view: locationText, radius: 2)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +51,14 @@ class PictureViewController: UIViewController {
     func updateImage() {
         if let image : UIImage = currentImage {
             imageView.image = image
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ClosePicture" {
+            if let destination = segue.destination as? CameraViewController {
+                destination.l = self.l
+            }
         }
     }
     
@@ -64,6 +77,22 @@ class PictureViewController: UIViewController {
             saveButton.setImage(UIImage(named: "check"), for: UIControlState.normal)
             saveButton.contentEdgeInsets = UIEdgeInsetsMake(9, 9, 5, 4)
         }
+    }
+    
+    func updateLocationText() {
+        if let location = l {
+            if let placemark = location.placemark {
+                if let sublocality = placemark.subLocality {
+                    locationText.text = sublocality + ", " + placemark.locality!
+                } else {
+                    locationText.text = placemark.locality! + ", " + placemark.administrativeArea!
+                }
+            }
+        }
+    }
+    
+    func didGetLocation(sender: LocationController) {
+        updateLocationText()
     }
     
 }
