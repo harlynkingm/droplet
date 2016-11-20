@@ -44,6 +44,9 @@
                                 <rect key="frame" x="318" y="600" width="41" height="40"/>
                                 <inset key="contentEdgeInsets" minX="7" minY="3" maxX="7" maxY="3"/>
                                 <state key="normal" image="droplet"/>
+                                <connections>
+                                    <segue destination="huz-Pz-hvq" kind="show" id="XGl-iZ-fhh"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -75,6 +78,60 @@
             </objects>
             <point key="canvasLocation" x="140" y="135.38230884557723"/>
         </scene>
+        <!--Browser View Controller-->
+        <scene sceneID="Scr-Pi-qlV">
+            <objects>
+                <viewController id="huz-Pz-hvq" customClass="BrowserViewController" customModule="Droplight" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UlW-ZY-q0F"/>
+                        <viewControllerLayoutGuide type="bottom" id="cOu-w0-3Ih"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WTB-xm-mdc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hqe-q3-mBz">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bpu-fi-53O">
+                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.096942417512690393" green="0.096942417512690393" blue="0.096942417512690393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="bpu-fi-53O" firstAttribute="centerY" secondItem="hqe-q3-mBz" secondAttribute="centerY" id="YxI-Ya-HOf"/>
+                                    <constraint firstItem="bpu-fi-53O" firstAttribute="centerX" secondItem="hqe-q3-mBz" secondAttribute="centerX" id="zMO-zh-6MA"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxG-n5-wxP" userLabel="Camera">
+                                <rect key="frame" x="163" y="0.0" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="gxS-H9-32A"/>
+                                    <constraint firstAttribute="height" constant="50" id="ob0-fz-dCi"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="camera"/>
+                                <connections>
+                                    <segue destination="p6A-B5-jRY" kind="unwind" unwindAction="unwindToViewControllerWithSender:" id="lom-jx-QmY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FxG-n5-wxP" firstAttribute="top" secondItem="UlW-ZY-q0F" secondAttribute="bottom" id="6dv-m6-6Yx"/>
+                            <constraint firstItem="FxG-n5-wxP" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="CAT-uQ-L7z"/>
+                            <constraint firstItem="hqe-q3-mBz" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="ETD-SI-080"/>
+                            <constraint firstItem="hqe-q3-mBz" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="cBL-Rl-ghw"/>
+                            <constraint firstItem="hqe-q3-mBz" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="gbj-04-hdW"/>
+                            <constraint firstItem="hqe-q3-mBz" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="kmM-Jk-1T2"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cJB-AZ-SgH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="p6A-B5-jRY" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="925"/>
+        </scene>
         <!--Picture View Controller-->
         <scene sceneID="k3s-Nc-99Z">
             <objects>
@@ -102,6 +159,9 @@
                                 <rect key="frame" x="152" y="587" width="70" height="70"/>
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" image="upload"/>
+                                <connections>
+                                    <action selector="uploadImage" destination="ipU-gX-kxI" eventType="touchUpInside" id="IZA-xe-6fD"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1K-8r-GvX" userLabel="Download">
                                 <rect key="frame" x="318" y="601.5" width="41" height="41"/>
@@ -118,6 +178,9 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="mpi-al-Z7l" userLabel="Loading">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -128,9 +191,11 @@
                             <constraint firstItem="iY0-mS-4rh" firstAttribute="top" secondItem="7J5-4g-UVA" secondAttribute="bottom" constant="10" id="TLc-tL-uRH"/>
                             <constraint firstItem="omV-3u-Coh" firstAttribute="centerY" secondItem="7H1-YX-BMF" secondAttribute="centerY" id="YHf-vn-h3P"/>
                             <constraint firstItem="8rU-pR-hes" firstAttribute="top" secondItem="auz-Tf-Lvy" secondAttribute="bottom" constant="15" id="YyU-bo-oss"/>
+                            <constraint firstItem="mpi-al-Z7l" firstAttribute="centerX" secondItem="7H1-YX-BMF" secondAttribute="centerX" id="hsO-Fd-vJH"/>
                             <constraint firstItem="8rU-pR-hes" firstAttribute="centerX" secondItem="7H1-YX-BMF" secondAttribute="centerX" id="mtj-wq-ZIL"/>
                             <constraint firstItem="M4w-MD-oIq" firstAttribute="centerY" secondItem="7J5-4g-UVA" secondAttribute="centerY" id="on3-a1-aoA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="K1K-8r-GvX" secondAttribute="trailing" id="wEG-sk-xxq"/>
+                            <constraint firstItem="mpi-al-Z7l" firstAttribute="centerY" secondItem="7H1-YX-BMF" secondAttribute="centerY" id="wTu-5z-Dzk"/>
                             <constraint firstItem="K1K-8r-GvX" firstAttribute="centerY" secondItem="7J5-4g-UVA" secondAttribute="centerY" id="wne-AV-zdR"/>
                             <constraint firstItem="omV-3u-Coh" firstAttribute="centerX" secondItem="7H1-YX-BMF" secondAttribute="centerX" id="yNi-tI-xFq"/>
                         </constraints>
@@ -138,6 +203,7 @@
                     <connections>
                         <outlet property="closeButton" destination="M4w-MD-oIq" id="th1-7k-Ufg"/>
                         <outlet property="imageView" destination="omV-3u-Coh" id="1zO-7m-kOn"/>
+                        <outlet property="loading" destination="mpi-al-Z7l" id="YIt-kv-TG1"/>
                         <outlet property="locationText" destination="8rU-pR-hes" id="UR1-UY-iUl"/>
                         <outlet property="saveButton" destination="K1K-8r-GvX" id="0Ao-Yg-lwZ"/>
                         <outlet property="uploadButton" destination="7J5-4g-UVA" id="mzF-yq-iyb"/>

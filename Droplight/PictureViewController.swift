@@ -16,6 +16,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var locationText: UILabel!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     
     var currentImage : UIImage?
     
@@ -42,9 +43,11 @@ class PictureViewController: UIViewController, LocationControllerDelegate {
         e.blurView(view: closeButton, radius: 20)
         e.blurView(view: saveButton, radius: 20)
         //e.blurView(view: locationText, radius: 2)
+        e.addShadow(view: locationText, opacity: 0.5, offset: CGSize(width: 0, height: 0), radius: 5.0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.loading.stopAnimating()
         updateImage()
     }
     
@@ -93,6 +96,39 @@ class PictureViewController: UIViewController, LocationControllerDelegate {
     
     func didGetLocation(sender: LocationController) {
         updateLocationText()
+    }
+    
+    @IBAction func uploadImage() {
+        self.loading.startAnimating()
+        self.loading.hidesWhenStopped = true
+        if let image : UIImage = currentImage {
+            if let data : Data = UIImageJPEGRepresentation(image, 0.9) {
+                var request = URLRequest(url: URL(string: "http://128.237.176.200:3000/api/image")!)
+                request.httpMethod = "POST"
+                let base64String = data.base64EncodedString()
+                let params : [String: String] = [ "content_type": "image/jpeg", "filename":"test.jpg", "imageData":base64String]
+                request.httpBody = paramSerialization(params: params).data(using: String.Encoding.utf8);
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    guard let data = data, error == nil else {
+                        print("error=\(error)")
+                        return
+                    }
+                    
+                    if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                        print("response = \(response)")
+                    }
+                    
+                    let responseString = String(data: data, encoding: .utf8)
+                    print("responseString = \(responseString)")
+                    self.loading.stopAnimating()
+                }
+                task.resume()
+            }
+        }
+    }
+    
+    func paramSerialization (params: [String: String]) -> String{
+        return params.flatMap {"\($0.0)=\($0.1)&"}.reduce("", +)
     }
     
 }
