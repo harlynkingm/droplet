@@ -9,11 +9,16 @@
 import UIKit
 
 class BrowserViewController: UIViewController {
+    
+    @IBOutlet weak var placeholder : UIView!
+    
+    var tempPictures: [String] = ["test1", "test2", "test3", "test2", "test3", "test1", "test2", "test3", "test1", "test2"]
+    
+    var cards: [BrowserView] = [BrowserView]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        renderCards()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,15 +31,21 @@ class BrowserViewController: UIViewController {
         return true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func renderCards() {
+        for picture in tempPictures {
+            let image = UIImage(named: picture)
+            let browserView = BrowserView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
+            browserView.delegate = self
+            browserView.currentImage = image
+            browserView.updateImage()
+            self.placeholder.addSubview(browserView)
+            cards.append(browserView)
+        }
     }
-    */
+    
+    func removeCard(card: BrowserView){
+        card.removeFromSuperview()
+    }
+
 
 }

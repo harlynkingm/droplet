@@ -15,8 +15,8 @@
 		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
 		79B0227C1DDD8FC500D250F4 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B0227B1DDD8FC500D250F4 /* LocationController.swift */; };
-		79C0BB3E1DE21F6F00D3D5BD /* Browser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C0BB3D1DE21F6F00D3D5BD /* Browser.xib */; };
-		79C0BB421DE2218200D3D5BD /* BrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB411DE2218200D3D5BD /* BrowserController.swift */; };
+		79C0BB3E1DE21F6F00D3D5BD /* BrowserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */; };
+		79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB411DE2218200D3D5BD /* BrowserView.swift */; };
 		79C0BB441DE22CD000D3D5BD /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */; };
 		79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA31DD79A9F002A373B /* PictureViewController.swift */; };
 		79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA51DD7C3B5002A373B /* EffectsController.swift */; };
@@ -54,8 +54,8 @@
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
 		792A7FD91DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79B0227B1DDD8FC500D250F4 /* LocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
-		79C0BB3D1DE21F6F00D3D5BD /* Browser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Browser.xib; sourceTree = "<group>"; };
-		79C0BB411DE2218200D3D5BD /* BrowserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserController.swift; sourceTree = "<group>"; };
+		79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserView.xib; sourceTree = "<group>"; };
+		79C0BB411DE2218200D3D5BD /* BrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		79F08BA31DD79A9F002A373B /* PictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureViewController.swift; sourceTree = "<group>"; };
 		79F08BA51DD7C3B5002A373B /* EffectsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectsController.swift; sourceTree = "<group>"; };
@@ -109,14 +109,14 @@
 		792A7FB61DD000F300612463 /* Droplight */ = {
 			isa = PBXGroup;
 			children = (
-				79C0BB411DE2218200D3D5BD /* BrowserController.swift */,
+				79C0BB411DE2218200D3D5BD /* BrowserView.swift */,
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
 				792A7FB91DD000F300612463 /* CameraViewController.swift */,
 				79F08BA31DD79A9F002A373B /* PictureViewController.swift */,
 				79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */,
 				79F08BA51DD7C3B5002A373B /* EffectsController.swift */,
 				792A7FBB1DD000F300612463 /* Main.storyboard */,
-				79C0BB3D1DE21F6F00D3D5BD /* Browser.xib */,
+				79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */,
 				79B0227B1DDD8FC500D250F4 /* LocationController.swift */,
 				792A7FBE1DD000F300612463 /* Assets.xcassets */,
 				792A7FC01DD000F300612463 /* LaunchScreen.storyboard */,
@@ -251,7 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79C0BB3E1DE21F6F00D3D5BD /* Browser.xib in Resources */,
+				79C0BB3E1DE21F6F00D3D5BD /* BrowserView.xib in Resources */,
 				792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */,
 				792A7FBF1DD000F300612463 /* Assets.xcassets in Resources */,
 				792A7FBD1DD000F300612463 /* Main.storyboard in Resources */,
@@ -284,7 +284,7 @@
 				79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */,
 				79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */,
 				79B0227C1DDD8FC500D250F4 /* LocationController.swift in Sources */,
-				79C0BB421DE2218200D3D5BD /* BrowserController.swift in Sources */,
+				79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */,
 				792A7FB81DD000F300612463 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

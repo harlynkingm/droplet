@@ -9,33 +9,36 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BrowserView" customModule="Droplight" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView" destination="iN7-bB-Ol0" id="8YX-vB-u8U"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" restorationIdentifier="browserPicture" id="iN0-l3-epB" customClass="BrowserController" customModule="Droplight" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iN7-bB-Ol0">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iN7-bB-Ol0">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="2e1-Gj-Jgw" appends="YES" id="8H1-U8-FEG"/>
+                    </connections>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8f-6t-xWp" userLabel="Location">
-                    <rect key="frame" x="151" y="18" width="73" height="22"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="16"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                    <size key="shadowOffset" width="0.0" height="0.0"/>
-                </label>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="b8f-6t-xWp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="1xd-5G-heo"/>
                 <constraint firstItem="iN7-bB-Ol0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3YL-Ht-6JP"/>
                 <constraint firstItem="iN7-bB-Ol0" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="D4g-Q4-fuk"/>
                 <constraint firstItem="iN7-bB-Ol0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="JiH-cB-IOx"/>
-                <constraint firstItem="b8f-6t-xWp" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="KA8-RG-nkv"/>
                 <constraint firstItem="iN7-bB-Ol0" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="TST-yh-l7A"/>
             </constraints>
             <point key="canvasLocation" x="26.5" y="51.5"/>
         </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="2e1-Gj-Jgw">
+            <connections>
+                <action selector="panWithRec:" destination="-1" id="2Q7-BO-2j9"/>
+            </connections>
+        </panGestureRecognizer>
     </objects>
 </document>

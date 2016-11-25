@@ -42,7 +42,6 @@ class PictureViewController: UIViewController, LocationControllerDelegate {
         e.blurView(view: uploadButton, radius: uploadButton.bounds.width/2)
         e.blurView(view: closeButton, radius: 20)
         e.blurView(view: saveButton, radius: 20)
-        //e.blurView(view: locationText, radius: 2)
         e.addShadow(view: locationText, opacity: 0.5, offset: CGSize(width: 0, height: 0), radius: 5.0)
     }
     
