@@ -11,6 +11,9 @@ import UIKit
 class BrowserViewController: UIViewController {
     
     @IBOutlet weak var placeholder : UIView!
+    @IBOutlet weak var backButton : UIButton!
+    
+    var e: EffectsController = EffectsController()
     
     var tempPictures: [String] = ["test1", "test2", "test3", "test2", "test3", "test1", "test2", "test3", "test1", "test2"]
     
@@ -19,6 +22,7 @@ class BrowserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         renderCards()
+        e.addShadow(view: backButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
     }
 
     override func didReceiveMemoryWarning() {

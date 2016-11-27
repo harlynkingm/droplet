@@ -26,10 +26,17 @@ class EffectsController {
         }
     }
     
-    func addShadow(view: UIView, opacity: Float, offset: CGSize, radius: CGFloat){
+    func addShadow(view: UIView, opacity: Float, offset: CGSize, radius: CGFloat, color: UIColor?){
         view.layer.shadowOpacity = opacity
         view.layer.shadowOffset = offset
         view.layer.shadowRadius = radius
+        if let uiColor = color {
+            view.layer.shadowColor = uiColor.cgColor
+        }
+    }
+    
+    func adjustShadow(view: UIView, newOffset: CGSize){
+        view.layer.shadowOffset = newOffset
     }
     
 }

@@ -45,10 +45,10 @@ class CameraViewController: UIViewController {
         CATransaction.setDisableActions(true)
         previewLayer!.frame = previewView.bounds
         CATransaction.commit()
-        e.blurView(view: captureButton, radius: captureButton.bounds.width/2)
-        e.blurView(view: profileButton, radius: 20)
-        e.blurView(view: locationButton, radius: 20)
-        locationButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+        e.addShadow(view: captureButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: profileButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -151,6 +151,14 @@ class CameraViewController: UIViewController {
     
     @IBAction func unwindToViewController (sender: UIStoryboardSegue){
         
+    }
+    
+    @IBAction func depressButton (sender: UIButton){
+        e.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 1))
+    }
+    
+    @IBAction func compressButton (sender: UIButton){
+        e.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 3))
     }
 
 }

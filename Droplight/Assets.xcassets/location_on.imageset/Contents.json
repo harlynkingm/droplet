@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Oval 20 + Shape.png",
+      "filename" : "location@2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Oval 20 + Shape@4x.png",
+      "filename" : "location@4.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Oval 20 + Shape@6x.png",
+      "filename" : "location@6.png",
       "scale" : "3x"
     }
   ],
