@@ -15,6 +15,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var locationButton: UIButton!
+    @IBOutlet weak var focusPoint: UIImageView!
     
     var session: AVCaptureSession?
     var stillImageOutput: AVCaptureStillImageOutput?
@@ -48,7 +49,13 @@ class CameraViewController: UIViewController {
         e.addShadow(view: captureButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: profileButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if (self.session?.isRunning)! {
+            self.session?.stopRunning()
+        }
+        super.viewWillDisappear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -159,6 +166,49 @@ class CameraViewController: UIViewController {
     
     @IBAction func compressButton (sender: UIButton){
         e.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 3))
+    }
+    
+    @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
+        let devicePoint = self.previewLayer?.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
+        focusPoint.layer.removeAllAnimations()
+        focusPoint.center = gestureRecognizer.location(in: view)
+        focusPoint.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        focusPoint.alpha = 1
+        UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+            self.focusPoint.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: { (done : Bool) in
+            UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+                self.focusPoint.alpha = 0
+            })
+        })
+        focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint!, monitorSubjectAreaChange: true)
+    }
+    
+    private func focus(with focusMode: AVCaptureFocusMode, exposureMode: AVCaptureExposureMode, at devicePoint: CGPoint, monitorSubjectAreaChange: Bool) {
+        let input = self.session?.inputs.first as? AVCaptureDeviceInput
+        if let device = input?.device {
+            do {
+                try device.lockForConfiguration()
+                if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
+                    device.focusPointOfInterest = devicePoint
+                    device.focusMode = focusMode
+                }
+                
+                if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
+                    device.exposurePointOfInterest = devicePoint
+                    device.exposureMode = exposureMode
+                }
+                
+                device.isSubjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange
+                if device.isExposureModeSupported(.continuousAutoExposure){
+                    device.exposureMode = .continuousAutoExposure
+                }
+                device.unlockForConfiguration()
+            }
+            catch {
+                print("Could not lock device for configuration: \(error)")
+            }
+        }
     }
 
 }

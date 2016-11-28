@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import MapKit
 
 class BrowserViewController: UIViewController {
     
     @IBOutlet weak var placeholder : UIView!
     @IBOutlet weak var backButton : UIButton!
+    @IBOutlet weak var mapButton : UIButton!
+    @IBOutlet weak var mapView : MKMapView!
+    
+    var mapOn : Bool = false
     
     var e: EffectsController = EffectsController()
     
@@ -23,6 +28,7 @@ class BrowserViewController: UIViewController {
         super.viewDidLoad()
         renderCards()
         e.addShadow(view: backButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: mapButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,6 +55,21 @@ class BrowserViewController: UIViewController {
     
     func removeCard(card: BrowserView){
         card.removeFromSuperview()
+    }
+    
+    @IBAction func toggleMap(){
+        mapOn = !mapOn
+        if mapOn {
+            UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+                self.mapButton.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
+                self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
+            })
+        } else {
+            UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+                self.mapButton.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
+                self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
+            })
+        }
     }
 
 

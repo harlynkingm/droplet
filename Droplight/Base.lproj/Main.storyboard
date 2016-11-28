@@ -27,7 +27,18 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRt-FS-DNN">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="3IU-m7-olH" appends="YES" id="d4u-fS-mtj"/>
+                                </connections>
                             </view>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="focus" translatesAutoresizingMaskIntoConstraints="NO" id="RWN-JS-SFa">
+                                <rect key="frame" x="167" y="313" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heV-VO-v2o" userLabel="Camera">
                                 <rect key="frame" x="137" y="567" width="100" height="100"/>
                                 <constraints>
@@ -90,6 +101,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="captureButton" destination="heV-VO-v2o" id="H6N-2h-YrU"/>
+                        <outlet property="focusPoint" destination="RWN-JS-SFa" id="B7L-yI-PGc"/>
                         <outlet property="locationButton" destination="jJj-xj-NDd" id="S75-Jf-WvR"/>
                         <outlet property="previewView" destination="fRt-FS-DNN" id="dbF-kF-vmp"/>
                         <outlet property="profileButton" destination="Mkd-PL-3gN" id="ZnR-x0-2bd"/>
@@ -97,6 +109,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="3IU-m7-olH">
+                    <connections>
+                        <action selector="focusAndExposeTap:" destination="BYZ-38-t0r" id="ZVY-GC-lUB"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="140" y="135.38230884557723"/>
         </scene>
@@ -160,19 +177,44 @@
                                     <segue destination="p6A-B5-jRY" kind="unwind" unwindAction="unwindToViewControllerWithSender:" id="lom-jx-QmY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xmj-Ah-7qz" userLabel="LocationButton">
+                                <rect key="frame" x="6" y="592" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="AJj-Hm-F2s"/>
+                                    <constraint firstAttribute="width" constant="70" id="uzK-9b-01C"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="location_on"/>
+                                <connections>
+                                    <action selector="toggleMap" destination="huz-Pz-hvq" eventType="touchUpInside" id="HOj-Q0-eYl"/>
+                                </connections>
+                            </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="FdR-BV-qGH" userLabel="LocationView">
+                                <rect key="frame" x="0.0" y="667" width="375" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="H0O-ee-ZuL"/>
+                                </constraints>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Xmj-Ah-7qz" firstAttribute="leading" secondItem="WTB-xm-mdc" secondAttribute="leadingMargin" constant="-10" id="0TO-DC-4EU"/>
+                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="FdR-BV-qGH" secondAttribute="bottom" constant="-200" id="4vr-ye-ZhC"/>
                             <constraint firstItem="FxG-n5-wxP" firstAttribute="top" secondItem="UlW-ZY-q0F" secondAttribute="bottom" id="6dv-m6-6Yx"/>
                             <constraint firstItem="FxG-n5-wxP" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="CAT-uQ-L7z"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="ETD-SI-080"/>
+                            <constraint firstItem="FdR-BV-qGH" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="R0l-Ej-DYN"/>
+                            <constraint firstItem="FdR-BV-qGH" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="bdt-9a-I0n"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="cBL-Rl-ghw"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="gbj-04-hdW"/>
+                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="Xmj-Ah-7qz" secondAttribute="bottom" constant="5" id="iHL-YY-OCf"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="kmM-Jk-1T2"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="FxG-n5-wxP" id="6sE-Zf-2JG"/>
+                        <outlet property="mapButton" destination="Xmj-Ah-7qz" id="Apd-Xo-WcA"/>
+                        <outlet property="mapView" destination="FdR-BV-qGH" id="N1N-z7-glU"/>
                         <outlet property="placeholder" destination="hqe-q3-mBz" id="z8Y-g0-uT2"/>
                     </connections>
                 </viewController>
@@ -332,6 +374,7 @@
         <image name="close" width="82" height="82"/>
         <image name="collection" width="80" height="80"/>
         <image name="download" width="82" height="82"/>
+        <image name="focus" width="30" height="30"/>
         <image name="location_on" width="82" height="82"/>
         <image name="text" width="82" height="82"/>
         <image name="upload" width="110" height="110"/>
