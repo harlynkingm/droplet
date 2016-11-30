@@ -18,6 +18,8 @@ class BrowserView: UIView {
     
     var currentImage : UIImage?
     
+    var e: EffectsController = EffectsController()
+    
     func updateImage() {
         if let image : UIImage = currentImage {
             imageView.image = image
@@ -36,6 +38,7 @@ class BrowserView: UIView {
         view.frame = bounds
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(view)
+        e.addShadow(view: imageView, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
     }
     
     override init(frame: CGRect) {
@@ -58,6 +61,7 @@ class BrowserView: UIView {
         case .changed:
             translateX(t: translation, v: rec.view!)
             rotate(v: rec.view!)
+            delegate.thumbAnimation(current: rec.view!.center.x - self.view.center.x)
             rec.setTranslation(CGPoint.zero, in: rec.view!)
             break
         case .ended:
@@ -66,24 +70,15 @@ class BrowserView: UIView {
             let velocityX = rec.velocity(in: rec.view!).x
             
             if viewX > centerX * 0.9 || velocityX > 1000 {
-                UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                    rec.view!.center = CGPoint(x: rec.view!.center.x + rec.view!.bounds.width/0.9, y: rec.view!.center.y)
-                }, completion: { (done : Bool) in
-                    // Code on upvote
-                    self.delegate.removeCard(card: self)
-                })
+                upvote()
             } else if viewX < centerX * 0.1 || velocityX < -1000 {
-                UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                    rec.view!.center = CGPoint(x: rec.view!.center.x - rec.view!.bounds.width/0.9, y: rec.view!.center.y)
-                }, completion: { (done : Bool) in
-                    //Code on downvote
-                    self.delegate.removeCard(card: self)
-                })
+                downvote()
             } else {
                 UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
                     rec.view!.center = CGPoint(x: rec.view!.bounds.width/2, y: rec.view!.center.y)
                     rec.view!.transform = CGAffineTransform.identity
                 })
+                self.delegate.resetThumbs()
             }
             break
         default:
@@ -96,14 +91,35 @@ class BrowserView: UIView {
     }
     
     func rotate(v: UIView){
-        let minAngle = CGFloat(90)
-        let maxAngle = CGFloat(120)
+        let minAngle = CGFloat(-15)
+        let maxAngle = CGFloat(15)
         
-        let total = v.bounds.maxX
-        let p = (v.center.x - total)/total * 2
-        let angle = (minAngle + p*(maxAngle - minAngle) * CGFloat.pi)/180.0
+        let p = v.center.x/view.bounds.maxX
+        let angle = ((minAngle + p*(maxAngle - minAngle)) * CGFloat.pi)/180.0
         
         v.transform = CGAffineTransform(rotationAngle: angle)
+    }
+    
+    func upvote(){
+        UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+            self.imageView.center = CGPoint(x: self.imageView.center.x + self.imageView.bounds.width/0.9, y: self.imageView.center.y)
+            self.imageView.transform = CGAffineTransform(rotationAngle: (15 * CGFloat.pi)/180.0)
+        }, completion: { (done : Bool) in
+            // Code on upvote
+            self.delegate.removeCard(card: self)
+            self.delegate.resetThumbs()
+        })
+    }
+    
+    func downvote(){
+        UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+            self.imageView.center = CGPoint(x: self.imageView.center.x - self.imageView.bounds.width/0.9, y: self.imageView.center.y)
+            self.imageView.transform = CGAffineTransform(rotationAngle: (-15 * CGFloat.pi)/180.0)
+        }, completion: { (done : Bool) in
+            //Code on downvote
+            self.delegate.removeCard(card: self)
+            self.delegate.resetThumbs()
+        })
     }
 
 }

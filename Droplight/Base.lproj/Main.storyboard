@@ -166,10 +166,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxG-n5-wxP" userLabel="Camera">
-                                <rect key="frame" x="158" y="0.0" width="60" height="60"/>
+                                <rect key="frame" x="309" y="592" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="Yxc-Y0-xNM"/>
-                                    <constraint firstAttribute="width" constant="60" id="cMO-ah-cwU"/>
+                                    <constraint firstAttribute="height" constant="70" id="Yxc-Y0-xNM"/>
+                                    <constraint firstAttribute="width" constant="70" id="cMO-ah-cwU"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" image="camera"/>
@@ -177,14 +177,38 @@
                                     <segue destination="p6A-B5-jRY" kind="unwind" unwindAction="unwindToViewControllerWithSender:" id="lom-jx-QmY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BBd-g8-Sop" userLabel="ThumbsUp">
+                                <rect key="frame" x="319" y="283" width="120" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="cjm-9w-Tc9"/>
+                                    <constraint firstAttribute="height" constant="100" id="iCl-Jb-KSZ"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="thumbs_up"/>
+                                <connections>
+                                    <action selector="upvote" destination="huz-Pz-hvq" eventType="touchUpInside" id="gQg-PJ-mGG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qU-V7-J5g" userLabel="ThumbsDown">
+                                <rect key="frame" x="-64" y="283" width="120" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="awl-52-Y3B"/>
+                                    <constraint firstAttribute="width" constant="120" id="dsP-qD-ts5"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="thumbs_down"/>
+                                <connections>
+                                    <action selector="downvote" destination="huz-Pz-hvq" eventType="touchUpInside" id="CvY-xf-7rW"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xmj-Ah-7qz" userLabel="LocationButton">
-                                <rect key="frame" x="6" y="592" width="70" height="70"/>
+                                <rect key="frame" x="-4" y="592" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="AJj-Hm-F2s"/>
                                     <constraint firstAttribute="width" constant="70" id="uzK-9b-01C"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                <state key="normal" image="location_on"/>
+                                <state key="normal" image="location_off"/>
                                 <connections>
                                     <action selector="toggleMap" destination="huz-Pz-hvq" eventType="touchUpInside" id="HOj-Q0-eYl"/>
                                 </connections>
@@ -198,17 +222,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Xmj-Ah-7qz" firstAttribute="leading" secondItem="WTB-xm-mdc" secondAttribute="leadingMargin" constant="-10" id="0TO-DC-4EU"/>
+                            <constraint firstItem="Xmj-Ah-7qz" firstAttribute="leading" secondItem="WTB-xm-mdc" secondAttribute="leadingMargin" constant="-20" id="0TO-DC-4EU"/>
                             <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="FdR-BV-qGH" secondAttribute="bottom" constant="-200" id="4vr-ye-ZhC"/>
-                            <constraint firstItem="FxG-n5-wxP" firstAttribute="top" secondItem="UlW-ZY-q0F" secondAttribute="bottom" id="6dv-m6-6Yx"/>
-                            <constraint firstItem="FxG-n5-wxP" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="CAT-uQ-L7z"/>
+                            <constraint firstItem="BBd-g8-Sop" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="DTb-Ny-vBk"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="ETD-SI-080"/>
                             <constraint firstItem="FdR-BV-qGH" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="R0l-Ej-DYN"/>
+                            <constraint firstItem="FdR-BV-qGH" firstAttribute="top" secondItem="Xmj-Ah-7qz" secondAttribute="bottom" constant="5" id="VJx-1i-sns"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FxG-n5-wxP" secondAttribute="trailing" constant="-20" id="Wmm-sZ-jI7"/>
+                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="FxG-n5-wxP" secondAttribute="bottom" constant="5" id="YKZ-lq-Wye"/>
                             <constraint firstItem="FdR-BV-qGH" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="bdt-9a-I0n"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="cBL-Rl-ghw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BBd-g8-Sop" secondAttribute="trailing" constant="-80" id="fef-QO-03V"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="gbj-04-hdW"/>
-                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="Xmj-Ah-7qz" secondAttribute="bottom" constant="5" id="iHL-YY-OCf"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="kmM-Jk-1T2"/>
+                            <constraint firstItem="8qU-V7-J5g" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="oQI-l3-FPS"/>
+                            <constraint firstItem="8qU-V7-J5g" firstAttribute="leading" secondItem="WTB-xm-mdc" secondAttribute="leadingMargin" constant="-80" id="tQr-Yn-YFF"/>
                         </constraints>
                     </view>
                     <connections>
@@ -216,6 +244,10 @@
                         <outlet property="mapButton" destination="Xmj-Ah-7qz" id="Apd-Xo-WcA"/>
                         <outlet property="mapView" destination="FdR-BV-qGH" id="N1N-z7-glU"/>
                         <outlet property="placeholder" destination="hqe-q3-mBz" id="z8Y-g0-uT2"/>
+                        <outlet property="thumbsDown" destination="8qU-V7-J5g" id="Wip-2Y-MSC"/>
+                        <outlet property="thumbsDownConst" destination="tQr-Yn-YFF" id="1UI-On-aRa"/>
+                        <outlet property="thumbsUp" destination="BBd-g8-Sop" id="8Un-IO-5LB"/>
+                        <outlet property="thumbsUpConst" destination="fef-QO-03V" id="cgZ-7W-3hb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJB-AZ-SgH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -316,7 +348,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-MediumItalic" family="Avenir Next" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -375,8 +407,11 @@
         <image name="collection" width="80" height="80"/>
         <image name="download" width="82" height="82"/>
         <image name="focus" width="30" height="30"/>
+        <image name="location_off" width="82" height="82"/>
         <image name="location_on" width="82" height="82"/>
         <image name="text" width="82" height="82"/>
+        <image name="thumbs_down" width="96" height="55"/>
+        <image name="thumbs_up" width="96" height="55"/>
         <image name="upload" width="110" height="110"/>
     </resources>
 </document>

@@ -120,10 +120,12 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         self.loading.hidesWhenStopped = true
         if let image : UIImage = currentImage {
             if let data : Data = UIImageJPEGRepresentation(image, 0.9) {
-                var request = URLRequest(url: URL(string: "http://128.237.176.200:3000/api/image")!)
+                var request = URLRequest(url: URL(string: "https://droplightapi.herokuapp.com/apiv1/upload")!)
                 request.httpMethod = "POST"
-                let base64String = data.base64EncodedString()
-                let params : [String: String] = [ "content_type": "image/jpeg", "filename":"test.jpg", "imageData":base64String]
+                let base64String = data.base64EncodedString(options: [NSData.Base64EncodingOptions.lineLength64Characters])
+                let encodeImg = base64String.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+                //print(encodeImg?.characters.count)
+                let params : [String: String] = [ "content_type": "image/jpeg", "filename":"test3.jpg", "imageData":encodeImg!]
                 request.httpBody = paramSerialization(params: params).data(using: String.Encoding.utf8);
                 let task = URLSession.shared.dataTask(with: request) { data, response, error in
                     guard let data = data, error == nil else {
@@ -137,7 +139,13 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                     }
                     
                     let responseString = String(data: data, encoding: .utf8)
-                    print("responseString = \(responseString)")
+                    //print("responseString = \(responseString)")
+                    //print("Response received")
+                    //print(responseString?.characters.count)
+                    let decodeImg : String = (responseString!.removingPercentEncoding)!
+                    let dataDecoded:NSData = NSData(base64Encoded: decodeImg, options: [NSData.Base64DecodingOptions.init(rawValue: 0)])!
+                    self.currentImage = UIImage(data: dataDecoded as Data)!
+                    self.updateImage()
                     self.loading.stopAnimating()
                 }
                 task.resume()
@@ -192,6 +200,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     }
     
     func keyboardWillBeHidden(notification: NSNotification){
+        if self.caption.text == "" {
+            toggleText()
+        }
         self.caption.transform = self.caption.transform.translatedBy(x: 0, y: -1 * self.caption.frame.origin.y)
         UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.caption.transform = self.caption.transform.translatedBy(x: 0, y: self.captionBottom)
