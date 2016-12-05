@@ -14,6 +14,8 @@
 		792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FC01DD000F300612463 /* LaunchScreen.storyboard */; };
 		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
+		79870C341DEF97F400D7EAF6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79870C1C1DEF946D00D7EAF6 /* Alamofire.framework */; };
+		79870C351DEF97F400D7EAF6 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 79870C1C1DEF946D00D7EAF6 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		79B0227C1DDD8FC500D250F4 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B0227B1DDD8FC500D250F4 /* LocationController.swift */; };
 		79C0BB3E1DE21F6F00D3D5BD /* BrowserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */; };
 		79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB411DE2218200D3D5BD /* BrowserView.swift */; };
@@ -37,22 +39,93 @@
 			remoteGlobalIDString = 792A7FB31DD000F300612463;
 			remoteInfo = Droplight;
 		};
+		79870C1B1DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
+		79870C1D1DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS Tests";
+		};
+		79870C1F1DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
+			remoteInfo = "Alamofire macOS";
+		};
+		79870C211DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F829C6B21A7A94F100A2CD59;
+			remoteInfo = "Alamofire macOS Tests";
+		};
+		79870C231DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4CF626EF1BA7CB3E0011A099;
+			remoteInfo = "Alamofire tvOS";
+		};
+		79870C251DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4CF626F81BA7CB3E0011A099;
+			remoteInfo = "Alamofire tvOS Tests";
+		};
+		79870C271DEF946D00D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E4202FE01B667AA100C997FB;
+			remoteInfo = "Alamofire watchOS";
+		};
+		79870C361DEF97F400D7EAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		79870C381DEF97F400D7EAF6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				79870C351DEF97F400D7EAF6 /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		792A7FB41DD000F300612463 /* Droplight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Droplight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		792A7FB41DD000F300612463 /* Droplet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Droplet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FB71DD000F300612463 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		792A7FB91DD000F300612463 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		792A7FBC1DD000F300612463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		792A7FBE1DD000F300612463 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		792A7FC11DD000F300612463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		792A7FC31DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		792A7FC81DD000F300612463 /* DroplightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroplightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		792A7FC81DD000F300612463 /* DropletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DropletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FCC1DD000F300612463 /* DroplightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightTests.swift; sourceTree = "<group>"; };
 		792A7FCE1DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		792A7FD31DD000F300612463 /* DroplightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroplightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		792A7FD31DD000F300612463 /* DropletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DropletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
 		792A7FD91DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		79B0227B1DDD8FC500D250F4 /* LocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserView.xib; sourceTree = "<group>"; };
 		79C0BB411DE2218200D3D5BD /* BrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
@@ -66,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79870C341DEF97F400D7EAF6 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +163,7 @@
 		792A7FAB1DD000F300612463 = {
 			isa = PBXGroup;
 			children = (
+				79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */,
 				792A7FB61DD000F300612463 /* Droplight */,
 				792A7FCB1DD000F300612463 /* DroplightTests */,
 				792A7FD61DD000F300612463 /* DroplightUITests */,
@@ -99,9 +174,9 @@
 		792A7FB51DD000F300612463 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				792A7FB41DD000F300612463 /* Droplight.app */,
-				792A7FC81DD000F300612463 /* DroplightTests.xctest */,
-				792A7FD31DD000F300612463 /* DroplightUITests.xctest */,
+				792A7FB41DD000F300612463 /* Droplet.app */,
+				792A7FC81DD000F300612463 /* DropletTests.xctest */,
+				792A7FD31DD000F300612463 /* DropletUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,29 +218,45 @@
 			path = DroplightUITests;
 			sourceTree = "<group>";
 		};
+		79870C111DEF946D00D7EAF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				79870C1C1DEF946D00D7EAF6 /* Alamofire.framework */,
+				79870C1E1DEF946D00D7EAF6 /* Alamofire iOS Tests.xctest */,
+				79870C201DEF946D00D7EAF6 /* Alamofire.framework */,
+				79870C221DEF946D00D7EAF6 /* Alamofire macOS Tests.xctest */,
+				79870C241DEF946D00D7EAF6 /* Alamofire.framework */,
+				79870C261DEF946D00D7EAF6 /* Alamofire tvOS Tests.xctest */,
+				79870C281DEF946D00D7EAF6 /* Alamofire.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		792A7FB31DD000F300612463 /* Droplight */ = {
+		792A7FB31DD000F300612463 /* Droplet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 792A7FDC1DD000F300612463 /* Build configuration list for PBXNativeTarget "Droplight" */;
+			buildConfigurationList = 792A7FDC1DD000F300612463 /* Build configuration list for PBXNativeTarget "Droplet" */;
 			buildPhases = (
 				792A7FB01DD000F300612463 /* Sources */,
 				792A7FB11DD000F300612463 /* Frameworks */,
 				792A7FB21DD000F300612463 /* Resources */,
+				79870C381DEF97F400D7EAF6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				79870C371DEF97F400D7EAF6 /* PBXTargetDependency */,
 			);
-			name = Droplight;
+			name = Droplet;
 			productName = Droplight;
-			productReference = 792A7FB41DD000F300612463 /* Droplight.app */;
+			productReference = 792A7FB41DD000F300612463 /* Droplet.app */;
 			productType = "com.apple.product-type.application";
 		};
-		792A7FC71DD000F300612463 /* DroplightTests */ = {
+		792A7FC71DD000F300612463 /* DropletTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 792A7FDF1DD000F300612463 /* Build configuration list for PBXNativeTarget "DroplightTests" */;
+			buildConfigurationList = 792A7FDF1DD000F300612463 /* Build configuration list for PBXNativeTarget "DropletTests" */;
 			buildPhases = (
 				792A7FC41DD000F300612463 /* Sources */,
 				792A7FC51DD000F300612463 /* Frameworks */,
@@ -176,14 +267,14 @@
 			dependencies = (
 				792A7FCA1DD000F300612463 /* PBXTargetDependency */,
 			);
-			name = DroplightTests;
+			name = DropletTests;
 			productName = DroplightTests;
-			productReference = 792A7FC81DD000F300612463 /* DroplightTests.xctest */;
+			productReference = 792A7FC81DD000F300612463 /* DropletTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		792A7FD21DD000F300612463 /* DroplightUITests */ = {
+		792A7FD21DD000F300612463 /* DropletUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 792A7FE21DD000F300612463 /* Build configuration list for PBXNativeTarget "DroplightUITests" */;
+			buildConfigurationList = 792A7FE21DD000F300612463 /* Build configuration list for PBXNativeTarget "DropletUITests" */;
 			buildPhases = (
 				792A7FCF1DD000F300612463 /* Sources */,
 				792A7FD01DD000F300612463 /* Frameworks */,
@@ -194,9 +285,9 @@
 			dependencies = (
 				792A7FD51DD000F300612463 /* PBXTargetDependency */,
 			);
-			name = DroplightUITests;
+			name = DropletUITests;
 			productName = DroplightUITests;
-			productReference = 792A7FD31DD000F300612463 /* DroplightUITests.xctest */;
+			productReference = 792A7FD31DD000F300612463 /* DropletUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -226,7 +317,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 792A7FAF1DD000F300612463 /* Build configuration list for PBXProject "Droplight" */;
+			buildConfigurationList = 792A7FAF1DD000F300612463 /* Build configuration list for PBXProject "Droplet" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -237,14 +328,72 @@
 			mainGroup = 792A7FAB1DD000F300612463;
 			productRefGroup = 792A7FB51DD000F300612463 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 79870C111DEF946D00D7EAF6 /* Products */;
+					ProjectRef = 79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				792A7FB31DD000F300612463 /* Droplight */,
-				792A7FC71DD000F300612463 /* DroplightTests */,
-				792A7FD21DD000F300612463 /* DroplightUITests */,
+				792A7FB31DD000F300612463 /* Droplet */,
+				792A7FC71DD000F300612463 /* DropletTests */,
+				792A7FD21DD000F300612463 /* DropletUITests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		79870C1C1DEF946D00D7EAF6 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 79870C1B1DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		79870C1E1DEF946D00D7EAF6 /* Alamofire iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire iOS Tests.xctest";
+			remoteRef = 79870C1D1DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		79870C201DEF946D00D7EAF6 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 79870C1F1DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		79870C221DEF946D00D7EAF6 /* Alamofire macOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire macOS Tests.xctest";
+			remoteRef = 79870C211DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		79870C241DEF946D00D7EAF6 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 79870C231DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		79870C261DEF946D00D7EAF6 /* Alamofire tvOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire tvOS Tests.xctest";
+			remoteRef = 79870C251DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		79870C281DEF946D00D7EAF6 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 79870C271DEF946D00D7EAF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		792A7FB21DD000F300612463 /* Resources */ = {
@@ -310,13 +459,18 @@
 /* Begin PBXTargetDependency section */
 		792A7FCA1DD000F300612463 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 792A7FB31DD000F300612463 /* Droplight */;
+			target = 792A7FB31DD000F300612463 /* Droplet */;
 			targetProxy = 792A7FC91DD000F300612463 /* PBXContainerItemProxy */;
 		};
 		792A7FD51DD000F300612463 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 792A7FB31DD000F300612463 /* Droplight */;
+			target = 792A7FB31DD000F300612463 /* Droplet */;
 			targetProxy = 792A7FD41DD000F300612463 /* PBXContainerItemProxy */;
+		};
+		79870C371DEF97F400D7EAF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = 79870C361DEF97F400D7EAF6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -433,6 +587,7 @@
 		792A7FDD1DD000F300612463 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -447,6 +602,7 @@
 		792A7FDE1DD000F300612463 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -467,7 +623,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.self.DroplightTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Droplight.app/Droplight";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Droplet.app/Droplet";
 			};
 			name = Debug;
 		};
@@ -480,7 +636,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.self.DroplightTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Droplight.app/Droplight";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Droplet.app/Droplet";
 			};
 			name = Release;
 		};
@@ -511,7 +667,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		792A7FAF1DD000F300612463 /* Build configuration list for PBXProject "Droplight" */ = {
+		792A7FAF1DD000F300612463 /* Build configuration list for PBXProject "Droplet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				792A7FDA1DD000F300612463 /* Debug */,
@@ -520,7 +676,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		792A7FDC1DD000F300612463 /* Build configuration list for PBXNativeTarget "Droplight" */ = {
+		792A7FDC1DD000F300612463 /* Build configuration list for PBXNativeTarget "Droplet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				792A7FDD1DD000F300612463 /* Debug */,
@@ -529,7 +685,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		792A7FDF1DD000F300612463 /* Build configuration list for PBXNativeTarget "DroplightTests" */ = {
+		792A7FDF1DD000F300612463 /* Build configuration list for PBXNativeTarget "DropletTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				792A7FE01DD000F300612463 /* Debug */,
@@ -538,7 +694,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		792A7FE21DD000F300612463 /* Build configuration list for PBXNativeTarget "DroplightUITests" */ = {
+		792A7FE21DD000F300612463 /* Build configuration list for PBXNativeTarget "DropletUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				792A7FE31DD000F300612463 /* Debug */,

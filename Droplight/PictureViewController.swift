@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Alamofire
 
 class PictureViewController: UIViewController, LocationControllerDelegate, UITextFieldDelegate {
     
@@ -118,37 +119,37 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     @IBAction func uploadImage() {
         self.loading.startAnimating()
         self.loading.hidesWhenStopped = true
+        let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
+        let captionText = self.caption.text!
         if let image : UIImage = currentImage {
-            if let data : Data = UIImageJPEGRepresentation(image, 0.9) {
-                var request = URLRequest(url: URL(string: "https://droplightapi.herokuapp.com/apiv1/upload")!)
-                request.httpMethod = "POST"
-                let base64String = data.base64EncodedString(options: [NSData.Base64EncodingOptions.lineLength64Characters])
-                let encodeImg = base64String.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
-                //print(encodeImg?.characters.count)
-                let params : [String: String] = [ "content_type": "image/jpeg", "filename":"test3.jpg", "imageData":encodeImg!]
-                request.httpBody = paramSerialization(params: params).data(using: String.Encoding.utf8);
-                let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                    guard let data = data, error == nil else {
-                        print("error=\(error)")
-                        return
+            if let data : Data = UIImageJPEGRepresentation(image, 0.0) {
+                let base64 : String = data.base64EncodedString() // Image data to encoded string
+                let stringData : Data = base64.data(using: String.Encoding.utf8)! as Data // String to Data
+                Alamofire.upload(
+                    multipartFormData: { multipartFormData in
+                        multipartFormData.append(stringData, withName: "imageData")
+                        multipartFormData.append("\(0.00)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"latitude")
+                        multipartFormData.append("\(0.00)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"longitude")
+                        multipartFormData.append("\(deviceID)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"deviceID")
+                        multipartFormData.append(captionText.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"caption")
+                },
+                    to: "https://droplightapi.herokuapp.com/apiv1/upload",
+                    encodingCompletion: { encodingResult in
+                        switch encodingResult {
+                        case .success(let upload, _, _):
+                            upload.responseJSON { response in
+                                //let decodeString : String = NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String // Data to encoded string
+                                //let imageData : Data = NSData(base64Encoded: decodeString) as! Data // Encoded string to data
+                                //self.imageView.image = UIImage(data: imageData)
+                                print(NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String)
+                                self.loading.stopAnimating()
+                                self.performSegue(withIdentifier: "UploadPicture", sender: self)
+                            }
+                        case .failure(let encodingError):
+                            print(encodingError)
+                        }
                     }
-                    
-                    if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                        print("response = \(response)")
-                    }
-                    
-                    let responseString = String(data: data, encoding: .utf8)
-                    //print("responseString = \(responseString)")
-                    //print("Response received")
-                    //print(responseString?.characters.count)
-                    let decodeImg : String = (responseString!.removingPercentEncoding)!
-                    let dataDecoded:NSData = NSData(base64Encoded: decodeImg, options: [NSData.Base64DecodingOptions.init(rawValue: 0)])!
-                    self.currentImage = UIImage(data: dataDecoded as Data)!
-                    self.updateImage()
-                    self.loading.stopAnimating()
-                }
-                task.resume()
+                )
             }
         }
     }
@@ -197,6 +198,11 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.caption.transform = self.caption.transform.translatedBy(x: 0, y: keyboardSize! - self.caption.frame.height)
         })
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        dismissKeyboard()
+        return false
     }
     
     func keyboardWillBeHidden(notification: NSNotification){

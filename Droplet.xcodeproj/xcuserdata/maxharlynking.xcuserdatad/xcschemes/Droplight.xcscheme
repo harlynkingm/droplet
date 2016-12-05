@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "792A7FB31DD000F300612463"
-               BuildableName = "Droplight.app"
-               BlueprintName = "Droplight"
-               ReferencedContainer = "container:Droplight.xcodeproj">
+               BuildableName = "Droplet.app"
+               BlueprintName = "Droplet"
+               ReferencedContainer = "container:Droplet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "792A7FC71DD000F300612463"
-               BuildableName = "DroplightTests.xctest"
-               BlueprintName = "DroplightTests"
-               ReferencedContainer = "container:Droplight.xcodeproj">
+               BuildableName = "DropletTests.xctest"
+               BlueprintName = "DropletTests"
+               ReferencedContainer = "container:Droplet.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "792A7FD21DD000F300612463"
-               BuildableName = "DroplightUITests.xctest"
-               BlueprintName = "DroplightUITests"
-               ReferencedContainer = "container:Droplight.xcodeproj">
+               BuildableName = "DropletUITests.xctest"
+               BlueprintName = "DropletUITests"
+               ReferencedContainer = "container:Droplet.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "792A7FB31DD000F300612463"
-            BuildableName = "Droplight.app"
-            BlueprintName = "Droplight"
-            ReferencedContainer = "container:Droplight.xcodeproj">
+            BuildableName = "Droplet.app"
+            BlueprintName = "Droplet"
+            ReferencedContainer = "container:Droplet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "792A7FB31DD000F300612463"
-            BuildableName = "Droplight.app"
-            BlueprintName = "Droplight"
-            ReferencedContainer = "container:Droplight.xcodeproj">
+            BuildableName = "Droplet.app"
+            BlueprintName = "Droplet"
+            ReferencedContainer = "container:Droplet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "792A7FB31DD000F300612463"
-            BuildableName = "Droplight.app"
-            BlueprintName = "Droplight"
-            ReferencedContainer = "container:Droplight.xcodeproj">
+            BuildableName = "Droplet.app"
+            BlueprintName = "Droplet"
+            ReferencedContainer = "container:Droplet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
