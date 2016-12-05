@@ -23,6 +23,7 @@ class CameraViewController: UIViewController {
     
     var e : EffectsController = EffectsController()
     var l : LocationController?
+    var i : ImageLoader?
     
     var prepImage : UIImage?
     
@@ -38,6 +39,7 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         setupGestures()
         setupLocation()
+        i = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
     }
     
     override func viewDidAppear(_ animated: Bool) {

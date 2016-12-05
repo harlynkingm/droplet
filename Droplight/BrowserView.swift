@@ -15,6 +15,7 @@ class BrowserView: UIView {
     var delegate : BrowserViewController!
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var caption: UILabel!
     
     var currentImage : UIImage?
     
@@ -39,6 +40,7 @@ class BrowserView: UIView {
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(view)
         e.addShadow(view: imageView, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
+        imageView.addSubview(caption)
     }
     
     override init(frame: CGRect) {
