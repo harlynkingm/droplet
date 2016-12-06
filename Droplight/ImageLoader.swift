@@ -54,7 +54,6 @@ class ImageLoader : NSObject {
     
     func addImage(image : UIImage){
         loadedImages.append(image)
-        print(loadedImages.count)
         if let d = delegate {
             d.didLoadImage(sender: self, newImage: image)
         }

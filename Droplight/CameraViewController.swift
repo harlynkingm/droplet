@@ -39,7 +39,9 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         setupGestures()
         setupLocation()
-        i = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
+        if (i == nil){
+            i = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,11 +103,22 @@ class CameraViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "TakePicture" {
+        switch (segue.identifier!){
+        case "TakePicture":
             if let destination = segue.destination as? PictureViewController {
                 destination.currentImage = self.prepImage
                 destination.l = self.l
+                destination.i = self.i
             }
+            break
+        case "BrowseImages":
+            if let destination = segue.destination as? BrowserViewController {
+                destination.l = self.l
+                destination.i = self.i
+            }
+            break
+        default:
+            break
         }
     }
     

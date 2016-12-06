@@ -78,7 +78,7 @@
                                     <action selector="compressButtonWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3fp-oJ-1ll"/>
                                     <action selector="compressButtonWithSender:" destination="BYZ-38-t0r" eventType="touchUpOutside" id="LeX-aY-uvt"/>
                                     <action selector="depressButtonWithSender:" destination="BYZ-38-t0r" eventType="touchDown" id="j7C-e3-cqe"/>
-                                    <segue destination="huz-Pz-hvq" kind="show" id="XGl-iZ-fhh"/>
+                                    <segue destination="huz-Pz-hvq" kind="show" identifier="BrowseImages" id="XGl-iZ-fhh"/>
                                 </connections>
                             </button>
                         </subviews>

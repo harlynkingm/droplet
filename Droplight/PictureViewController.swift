@@ -27,6 +27,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     
     var e: EffectsController = EffectsController()
     var l: LocationController?
+    var i: ImageLoader?
     
     var locationSharing : Bool = true
     var captionBottom: CGFloat = CGFloat(0)
@@ -75,10 +76,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ClosePicture" {
-            if let destination = segue.destination as? CameraViewController {
-                destination.l = self.l
-            }
+        if let destination = segue.destination as? CameraViewController {
+            destination.l = self.l
+            destination.i = self.i
         }
     }
     

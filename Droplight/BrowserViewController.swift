@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class BrowserViewController: UIViewController {
+class BrowserViewController: UIViewController, ImageLoaderDelegate {
     
     @IBOutlet weak var placeholder : UIView!
     @IBOutlet weak var backButton : UIButton!
@@ -24,6 +24,8 @@ class BrowserViewController: UIViewController {
     var mapOn : Bool = false
     
     var e: EffectsController = EffectsController()
+    var l: LocationController?
+    var i: ImageLoader?
     
     var tempPictures: [UIImage] = [UIImage(named: "test1")!, UIImage(named: "test2")!, UIImage(named: "test3")!, UIImage(named: "test2")!]
     
@@ -32,6 +34,10 @@ class BrowserViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (i != nil){
+            i?.delegate = self
+            renderCards(pictures: (i?.loadedImages)!)
+        }
         renderCards(pictures: tempPictures)
         e.addShadow(view: backButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: mapButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
@@ -42,6 +48,14 @@ class BrowserViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        i?.delegate = nil
+        if let destination = segue.destination as? CameraViewController {
+            destination.l = self.l
+            destination.i = self.i
+        }
     }
     
     
@@ -120,6 +134,10 @@ class BrowserViewController: UIViewController {
 
     @IBAction func downvote(){
         self.cards[currentCard].downvote()
+    }
+    
+    func didLoadImage(sender: ImageLoader, newImage: UIImage) {
+        addCard(image: newImage)
     }
 
 }
