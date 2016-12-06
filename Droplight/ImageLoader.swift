@@ -18,12 +18,17 @@ class ImageLoader : NSObject {
     
     weak var delegate : ImageLoaderDelegate?
     
+    var sourceUrl : String
+    
     var imageQueue : [String]
     var loadedImages : [UIImage]
+    var seenImages : Set<String>
     
     init(url: String) {
+        sourceUrl = url
         loadedImages = []
         imageQueue = []
+        seenImages = Set<String>()
         super.init()
         loadImageList(url: url)
     }
@@ -33,7 +38,12 @@ class ImageLoader : NSObject {
             do {
                 let parsedData = try JSONSerialization.jsonObject(with: response.data!, options: .allowFragments) as! [String:Any]
                 let images = parsedData["images"] as! [String]
-                self.imageQueue.append(contentsOf: images)
+                for imageUrl in images {
+                    if (!self.seenImages.contains(imageUrl)){
+                        self.imageQueue.append(imageUrl)
+                        self.seenImages.insert(imageUrl)
+                    }
+                }
                 self.processQueue()
             } catch {
                 print(error)
@@ -57,6 +67,10 @@ class ImageLoader : NSObject {
         if let d = delegate {
             d.didLoadImage(sender: self, newImage: image)
         }
+    }
+    
+    func refresh(){
+        loadImageList(url: sourceUrl)
     }
     
 }

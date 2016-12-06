@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class BrowserView: UIView {
     
@@ -17,7 +18,8 @@ class BrowserView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var caption: UILabel!
     
-    var currentImage : UIImage?
+    var currentImage : UIImage!
+    var currentLocation: CLLocationCoordinate2D!
     
     var e: EffectsController = EffectsController()
     
@@ -43,10 +45,23 @@ class BrowserView: UIView {
         imageView.addSubview(caption)
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, image: UIImage, captionText: String, location: CLLocationCoordinate2D){
         super.init(frame: frame)
         xibSetup()
+        currentLocation = location
+        currentImage = image
+        updateImage()
+        if (captionText.characters.count > 0){
+            caption.text = captionText
+        } else {
+            caption.isHidden = true
+        }
     }
+    
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        xibSetup()
+//    }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!

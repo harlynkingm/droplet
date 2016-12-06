@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class BrowserViewController: UIViewController, ImageLoaderDelegate {
+class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var placeholder : UIView!
     @IBOutlet weak var backButton : UIButton!
@@ -17,11 +17,16 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate {
     @IBOutlet weak var mapView : MKMapView!
     @IBOutlet weak var thumbsUp : UIButton!
     @IBOutlet weak var thumbsDown : UIButton!
+    @IBOutlet weak var favoriteButton : UIButton!
+    @IBOutlet weak var shareButton : UIButton!
+    @IBOutlet weak var bottomButtons: UIStackView!
+    @IBOutlet weak var bottomBackground : UIView!
     
     @IBOutlet weak var thumbsDownConst: NSLayoutConstraint!
     @IBOutlet weak var thumbsUpConst: NSLayoutConstraint!
     
     var mapOn : Bool = false
+    var favoriteOn: Bool = false
     
     var e: EffectsController = EffectsController()
     var l: LocationController?
@@ -31,18 +36,24 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate {
     
     var cards: [BrowserView] = [BrowserView]()
     var currentCard : Int = 0
+    
+    var bottomBarHeight: CGFloat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         if (i != nil){
             i?.delegate = self
             renderCards(pictures: (i?.loadedImages)!)
+            i?.refresh()
         }
-        renderCards(pictures: tempPictures)
+        //renderCards(pictures: tempPictures)
         e.addShadow(view: backButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: mapButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: thumbsUp, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: thumbsDown, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: favoriteButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: shareButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,10 +81,10 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate {
     }
     
     func addCard(image: UIImage){
-        let browserView = BrowserView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
+        let frame : CGRect = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        let location: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 40.4376540, longitude: -79.9281950)
+        let browserView = BrowserView(frame: frame, image: image, captionText: "", location: location)
         browserView.delegate = self
-        browserView.currentImage = image
-        browserView.updateImage()
         self.placeholder.insertSubview(browserView, at: 0)
         cards.append(browserView)
     }
@@ -81,23 +92,57 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate {
     func removeCard(card: BrowserView){
         card.removeFromSuperview()
         currentCard += 1
+        setRegion(location: cards[currentCard].currentLocation)
     }
     
     @IBAction func toggleMap(){
         mapOn = !mapOn
         if mapOn {
+            setRegion(location: cards[currentCard].currentLocation)
             mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
             UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                self.mapButton.transform = self.mapButton.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
+                self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
+                self.bottomBackground.transform = self.bottomBackground.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
                 self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
             })
         } else {
             mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
             UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                self.mapButton.transform = self.mapButton.transform.translatedBy(x: 0, y: self.mapView.frame.height)
+                self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: self.mapView.frame.height)
+                self.bottomBackground.transform = self.bottomBackground.transform.translatedBy(x: 0, y: self.mapView.frame.height)
                 self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
             })
         }
+    }
+    
+    @IBAction func toggleFavorite(){
+        favoriteOn = !favoriteOn
+        if (favoriteOn){
+            favoriteButton.setImage(UIImage(named: "favorite_on"), for: UIControlState.normal)
+        } else {
+            favoriteButton.setImage(UIImage(named: "favorite_off"), for: UIControlState.normal)
+        }
+    }
+    
+    @IBAction func toggleShare(){
+        var activityItem: [AnyObject] = [cards[currentCard].currentImage as AnyObject]
+        let message : String = "Check out what I found on Droplet!"
+        activityItem.append(message as AnyObject)
+        let vc = UIActivityViewController(activityItems: activityItem as [AnyObject], applicationActivities: nil)
+        vc.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func pan(rec: UIPanGestureRecognizer) {
+        if (rec.state == UIGestureRecognizerState.began){
+            bottomBarHeight = (rec.view?.transform.ty)!
+        }
+        let translationY = rec.translation(in: self.view).y
+        let newY = (rec.view?.transform.ty)! + translationY
+        let deltaY = min(bottomBarHeight + 30, max(newY, bottomBarHeight)) - (rec.view?.transform.ty)!
+        rec.view?.transform = (rec.view?.transform.translatedBy(x: 0, y: deltaY))!
+        self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: deltaY)
+        rec.setTranslation(CGPoint.zero, in: self.view)
     }
     
     func thumbAnimation(current: CGFloat){
@@ -138,6 +183,31 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate {
     
     func didLoadImage(sender: ImageLoader, newImage: UIImage) {
         addCard(image: newImage)
+    }
+    
+    func setRegion(location : CLLocationCoordinate2D){
+        let drop = MKPointAnnotation()
+        drop.coordinate = location
+        drop.title = "Image Location"
+        mapView.addAnnotation(drop)
+        var region : MKCoordinateRegion = MKCoordinateRegion()
+        region.center = location
+        region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if (annotation is MKUserLocation) { return nil }
+        let reuseID = "droplet"
+        var v = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+        if (v != nil){
+            v?.annotation = annotation
+        } else {
+            v = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            v?.image = UIImage(named: "drop_pin")
+            v?.canShowCallout = true
+        }
+        return v
     }
 
 }
