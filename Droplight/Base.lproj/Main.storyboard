@@ -168,6 +168,19 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hqe-q3-mBz" userLabel="Placeholder">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mel-8h-HiX" userLabel="LoadingView">
+                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fez-U6-527">
+                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="fez-U6-527" firstAttribute="centerX" secondItem="mel-8h-HiX" secondAttribute="centerX" id="5QE-bA-YyP"/>
+                                    <constraint firstItem="fez-U6-527" firstAttribute="centerY" secondItem="mel-8h-HiX" secondAttribute="centerY" id="HGl-cL-ig5"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BBd-g8-Sop" userLabel="ThumbsUp">
                                 <rect key="frame" x="319" y="283" width="120" height="100"/>
                                 <constraints>
@@ -192,32 +205,11 @@
                                     <action selector="downvote" destination="huz-Pz-hvq" eventType="touchUpInside" id="CvY-xf-7rW"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQo-Gw-pA9" userLabel="BottomBackground">
-                                <rect key="frame" x="0.0" y="571.5" width="375" height="95.5"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="handle" translatesAutoresizingMaskIntoConstraints="NO" id="63F-AH-4ry">
-                                        <rect key="frame" x="-0.5" y="5" width="375" height="4"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="4" id="L2o-8f-wVa"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="0.59629173801369861" colorSpace="calibratedRGB"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstItem="63F-AH-4ry" firstAttribute="centerX" secondItem="uQo-Gw-pA9" secondAttribute="centerX" id="8GE-7o-UfA"/>
-                                    <constraint firstItem="63F-AH-4ry" firstAttribute="width" secondItem="uQo-Gw-pA9" secondAttribute="width" id="Th8-Ux-75U"/>
-                                    <constraint firstItem="63F-AH-4ry" firstAttribute="top" secondItem="uQo-Gw-pA9" secondAttribute="top" constant="5" id="j6c-L4-x9Q"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="glq-Nk-PwJ" appends="YES" id="QC3-0U-4va"/>
-                                </connections>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="eNX-Zx-Bpc" userLabel="BottomButtons">
-                                <rect key="frame" x="9.5" y="591" width="356.5" height="71"/>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="eNX-Zx-Bpc" userLabel="BottomButtons">
+                                <rect key="frame" x="15.5" y="591" width="345" height="71"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xmj-Ah-7qz" userLabel="LocationButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="70.5" height="71"/>
+                                        <rect key="frame" x="0.0" y="0.5" width="70.5" height="70.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Xmj-Ah-7qz" secondAttribute="height" multiplier="1:1" id="oxP-rQ-Uvb"/>
                                         </constraints>
@@ -228,7 +220,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sjm-3P-VSf" userLabel="FavoriteButton">
-                                        <rect key="frame" x="95.5" y="0.0" width="70.5" height="71"/>
+                                        <rect key="frame" x="91.5" y="0.0" width="70.5" height="71"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Sjm-3P-VSf" secondAttribute="height" multiplier="1:1" id="zRU-l2-lLy"/>
                                         </constraints>
@@ -239,7 +231,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuE-vG-SSi" userLabel="ShareButton">
-                                        <rect key="frame" x="191" y="0.0" width="70" height="71"/>
+                                        <rect key="frame" x="183" y="0.5" width="70.5" height="70.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fuE-vG-SSi" secondAttribute="height" multiplier="1:1" id="db9-1D-Cxz"/>
                                         </constraints>
@@ -250,7 +242,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxG-n5-wxP" userLabel="CameraButton">
-                                        <rect key="frame" x="286" y="0.5" width="70.5" height="70.5"/>
+                                        <rect key="frame" x="274.5" y="0.0" width="70.5" height="71"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="FxG-n5-wxP" secondAttribute="height" multiplier="1:1" id="iO3-3d-T5T"/>
                                         </constraints>
@@ -271,18 +263,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" multiplier="95/100" id="3jM-V7-KJ3"/>
+                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" multiplier="92/100" id="3jM-V7-KJ3"/>
                             <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="FdR-BV-qGH" secondAttribute="bottom" constant="-200" id="4vr-ye-ZhC"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="CtZ-Ua-djd"/>
                             <constraint firstItem="BBd-g8-Sop" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="DTb-Ny-vBk"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="ETD-SI-080"/>
-                            <constraint firstItem="uQo-Gw-pA9" firstAttribute="height" secondItem="eNX-Zx-Bpc" secondAttribute="height" multiplier="1.35" id="EhU-Gk-tE1"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="Ewm-Bz-GcU"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="HGM-cR-ayF"/>
                             <constraint firstItem="FdR-BV-qGH" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="R0l-Ej-DYN"/>
-                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="uQo-Gw-pA9" secondAttribute="bottom" id="UWD-Bd-ZLZ"/>
+                            <constraint firstItem="mel-8h-HiX" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="SLZ-qd-3sf"/>
+                            <constraint firstItem="mel-8h-HiX" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="V2v-V3-Zm3"/>
                             <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="eNX-Zx-Bpc" secondAttribute="bottom" constant="5" id="XmG-CQ-BRd"/>
-                            <constraint firstItem="uQo-Gw-pA9" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="YdK-Hq-ebe"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="aGD-Wq-3mQ"/>
                             <constraint firstItem="FdR-BV-qGH" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="bdt-9a-I0n"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="cBL-Rl-ghw"/>
@@ -292,14 +283,15 @@
                             <constraint firstItem="eNX-Zx-Bpc" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="lxf-ns-L8v"/>
                             <constraint firstItem="8qU-V7-J5g" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="oQI-l3-FPS"/>
                             <constraint firstItem="8qU-V7-J5g" firstAttribute="leading" secondItem="WTB-xm-mdc" secondAttribute="leadingMargin" constant="-80" id="tQr-Yn-YFF"/>
-                            <constraint firstItem="uQo-Gw-pA9" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="yWS-vC-yhA"/>
+                            <constraint firstItem="mel-8h-HiX" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="xMr-2d-dgD"/>
+                            <constraint firstItem="mel-8h-HiX" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="yNk-ua-l1N"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="FxG-n5-wxP" id="6sE-Zf-2JG"/>
-                        <outlet property="bottomBackground" destination="uQo-Gw-pA9" id="fro-7c-www"/>
                         <outlet property="bottomButtons" destination="eNX-Zx-Bpc" id="J5P-Zc-BKo"/>
                         <outlet property="favoriteButton" destination="Sjm-3P-VSf" id="xoK-u9-cfP"/>
+                        <outlet property="loadingView" destination="mel-8h-HiX" id="gck-P0-wGc"/>
                         <outlet property="mapButton" destination="Xmj-Ah-7qz" id="Apd-Xo-WcA"/>
                         <outlet property="mapView" destination="FdR-BV-qGH" id="N1N-z7-glU"/>
                         <outlet property="placeholder" destination="hqe-q3-mBz" id="z8Y-g0-uT2"/>
@@ -312,11 +304,6 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJB-AZ-SgH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="p6A-B5-jRY" userLabel="Exit" sceneMemberID="exit"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="glq-Nk-PwJ">
-                    <connections>
-                        <action selector="panWithRec:" destination="huz-Pz-hvq" id="RNW-ZM-YWr"/>
-                    </connections>
-                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="140" y="924.28785607196414"/>
         </scene>
@@ -475,7 +462,6 @@
         <image name="download" width="82" height="82"/>
         <image name="favorite_off" width="80" height="80"/>
         <image name="focus" width="30" height="30"/>
-        <image name="handle" width="22" height="2"/>
         <image name="location_off" width="82" height="82"/>
         <image name="location_on" width="82" height="82"/>
         <image name="share" width="80" height="80"/>

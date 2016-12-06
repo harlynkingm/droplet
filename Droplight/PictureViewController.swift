@@ -154,10 +154,6 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
-    func paramSerialization (params: [String: String]) -> String{
-        return params.flatMap {"\($0.0)=\($0.1)&"}.reduce("", +)
-    }
-    
     @IBAction func toggleLocation() {
         if (locationSharing){
             locationButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
@@ -172,12 +168,16 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     }
     
     func setupGestures(){
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapBackground))
         self.view.addGestureRecognizer(tap)
     }
     
-    func dismissKeyboard(){
-        self.view.endEditing(true)
+    func tapBackground(){
+        if (caption.isHidden){
+            toggleText()
+        } else {
+            self.view.endEditing(true)
+        }
     }
     
     func registerForKeyboardNotifications(){
@@ -201,7 +201,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        dismissKeyboard()
+        tapBackground()
         return false
     }
     

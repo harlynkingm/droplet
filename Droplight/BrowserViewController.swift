@@ -20,7 +20,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     @IBOutlet weak var favoriteButton : UIButton!
     @IBOutlet weak var shareButton : UIButton!
     @IBOutlet weak var bottomButtons: UIStackView!
-    @IBOutlet weak var bottomBackground : UIView!
+    @IBOutlet weak var loadingView : UIView!
     
     @IBOutlet weak var thumbsDownConst: NSLayoutConstraint!
     @IBOutlet weak var thumbsUpConst: NSLayoutConstraint!
@@ -37,8 +37,6 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     var cards: [BrowserView] = [BrowserView]()
     var currentCard : Int = 0
     
-    var bottomBarHeight: CGFloat = 0
-
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
@@ -48,6 +46,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
             i?.refresh()
         }
         //renderCards(pictures: tempPictures)
+        resetThumbs()
         e.addShadow(view: backButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: mapButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: thumbsUp, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
@@ -87,29 +86,28 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         browserView.delegate = self
         self.placeholder.insertSubview(browserView, at: 0)
         cards.append(browserView)
+        loadingView.isHidden = true
     }
     
     func removeCard(card: BrowserView){
         card.removeFromSuperview()
         currentCard += 1
-        setRegion(location: cards[currentCard].currentLocation)
+        if (currentCard < cards.count) { setRegion(location: cards[currentCard].currentLocation) }
     }
     
     @IBAction func toggleMap(){
         mapOn = !mapOn
         if mapOn {
-            setRegion(location: cards[currentCard].currentLocation)
+            if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
             mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
             UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
                 self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
-                self.bottomBackground.transform = self.bottomBackground.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
                 self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
             })
         } else {
             mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
             UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
                 self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: self.mapView.frame.height)
-                self.bottomBackground.transform = self.bottomBackground.transform.translatedBy(x: 0, y: self.mapView.frame.height)
                 self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
             })
         }
@@ -125,24 +123,17 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     @IBAction func toggleShare(){
-        var activityItem: [AnyObject] = [cards[currentCard].currentImage as AnyObject]
-        let message : String = "Check out what I found on Droplet!"
-        activityItem.append(message as AnyObject)
-        let vc = UIActivityViewController(activityItems: activityItem as [AnyObject], applicationActivities: nil)
-        vc.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
-        self.present(vc, animated: true, completion: nil)
-    }
-    
-    @IBAction func pan(rec: UIPanGestureRecognizer) {
-        if (rec.state == UIGestureRecognizerState.began){
-            bottomBarHeight = (rec.view?.transform.ty)!
+        if (currentCard < cards.count) {
+            //loading.startAnimating()
+            var activityItem: [AnyObject] = [cards[currentCard].currentImage as AnyObject]
+            let message : String = "Check out what I found on Droplet!"
+            activityItem.append(message as AnyObject)
+            let vc = UIActivityViewController(activityItems: activityItem as [AnyObject], applicationActivities: nil)
+            vc.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
+            self.present(vc, animated: true, completion: {
+                //self.loading.stopAnimating()
+            })
         }
-        let translationY = rec.translation(in: self.view).y
-        let newY = (rec.view?.transform.ty)! + translationY
-        let deltaY = min(bottomBarHeight + 30, max(newY, bottomBarHeight)) - (rec.view?.transform.ty)!
-        rec.view?.transform = (rec.view?.transform.translatedBy(x: 0, y: deltaY))!
-        self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: deltaY)
-        rec.setTranslation(CGPoint.zero, in: self.view)
     }
     
     func thumbAnimation(current: CGFloat){
@@ -183,6 +174,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     
     func didLoadImage(sender: ImageLoader, newImage: UIImage) {
         addCard(image: newImage)
+        resetThumbs()
     }
     
     func setRegion(location : CLLocationCoordinate2D){
