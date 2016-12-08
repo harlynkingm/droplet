@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDelegate {
+class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var placeholder : UIView!
     @IBOutlet weak var backButton : UIButton!
@@ -21,12 +21,15 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     @IBOutlet weak var shareButton : UIButton!
     @IBOutlet weak var bottomButtons: UIStackView!
     @IBOutlet weak var loadingView : UIView!
+    @IBOutlet weak var scrollView : UIScrollView!
+    @IBOutlet weak var gesture : UIPanGestureRecognizer!
     
     @IBOutlet weak var thumbsDownConst: NSLayoutConstraint!
     @IBOutlet weak var thumbsUpConst: NSLayoutConstraint!
     
     var mapOn : Bool = false
     var favoriteOn: Bool = false
+    var passGesture: Bool = false
     
     var e: EffectsController = EffectsController()
     var l: LocationController?
@@ -40,6 +43,8 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        scrollView.delegate = self
+        gesture.delegate = self
         if (i != nil){
             i?.delegate = self
             renderCards(cards: (i?.loadedCards)!)
@@ -68,9 +73,41 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         }
     }
     
-    
     override var prefersStatusBarHidden : Bool {
         return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.phase == UITouchPhase.began && bottomButtons.frame.contains(touch.preciseLocation(in: bottomButtons))){
+            passGesture = false
+        } else if (touch.phase == UITouchPhase.began){
+            passGesture = true
+        }
+        return passGesture
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        mapButtonFade(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if (!decelerate) { mapButtonFade(scrollView: scrollView) }
+    }
+    
+    func mapButtonFade(scrollView: UIScrollView){
+        let height = scrollView.frame.size.height
+        let contentSize = scrollView.contentSize.height
+        let offset = scrollView.contentOffset.y
+        let p = offset/(contentSize - height)
+        UIView.transition(with: mapButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            if (p >= 0.5){
+                self.mapOn = true
+                self.mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
+            } else {
+                self.mapOn = false
+                self.mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
+            }
+        }, completion: nil)
     }
     
     func renderCards(cards : [Card]) {
@@ -95,22 +132,19 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     @IBAction func toggleMap(){
-        if (cards.count > 0){
-            mapOn = !mapOn
-            if mapOn {
-                if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
-                mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
-                UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                    self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
-                    self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
-                })
-            } else {
-                mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
-                UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                    self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: self.mapView.frame.height)
-                    self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
-                })
-            }
+        mapOn = !mapOn
+        if mapOn {
+            if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
+            let bottom : CGPoint = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
+            scrollView.setContentOffset(bottom, animated: true)
+            UIView.transition(with: mapButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
+            }, completion: nil)
+        } else {
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            UIView.transition(with: mapButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
+            }, completion: nil)
         }
     }
     
@@ -139,12 +173,24 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         }
     }
     
-    func limitCenter(view : UIView, translation : CGPoint, minX : CGFloat, minY : CGFloat, maxX : CGFloat, maxY : CGFloat){
-        let currentCenter = view.center
-        var newCenter = CGPoint(x: currentCenter.x + translation.x, y: currentCenter.y + translation.y)
-        newCenter.x = min(maxX, max(minX, newCenter.x))
-        newCenter.y = min(maxY, max(minY, newCenter.y))
-        view.center = newCenter
+    @IBAction func pan(rec:UIPanGestureRecognizer) {
+        switch rec.state {
+        case .began:
+            break
+        case .changed:
+            if (passGesture && cards.count > 0){
+                cards[currentCard].pan(rec: rec)
+            }
+            break
+        case .ended:
+            if (passGesture && cards.count > 0){
+                cards[currentCard].pan(rec: rec)
+            }
+            passGesture = false
+            break
+        default:
+            break
+        }
     }
     
     func thumbAnimation(current: CGFloat){
@@ -164,7 +210,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     func resetThumbs(){
-        let buttons : [UIButton] = [self.favoriteButton, self.mapButton, self.shareButton]
+        let buttons : [UIButton] = [self.favoriteButton, self.shareButton]
         setViewsOpacity(views: buttons, opacity: 1)
         self.thumbsUpConst.constant = -80
         self.thumbsDownConst.constant = -80
@@ -196,6 +242,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     
     func didLoadCard(sender: ImageLoader, newCard: Card) {
         addCard(card: newCard)
+        if (cards.count == 1) { setRegion(location: cards[currentCard].currentLocation) }
         resetThumbs()
     }
     

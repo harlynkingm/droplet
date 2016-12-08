@@ -76,15 +76,15 @@ class BrowserView: UIView {
         case .began:
             break
         case .changed:
-            translateX(t: translation, v: rec.view!)
-            rotate(v: rec.view!)
-            delegate.thumbAnimation(current: rec.view!.center.x - self.view.center.x)
-            rec.setTranslation(CGPoint.zero, in: rec.view!)
+            translateX(t: translation, v: imageView)
+            rotate(v: imageView)
+            delegate.thumbAnimation(current: imageView.center.x - self.view.center.x)
+            rec.setTranslation(CGPoint.zero, in: imageView)
             break
         case .ended:
-            let viewX = rec.view!.center.x
-            let centerX = rec.view!.bounds.maxX
-            let velocityX = rec.velocity(in: rec.view!).x
+            let viewX = imageView.center.x
+            let centerX = imageView.bounds.maxX
+            let velocityX = rec.velocity(in: imageView).x
             
             if viewX > centerX * 0.9 || velocityX > 1000 {
                 upvote()
@@ -92,8 +92,8 @@ class BrowserView: UIView {
                 downvote()
             } else {
                 UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                    rec.view!.center = CGPoint(x: rec.view!.bounds.width/2, y: rec.view!.center.y)
-                    rec.view!.transform = CGAffineTransform.identity
+                    self.imageView.center = CGPoint(x: self.imageView.bounds.width/2, y: self.imageView.center.y)
+                    self.imageView.transform = CGAffineTransform.identity
                 })
                 self.delegate.resetThumbs()
             }

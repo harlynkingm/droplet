@@ -205,96 +205,126 @@
                                     <action selector="downvote" destination="huz-Pz-hvq" eventType="touchUpInside" id="CvY-xf-7rW"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="eNX-Zx-Bpc" userLabel="BottomButtons">
-                                <rect key="frame" x="15.5" y="591" width="345" height="71"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HLo-IQ-WNL">
+                                <rect key="frame" x="-0.5" y="392" width="375" height="275"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xmj-Ah-7qz" userLabel="LocationButton">
-                                        <rect key="frame" x="0.0" y="0.5" width="70.5" height="70.5"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5a-iq-K3g" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="190" width="375" height="275"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="eNX-Zx-Bpc" userLabel="BottomButtons">
+                                                <rect key="frame" x="5.5" y="0.0" width="364" height="77.5"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xmj-Ah-7qz" userLabel="LocationButton">
+                                                        <rect key="frame" x="0.0" y="0.5" width="77.5" height="77"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Xmj-Ah-7qz" secondAttribute="height" multiplier="1:1" id="oxP-rQ-Uvb"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                                        <state key="normal" image="location_off"/>
+                                                        <connections>
+                                                            <action selector="toggleMap" destination="huz-Pz-hvq" eventType="touchUpInside" id="HOj-Q0-eYl"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sjm-3P-VSf" userLabel="FavoriteButton">
+                                                        <rect key="frame" x="95.5" y="0.0" width="77.5" height="77.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Sjm-3P-VSf" secondAttribute="height" multiplier="1:1" id="zRU-l2-lLy"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                                        <state key="normal" image="favorite_off"/>
+                                                        <connections>
+                                                            <action selector="toggleFavorite" destination="huz-Pz-hvq" eventType="touchUpInside" id="MOo-dW-IA2"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuE-vG-SSi" userLabel="ShareButton">
+                                                        <rect key="frame" x="191" y="0.5" width="77.5" height="77"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="fuE-vG-SSi" secondAttribute="height" multiplier="1:1" id="db9-1D-Cxz"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                                        <state key="normal" image="share"/>
+                                                        <connections>
+                                                            <action selector="toggleShare" destination="huz-Pz-hvq" eventType="touchUpInside" id="vPh-ir-5cb"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxG-n5-wxP" userLabel="CameraButton">
+                                                        <rect key="frame" x="286.5" y="0.0" width="77.5" height="77.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="FxG-n5-wxP" secondAttribute="height" multiplier="1:1" id="iO3-3d-T5T"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                                        <state key="normal" image="camera"/>
+                                                        <connections>
+                                                            <segue destination="p6A-B5-jRY" kind="unwind" unwindAction="unwindToViewControllerWithSender:" id="lom-jx-QmY"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FdR-BV-qGH" userLabel="LocationView">
+                                                <rect key="frame" x="-0.5" y="87.5" width="375" height="200"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="200" id="Mp7-q2-WQb"/>
+                                                </constraints>
+                                            </mapView>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="Xmj-Ah-7qz" secondAttribute="height" multiplier="1:1" id="oxP-rQ-Uvb"/>
+                                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="width" secondItem="a5a-iq-K3g" secondAttribute="width" multiplier="97/100" id="9Vt-h7-SkA"/>
+                                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="top" secondItem="a5a-iq-K3g" secondAttribute="top" id="Bzn-ru-mSH"/>
+                                            <constraint firstItem="FdR-BV-qGH" firstAttribute="centerX" secondItem="a5a-iq-K3g" secondAttribute="centerX" id="DnM-lb-jlU"/>
+                                            <constraint firstItem="FdR-BV-qGH" firstAttribute="width" secondItem="a5a-iq-K3g" secondAttribute="width" id="FxS-so-D9K"/>
+                                            <constraint firstItem="FdR-BV-qGH" firstAttribute="top" secondItem="eNX-Zx-Bpc" secondAttribute="bottom" constant="10" id="THg-1D-yhh"/>
+                                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="centerX" secondItem="a5a-iq-K3g" secondAttribute="centerX" id="ioX-2M-NpO"/>
                                         </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" image="location_off"/>
-                                        <connections>
-                                            <action selector="toggleMap" destination="huz-Pz-hvq" eventType="touchUpInside" id="HOj-Q0-eYl"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sjm-3P-VSf" userLabel="FavoriteButton">
-                                        <rect key="frame" x="91.5" y="0.0" width="70.5" height="71"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="Sjm-3P-VSf" secondAttribute="height" multiplier="1:1" id="zRU-l2-lLy"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" image="favorite_off"/>
-                                        <connections>
-                                            <action selector="toggleFavorite" destination="huz-Pz-hvq" eventType="touchUpInside" id="MOo-dW-IA2"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuE-vG-SSi" userLabel="ShareButton">
-                                        <rect key="frame" x="183" y="0.5" width="70.5" height="70.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="fuE-vG-SSi" secondAttribute="height" multiplier="1:1" id="db9-1D-Cxz"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" image="share"/>
-                                        <connections>
-                                            <action selector="toggleShare" destination="huz-Pz-hvq" eventType="touchUpInside" id="vPh-ir-5cb"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxG-n5-wxP" userLabel="CameraButton">
-                                        <rect key="frame" x="274.5" y="0.0" width="70.5" height="71"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="FxG-n5-wxP" secondAttribute="height" multiplier="1:1" id="iO3-3d-T5T"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" image="camera"/>
-                                        <connections>
-                                            <segue destination="p6A-B5-jRY" kind="unwind" unwindAction="unwindToViewControllerWithSender:" id="lom-jx-QmY"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                 </subviews>
-                            </stackView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FdR-BV-qGH" userLabel="LocationView">
-                                <rect key="frame" x="0.0" y="667" width="375" height="200"/>
+                                <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="H0O-ee-ZuL"/>
+                                    <constraint firstAttribute="bottom" secondItem="a5a-iq-K3g" secondAttribute="bottom" id="0Yw-oT-aWj"/>
+                                    <constraint firstItem="a5a-iq-K3g" firstAttribute="height" secondItem="HLo-IQ-WNL" secondAttribute="height" id="H0v-ko-mbW"/>
+                                    <constraint firstItem="a5a-iq-K3g" firstAttribute="top" secondItem="HLo-IQ-WNL" secondAttribute="top" constant="190" id="HZX-6M-8Al"/>
+                                    <constraint firstAttribute="trailing" secondItem="a5a-iq-K3g" secondAttribute="trailing" id="JWx-cC-Hdm"/>
+                                    <constraint firstItem="a5a-iq-K3g" firstAttribute="leading" secondItem="HLo-IQ-WNL" secondAttribute="leading" id="QQY-MV-or5"/>
+                                    <constraint firstItem="a5a-iq-K3g" firstAttribute="width" secondItem="HLo-IQ-WNL" secondAttribute="width" id="SmK-Qo-CWw"/>
+                                    <constraint firstAttribute="height" constant="275" id="rlY-xf-Fm4"/>
                                 </constraints>
-                            </mapView>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="SyY-Bd-TcF" appends="YES" id="Gwe-cb-mCT"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" multiplier="92/100" id="3jM-V7-KJ3"/>
-                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="FdR-BV-qGH" secondAttribute="bottom" constant="-200" id="4vr-ye-ZhC"/>
+                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="HLo-IQ-WNL" secondAttribute="bottom" id="2Vi-Dl-66w"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="CtZ-Ua-djd"/>
                             <constraint firstItem="BBd-g8-Sop" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="DTb-Ny-vBk"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="ETD-SI-080"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="Ewm-Bz-GcU"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="HGM-cR-ayF"/>
-                            <constraint firstItem="FdR-BV-qGH" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="R0l-Ej-DYN"/>
                             <constraint firstItem="mel-8h-HiX" firstAttribute="height" secondItem="WTB-xm-mdc" secondAttribute="height" id="SLZ-qd-3sf"/>
                             <constraint firstItem="mel-8h-HiX" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="V2v-V3-Zm3"/>
-                            <constraint firstItem="cOu-w0-3Ih" firstAttribute="top" secondItem="eNX-Zx-Bpc" secondAttribute="bottom" constant="5" id="XmG-CQ-BRd"/>
                             <constraint firstItem="FoY-Ne-pDR" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="aGD-Wq-3mQ"/>
-                            <constraint firstItem="FdR-BV-qGH" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="bdt-9a-I0n"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="cBL-Rl-ghw"/>
+                            <constraint firstItem="HLo-IQ-WNL" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="eoI-WO-Qoh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BBd-g8-Sop" secondAttribute="trailing" constant="-80" id="fef-QO-03V"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="gbj-04-hdW"/>
                             <constraint firstItem="hqe-q3-mBz" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="kmM-Jk-1T2"/>
-                            <constraint firstItem="eNX-Zx-Bpc" firstAttribute="centerX" secondItem="WTB-xm-mdc" secondAttribute="centerX" id="lxf-ns-L8v"/>
                             <constraint firstItem="8qU-V7-J5g" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="oQI-l3-FPS"/>
                             <constraint firstItem="8qU-V7-J5g" firstAttribute="leading" secondItem="WTB-xm-mdc" secondAttribute="leadingMargin" constant="-80" id="tQr-Yn-YFF"/>
                             <constraint firstItem="mel-8h-HiX" firstAttribute="centerY" secondItem="WTB-xm-mdc" secondAttribute="centerY" id="xMr-2d-dgD"/>
                             <constraint firstItem="mel-8h-HiX" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="yNk-ua-l1N"/>
+                            <constraint firstItem="HLo-IQ-WNL" firstAttribute="width" secondItem="WTB-xm-mdc" secondAttribute="width" id="z3F-pU-JW8"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="FxG-n5-wxP" id="6sE-Zf-2JG"/>
                         <outlet property="bottomButtons" destination="eNX-Zx-Bpc" id="J5P-Zc-BKo"/>
                         <outlet property="favoriteButton" destination="Sjm-3P-VSf" id="xoK-u9-cfP"/>
+                        <outlet property="gesture" destination="SyY-Bd-TcF" id="z6y-si-2Vh"/>
                         <outlet property="loadingView" destination="mel-8h-HiX" id="gck-P0-wGc"/>
                         <outlet property="mapButton" destination="Xmj-Ah-7qz" id="Apd-Xo-WcA"/>
                         <outlet property="mapView" destination="FdR-BV-qGH" id="N1N-z7-glU"/>
                         <outlet property="placeholder" destination="hqe-q3-mBz" id="z8Y-g0-uT2"/>
+                        <outlet property="scrollView" destination="HLo-IQ-WNL" id="NT2-BF-SD9"/>
                         <outlet property="shareButton" destination="fuE-vG-SSi" id="Hmi-PV-vwQ"/>
                         <outlet property="thumbsDown" destination="8qU-V7-J5g" id="Wip-2Y-MSC"/>
                         <outlet property="thumbsDownConst" destination="tQr-Yn-YFF" id="1UI-On-aRa"/>
@@ -304,6 +334,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJB-AZ-SgH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="p6A-B5-jRY" userLabel="Exit" sceneMemberID="exit"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="SyY-Bd-TcF">
+                    <connections>
+                        <action selector="panWithRec:" destination="huz-Pz-hvq" id="Uq3-MB-1C5"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="140" y="924.28785607196414"/>
         </scene>
