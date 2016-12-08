@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Alamofire
 
 class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
@@ -34,6 +35,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     var e: EffectsController = EffectsController()
     var l: LocationController?
     var i: ImageLoader?
+    var c: ImageLoader?
     
     var tempPictures: [UIImage] = [UIImage(named: "test1")!, UIImage(named: "test2")!, UIImage(named: "test3")!, UIImage(named: "test2")!]
     
@@ -70,6 +72,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         if let destination = segue.destination as? CameraViewController {
             destination.l = self.l
             destination.i = self.i
+            destination.c = self.c
         }
     }
     
@@ -158,11 +161,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     @IBAction func toggleFavorite(){
         if (cards.count > 0){
             favoriteOn = !favoriteOn
-            if (favoriteOn){
-                favoriteButton.setImage(UIImage(named: "favorite_on"), for: UIControlState.normal)
-            } else {
-                favoriteButton.setImage(UIImage(named: "favorite_off"), for: UIControlState.normal)
-            }
+            addFavorite(card: cards[currentCard].currentCard, isFavorite: favoriteOn)
         }
     }
     
@@ -198,6 +197,40 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         default:
             break
         }
+    }
+    
+    func addFavorite(card: Card, isFavorite: Bool){
+        favoriteButton.isUserInteractionEnabled = false
+        let deviceID = (UIDevice.current.identifierForVendor?.uuidString)! as String!
+        let latitude : String = "\(card.location.latitude)"
+        let longitude : String = "\(card.location.longitude)"
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(card.imageUrl.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"url")
+                multipartFormData.append(latitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"latitude")
+                multipartFormData.append(longitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"longitude")
+                multipartFormData.append("\(deviceID)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"device")
+                multipartFormData.append(card.caption.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"caption")
+                multipartFormData.append("\(isFavorite)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"favorite")
+        },
+            to: "https://droplightapi.herokuapp.com/apiv1/favorites",
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        print(NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String)
+                        self.cards[self.currentCard].currentCard.favorite = isFavorite
+                        if (isFavorite){
+                            self.favoriteButton.setImage(UIImage(named: "favorite_on"), for: UIControlState.normal)
+                        } else {
+                            self.favoriteButton.setImage(UIImage(named: "favorite_off"), for: UIControlState.normal)
+                        }
+                    }
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+                self.favoriteButton.isUserInteractionEnabled = true
+        })
     }
     
     func thumbAnimation(current: CGFloat){

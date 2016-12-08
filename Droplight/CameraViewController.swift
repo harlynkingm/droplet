@@ -21,9 +21,10 @@ class CameraViewController: UIViewController {
     var stillImageOutput: AVCaptureStillImageOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
     
-    var e : EffectsController = EffectsController()
-    var l : LocationController?
-    var i : ImageLoader?
+    var e : EffectsController = EffectsController() // Rendering effects
+    var l : LocationController? // Your location
+    var i : ImageLoader? // Local images
+    var c : ImageLoader? // Collection and favorites
     
     var prepImage : UIImage?
     
@@ -41,6 +42,10 @@ class CameraViewController: UIViewController {
         setupLocation()
         if (i == nil){
             i = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
+        }
+        if (c == nil){
+            let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
+            c = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/collection?device=\(deviceID!)")
         }
     }
     
@@ -109,18 +114,21 @@ class CameraViewController: UIViewController {
                 destination.currentImage = self.prepImage
                 destination.l = self.l
                 destination.i = self.i
+                destination.c = self.c
             }
             break
         case "BrowseImages":
             if let destination = segue.destination as? BrowserViewController {
                 destination.l = self.l
                 destination.i = self.i
+                destination.c = self.c
             }
             break
         case "BrowseCollection":
             if let destination = segue.destination as? CollectionViewController {
                 destination.l = self.l
                 destination.i = self.i
+                destination.c = self.c
             }
             break
         default:

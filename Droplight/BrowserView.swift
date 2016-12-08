@@ -18,6 +18,7 @@ class BrowserView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var caption: UILabel!
     
+    var currentCard : Card!
     var currentImage : UIImage!
     var currentLocation: CLLocationCoordinate2D!
     
@@ -48,6 +49,7 @@ class BrowserView: UIView {
     init(frame: CGRect, card: Card){
         super.init(frame: frame)
         xibSetup()
+        currentCard = card
         currentLocation = card.location
         currentImage = card.image!
         updateImage()

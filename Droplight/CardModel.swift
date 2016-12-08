@@ -15,4 +15,5 @@ struct Card {
     let caption : String
     let location : CLLocationCoordinate2D
     let deviceID : String
+    var favorite : Bool
 }

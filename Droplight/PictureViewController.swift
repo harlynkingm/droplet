@@ -28,6 +28,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     var e: EffectsController = EffectsController()
     var l: LocationController!
     var i: ImageLoader?
+    var c: ImageLoader?
     
     var locationSharing : Bool = true
     var isWaitingForLocation : Bool = false
@@ -80,6 +81,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         if let destination = segue.destination as? CameraViewController {
             destination.l = self.l
             destination.i = self.i
+            destination.c = self.c
         }
     }
     
@@ -147,16 +149,17 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                         multipartFormData.append("\(longitude)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"longitude")
                         multipartFormData.append("\(deviceID)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"deviceID")
                         multipartFormData.append(captionText.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"caption")
+                        multipartFormData.append("false".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"favorite")
                 },
                     to: "https://droplightapi.herokuapp.com/apiv1/upload",
                     encodingCompletion: { encodingResult in
                         switch encodingResult {
                         case .success(let upload, _, _):
                             upload.responseJSON { response in
-                                //let decodeString : String = NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String // Data to encoded string
-                                //let imageData : Data = NSData(base64Encoded: decodeString) as! Data // Encoded string to data
-                                //self.imageView.image = UIImage(data: imageData)
-                                print(NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String)
+                                let imageUrl = NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String
+                                print(imageUrl)
+                                self.c?.addCard(card: Card(image: self.currentImage, imageUrl: imageUrl, caption: captionText, location: self.l.location.coordinate, deviceID: deviceID!, favorite: false))
+                                self.addToCollection(imageUrl: imageUrl, deviceID: deviceID!, caption: captionText, latitude: latitude, longitude: longitude, favorite: "false")
                                 self.loading.stopAnimating()
                                 self.performSegue(withIdentifier: "UploadPicture", sender: self)
                             }
@@ -167,6 +170,29 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                 )
             }
         }
+    }
+    
+    func addToCollection(imageUrl: String, deviceID: String, caption: String, latitude: String, longitude: String, favorite: String){
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageUrl.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"url")
+                multipartFormData.append(latitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"latitude")
+                multipartFormData.append(longitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"longitude")
+                multipartFormData.append("\(deviceID)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"device")
+                multipartFormData.append(caption.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"caption")
+                multipartFormData.append(favorite.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"favorite")
+        },
+            to: "https://droplightapi.herokuapp.com/apiv1/favorites",
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        print(NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String)
+                    }
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+        })
     }
     
     @IBAction func toggleLocation() {

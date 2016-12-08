@@ -416,7 +416,7 @@
                                     <constraint firstAttribute="width" constant="45" id="2pd-Np-Cqj"/>
                                     <constraint firstAttribute="height" constant="45" id="5Wm-dp-PNc"/>
                                 </constraints>
-                                <state key="normal" image="favorite_on"/>
+                                <state key="normal" image="user_on"/>
                                 <connections>
                                     <action selector="userPressed" destination="s0i-0R-GeI" eventType="touchUpInside" id="15w-i1-vQC"/>
                                 </connections>
@@ -432,6 +432,12 @@
                                     <action selector="favoritePressed" destination="s0i-0R-GeI" eventType="touchUpInside" id="4ZU-gI-uZI"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No images to display!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SLD-A0-6wB">
+                                <rect key="frame" x="102.5" y="322" width="169" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -448,9 +454,11 @@
                             <constraint firstItem="D9m-dW-TbS" firstAttribute="centerY" secondItem="FTz-Qa-fQW" secondAttribute="centerY" id="elP-SA-Vwf"/>
                             <constraint firstItem="t68-kZ-LiL" firstAttribute="top" secondItem="FTz-Qa-fQW" secondAttribute="bottom" id="j8d-JK-P1i"/>
                             <constraint firstItem="D9m-dW-TbS" firstAttribute="leading" secondItem="RYR-Vu-T1x" secondAttribute="leadingMargin" id="klj-50-9ql"/>
+                            <constraint firstItem="SLD-A0-6wB" firstAttribute="centerY" secondItem="RYR-Vu-T1x" secondAttribute="centerY" id="sn2-79-hh9"/>
                             <constraint firstItem="1dw-R2-tS7" firstAttribute="height" secondItem="RYR-Vu-T1x" secondAttribute="height" id="tpZ-48-q2X"/>
                             <constraint firstItem="FTz-Qa-fQW" firstAttribute="centerX" secondItem="RYR-Vu-T1x" secondAttribute="centerX" id="vIf-x3-ZRC"/>
                             <constraint firstItem="dRU-Mi-DsA" firstAttribute="centerY" secondItem="FTz-Qa-fQW" secondAttribute="centerY" id="wVL-k8-1eh"/>
+                            <constraint firstItem="SLD-A0-6wB" firstAttribute="centerX" secondItem="RYR-Vu-T1x" secondAttribute="centerX" id="yWc-jO-5JO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -460,6 +468,7 @@
                         <outlet property="gradient" destination="iDq-vh-QWC" id="7eH-lN-QrC"/>
                         <outlet property="header" destination="Ego-gb-63O" id="sH4-mI-sDB"/>
                         <outlet property="headerLabel" destination="ygG-f5-ygz" id="FNA-Iq-SQG"/>
+                        <outlet property="noImageLabel" destination="SLD-A0-6wB" id="fVg-XX-ZVK"/>
                         <outlet property="userButton" destination="D9m-dW-TbS" id="kTP-lZ-L99"/>
                     </connections>
                 </viewController>
@@ -622,7 +631,6 @@
         <image name="collection" width="80" height="80"/>
         <image name="download" width="82" height="82"/>
         <image name="favorite_off" width="80" height="80"/>
-        <image name="favorite_on" width="80" height="80"/>
         <image name="focus" width="30" height="30"/>
         <image name="location_off" width="82" height="82"/>
         <image name="location_on" width="82" height="82"/>
@@ -631,6 +639,7 @@
         <image name="thumbs_down" width="96" height="55"/>
         <image name="thumbs_up" width="96" height="55"/>
         <image name="upload" width="110" height="110"/>
+        <image name="user_on" width="80" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="BQk-Dd-cTD"/>
