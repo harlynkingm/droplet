@@ -26,10 +26,11 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     var currentImage : UIImage?
     
     var e: EffectsController = EffectsController()
-    var l: LocationController?
+    var l: LocationController!
     var i: ImageLoader?
     
     var locationSharing : Bool = true
+    var isWaitingForLocation : Bool = false
     var captionBottom: CGFloat = CGFloat(0)
     
     required init?(coder aDecoder: NSCoder) {
@@ -109,6 +110,10 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                     locationText.text = placemark.locality! + ", " + placemark.administrativeArea!
                 }
             }
+            if (isWaitingForLocation){
+                isWaitingForLocation = false
+                asyncUpload()
+            }
         }
     }
     
@@ -119,8 +124,18 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     @IBAction func uploadImage() {
         self.loading.startAnimating()
         self.loading.hidesWhenStopped = true
+        if (l.placemark != nil){
+            asyncUpload()
+        } else {
+            isWaitingForLocation = true
+        }
+    }
+    
+    func asyncUpload(){
         let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
         let captionText = self.caption.text!
+        let latitude : String = "\(self.l.location.coordinate.latitude)"
+        let longitude : String = "\(self.l.location.coordinate.longitude)"
         if let image : UIImage = currentImage {
             if let data : Data = UIImageJPEGRepresentation(image, 0.0) {
                 let base64 : String = data.base64EncodedString() // Image data to encoded string
@@ -128,8 +143,8 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                 Alamofire.upload(
                     multipartFormData: { multipartFormData in
                         multipartFormData.append(stringData, withName: "imageData")
-                        multipartFormData.append("\(0.00)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"latitude")
-                        multipartFormData.append("\(0.00)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"longitude")
+                        multipartFormData.append("\(latitude)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"latitude")
+                        multipartFormData.append("\(longitude)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"longitude")
                         multipartFormData.append("\(deviceID)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"deviceID")
                         multipartFormData.append(captionText.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"caption")
                 },
@@ -148,7 +163,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                         case .failure(let encodingError):
                             print(encodingError)
                         }
-                    }
+                }
                 )
             }
         }

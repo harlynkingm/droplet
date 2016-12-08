@@ -45,14 +45,14 @@ class BrowserView: UIView {
         imageView.addSubview(caption)
     }
     
-    init(frame: CGRect, image: UIImage, captionText: String, location: CLLocationCoordinate2D){
+    init(frame: CGRect, card: Card){
         super.init(frame: frame)
         xibSetup()
-        currentLocation = location
-        currentImage = image
+        currentLocation = card.location
+        currentImage = card.image!
         updateImage()
-        if (captionText.characters.count > 0){
-            caption.text = captionText
+        if (card.caption.characters.count > 0){
+            caption.text = card.caption
         } else {
             caption.isHidden = true
         }

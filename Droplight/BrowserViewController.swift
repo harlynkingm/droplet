@@ -42,7 +42,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         mapView.delegate = self
         if (i != nil){
             i?.delegate = self
-            renderCards(pictures: (i?.loadedImages)!)
+            renderCards(cards: (i?.loadedCards)!)
             i?.refresh()
         }
         //renderCards(pictures: tempPictures)
@@ -73,16 +73,15 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         return true
     }
     
-    func renderCards(pictures : [UIImage]) {
-        for image in pictures {
-            addCard(image: image)
+    func renderCards(cards : [Card]) {
+        for card in cards {
+            addCard(card: card)
         }
     }
     
-    func addCard(image: UIImage){
+    func addCard(card: Card){
         let frame : CGRect = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        let location: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 40.4376540, longitude: -79.9281950)
-        let browserView = BrowserView(frame: frame, image: image, captionText: "", location: location)
+        let browserView = BrowserView(frame: frame, card: card)
         browserView.delegate = self
         self.placeholder.insertSubview(browserView, at: 0)
         cards.append(browserView)
@@ -91,39 +90,43 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     
     func removeCard(card: BrowserView){
         card.removeFromSuperview()
-        currentCard += 1
-        if (currentCard < cards.count) { setRegion(location: cards[currentCard].currentLocation) }
+        cards.remove(at: 0)
+        if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
     }
     
     @IBAction func toggleMap(){
-        mapOn = !mapOn
-        if mapOn {
-            if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
-            mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
-            UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
-                self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
-            })
-        } else {
-            mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
-            UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: self.mapView.frame.height)
-                self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
-            })
+        if (cards.count > 0){
+            mapOn = !mapOn
+            if mapOn {
+                if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
+                mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
+                UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+                    self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
+                    self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: -1 * self.mapView.frame.height)
+                })
+            } else {
+                mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
+                UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+                    self.bottomButtons.transform = self.bottomButtons.transform.translatedBy(x: 0, y: self.mapView.frame.height)
+                    self.mapView.transform = self.mapView.transform.translatedBy(x: 0, y: self.mapView.frame.height)
+                })
+            }
         }
     }
     
     @IBAction func toggleFavorite(){
-        favoriteOn = !favoriteOn
-        if (favoriteOn){
-            favoriteButton.setImage(UIImage(named: "favorite_on"), for: UIControlState.normal)
-        } else {
-            favoriteButton.setImage(UIImage(named: "favorite_off"), for: UIControlState.normal)
+        if (cards.count > 0){
+            favoriteOn = !favoriteOn
+            if (favoriteOn){
+                favoriteButton.setImage(UIImage(named: "favorite_on"), for: UIControlState.normal)
+            } else {
+                favoriteButton.setImage(UIImage(named: "favorite_off"), for: UIControlState.normal)
+            }
         }
     }
     
     @IBAction func toggleShare(){
-        if (currentCard < cards.count) {
+        if (cards.count > 0) {
             //loading.startAnimating()
             var activityItem: [AnyObject] = [cards[currentCard].currentImage as AnyObject]
             let message : String = "Check out what I found on Droplet!"
@@ -134,6 +137,14 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
                 //self.loading.stopAnimating()
             })
         }
+    }
+    
+    func limitCenter(view : UIView, translation : CGPoint, minX : CGFloat, minY : CGFloat, maxX : CGFloat, maxY : CGFloat){
+        let currentCenter = view.center
+        var newCenter = CGPoint(x: currentCenter.x + translation.x, y: currentCenter.y + translation.y)
+        newCenter.x = min(maxX, max(minX, newCenter.x))
+        newCenter.y = min(maxY, max(minY, newCenter.y))
+        view.center = newCenter
     }
     
     func thumbAnimation(current: CGFloat){
@@ -153,27 +164,38 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     func resetThumbs(){
+        let buttons : [UIButton] = [self.favoriteButton, self.mapButton, self.shareButton]
+        setViewsOpacity(views: buttons, opacity: 1)
         self.thumbsUpConst.constant = -80
         self.thumbsDownConst.constant = -80
-        if (currentCard >= cards.count){
+        if (cards.count == 0){
             self.thumbsUpConst.constant = -140
             self.thumbsDownConst.constant = -140
+            setViewsOpacity(views: buttons, opacity: 0.5)
         }
         UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         })
     }
     
+    func setViewsOpacity(views: [UIView], opacity: CGFloat){
+        for view in views{
+            UIView.animate(withDuration: 0.2, animations: {
+                view.alpha = opacity
+            })
+        }
+    }
+    
     @IBAction func upvote(){
-        self.cards[currentCard].upvote()
+        if (cards.count > 0) { self.cards[currentCard].upvote() }
     }
 
     @IBAction func downvote(){
-        self.cards[currentCard].downvote()
+        if (cards.count > 0) { self.cards[currentCard].downvote() }
     }
     
-    func didLoadImage(sender: ImageLoader, newImage: UIImage) {
-        addCard(image: newImage)
+    func didLoadCard(sender: ImageLoader, newCard: Card) {
+        addCard(card: newCard)
         resetThumbs()
     }
     

@@ -8,10 +8,11 @@
 
 import Alamofire
 import UIKit
+import MapKit
 import Foundation
 
 protocol ImageLoaderDelegate : class {
-    func didLoadImage(sender: ImageLoader, newImage: UIImage)
+    func didLoadCard(sender: ImageLoader, newCard: Card)
 }
 
 class ImageLoader : NSObject {
@@ -20,13 +21,13 @@ class ImageLoader : NSObject {
     
     var sourceUrl : String
     
-    var imageQueue : [String]
-    var loadedImages : [UIImage]
+    var imageQueue : [Card]
+    var loadedCards : [Card]
     var seenImages : Set<String>
     
     init(url: String) {
         sourceUrl = url
-        loadedImages = []
+        loadedCards = []
         imageQueue = []
         seenImages = Set<String>()
         super.init()
@@ -37,10 +38,15 @@ class ImageLoader : NSObject {
         Alamofire.request(url).responseJSON{ response in
             do {
                 let parsedData = try JSONSerialization.jsonObject(with: response.data!, options: .allowFragments) as! [String:Any]
-                let images = parsedData["images"] as! [String]
-                for imageUrl in images {
+                let images = parsedData["images"] as! [NSDictionary]
+                for card in images {
+                    let caption = card["caption"] as! String
+                    let device = card["device"] as! String
+                    let imageUrl = card["filename"] as! String
+                    let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(Float(card["latitude"] as! String)!), longitude: CLLocationDegrees(Float(card["longitude"] as! String)!))
                     if (!self.seenImages.contains(imageUrl)){
-                        self.imageQueue.append(imageUrl)
+                        let newCard = Card(image: nil, imageUrl: imageUrl, caption: caption, location: location, deviceID: device)
+                        self.imageQueue.append(newCard)
                         self.seenImages.insert(imageUrl)
                     }
                 }
@@ -53,19 +59,21 @@ class ImageLoader : NSObject {
     
     func processQueue(){
         if (imageQueue.count > 0){
-            let url : String = imageQueue.popLast()!
+            var card : Card = imageQueue.popLast()!
+            let url : String = card.imageUrl
             Alamofire.request(url).response { response in
                 let newImage : UIImage! = UIImage(data: response.data!, scale: 1)
-                self.addImage(image: newImage)
+                card.image = newImage
+                self.addCard(card: card)
                 self.processQueue()
             }
         }
     }
     
-    func addImage(image : UIImage){
-        loadedImages.append(image)
+    func addCard(card : Card){
+        loadedCards.append(card)
         if let d = delegate {
-            d.didLoadImage(sender: self, newImage: image)
+            d.didLoadCard(sender: self, newCard: card)
         }
     }
     

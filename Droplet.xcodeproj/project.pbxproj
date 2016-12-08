@@ -21,6 +21,7 @@
 		79C0BB3E1DE21F6F00D3D5BD /* BrowserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */; };
 		79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB411DE2218200D3D5BD /* BrowserView.swift */; };
 		79C0BB441DE22CD000D3D5BD /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */; };
+		79E2BFC31DF8989B000D31D5 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E2BFC21DF8989B000D31D5 /* CardModel.swift */; };
 		79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA31DD79A9F002A373B /* PictureViewController.swift */; };
 		79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA51DD7C3B5002A373B /* EffectsController.swift */; };
 /* End PBXBuildFile section */
@@ -132,6 +133,7 @@
 		79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserView.xib; sourceTree = "<group>"; };
 		79C0BB411DE2218200D3D5BD /* BrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		79E2BFC21DF8989B000D31D5 /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		79F08BA31DD79A9F002A373B /* PictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureViewController.swift; sourceTree = "<group>"; };
 		79F08BA51DD7C3B5002A373B /* EffectsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,6 +198,7 @@
 				79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */,
 				79B0227B1DDD8FC500D250F4 /* LocationController.swift */,
 				7951BCAF1DF5E046000D0943 /* ImageLoader.swift */,
+				79E2BFC21DF8989B000D31D5 /* CardModel.swift */,
 				792A7FBE1DD000F300612463 /* Assets.xcassets */,
 				792A7FC01DD000F300612463 /* LaunchScreen.storyboard */,
 				792A7FC31DD000F300612463 /* Info.plist */,
@@ -436,6 +439,7 @@
 				79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */,
 				79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */,
 				79B0227C1DDD8FC500D250F4 /* LocationController.swift in Sources */,
+				79E2BFC31DF8989B000D31D5 /* CardModel.swift in Sources */,
 				79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */,
 				7951BCB01DF5E046000D0943 /* ImageLoader.swift in Sources */,
 				792A7FB81DD000F300612463 /* AppDelegate.swift in Sources */,

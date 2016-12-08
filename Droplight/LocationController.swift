@@ -25,7 +25,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.delegate = self
         manager.requestWhenInUseAuthorization()
-        manager.requestLocation()
+        manager.startUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
