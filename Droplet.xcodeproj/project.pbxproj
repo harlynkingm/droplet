@@ -22,6 +22,7 @@
 		79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB411DE2218200D3D5BD /* BrowserView.swift */; };
 		79C0BB441DE22CD000D3D5BD /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */; };
 		79E2BFC31DF8989B000D31D5 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E2BFC21DF8989B000D31D5 /* CardModel.swift */; };
+		79E2BFD01DF92B0D000D31D5 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E2BFCF1DF92B0D000D31D5 /* CollectionViewController.swift */; };
 		79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA31DD79A9F002A373B /* PictureViewController.swift */; };
 		79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA51DD7C3B5002A373B /* EffectsController.swift */; };
 /* End PBXBuildFile section */
@@ -134,6 +135,7 @@
 		79C0BB411DE2218200D3D5BD /* BrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		79E2BFC21DF8989B000D31D5 /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		79E2BFCF1DF92B0D000D31D5 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		79F08BA31DD79A9F002A373B /* PictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureViewController.swift; sourceTree = "<group>"; };
 		79F08BA51DD7C3B5002A373B /* EffectsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,12 +190,13 @@
 		792A7FB61DD000F300612463 /* Droplight */ = {
 			isa = PBXGroup;
 			children = (
-				79C0BB411DE2218200D3D5BD /* BrowserView.swift */,
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
-				792A7FB91DD000F300612463 /* CameraViewController.swift */,
-				79F08BA31DD79A9F002A373B /* PictureViewController.swift */,
+				79C0BB411DE2218200D3D5BD /* BrowserView.swift */,
 				79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */,
+				792A7FB91DD000F300612463 /* CameraViewController.swift */,
+				79E2BFCF1DF92B0D000D31D5 /* CollectionViewController.swift */,
 				79F08BA51DD7C3B5002A373B /* EffectsController.swift */,
+				79F08BA31DD79A9F002A373B /* PictureViewController.swift */,
 				792A7FBB1DD000F300612463 /* Main.storyboard */,
 				79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */,
 				79B0227B1DDD8FC500D250F4 /* LocationController.swift */,
@@ -438,6 +441,7 @@
 				79C0BB441DE22CD000D3D5BD /* BrowserViewController.swift in Sources */,
 				79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */,
 				79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */,
+				79E2BFD01DF92B0D000D31D5 /* CollectionViewController.swift in Sources */,
 				79B0227C1DDD8FC500D250F4 /* LocationController.swift in Sources */,
 				79E2BFC31DF8989B000D31D5 /* CardModel.swift in Sources */,
 				79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */,

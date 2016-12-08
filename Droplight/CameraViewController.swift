@@ -117,6 +117,12 @@ class CameraViewController: UIViewController {
                 destination.i = self.i
             }
             break
+        case "BrowseCollection":
+            if let destination = segue.destination as? CollectionViewController {
+                destination.l = self.l
+                destination.i = self.i
+            }
+            break
         default:
             break
         }

@@ -39,4 +39,15 @@ class EffectsController {
         view.layer.shadowOffset = newOffset
     }
     
+    func addGradient(view: UIView, start: UIColor, end: UIColor, opacity: Float){
+        let top = start.cgColor
+        let bottom = end.cgColor
+        let gl : CAGradientLayer = CAGradientLayer()
+        gl.colors = [top, bottom]
+        gl.locations = [0.0, 1.0]
+        gl.frame = view.bounds
+        gl.opacity = opacity
+        view.layer.insertSublayer(gl, at: 0)
+    }
+    
 }

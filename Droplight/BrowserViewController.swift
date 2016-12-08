@@ -78,7 +78,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if (touch.phase == UITouchPhase.began && bottomButtons.frame.contains(touch.preciseLocation(in: bottomButtons))){
+        if (touch.phase == UITouchPhase.began && bottomButtons.frame.contains(touch.preciseLocation(in: bottomButtons)) && cards.count > 0){
             passGesture = false
         } else if (touch.phase == UITouchPhase.began){
             passGesture = true
@@ -103,6 +103,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
             if (p >= 0.5){
                 self.mapOn = true
                 self.mapButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
+                if (self.cards.count > 0) { self.setRegion(location: self.cards[self.currentCard].currentLocation) }
             } else {
                 self.mapOn = false
                 self.mapButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
@@ -132,8 +133,14 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     @IBAction func toggleMap(){
-        mapOn = !mapOn
-        if mapOn {
+        if (cards.count > 0){
+            setMap(enabled: !mapOn)
+        }
+    }
+    
+    func setMap(enabled: Bool){
+        mapOn = enabled
+        if enabled {
             if (cards.count > 0) { setRegion(location: cards[currentCard].currentLocation) }
             let bottom : CGPoint = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
             scrollView.setContentOffset(bottom, animated: true)
@@ -210,14 +217,18 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     func resetThumbs(){
-        let buttons : [UIButton] = [self.favoriteButton, self.shareButton]
+        let buttons : [UIButton] = [self.mapButton, self.favoriteButton, self.shareButton]
         setViewsOpacity(views: buttons, opacity: 1)
         self.thumbsUpConst.constant = -80
         self.thumbsDownConst.constant = -80
+        UIView.transition(with: favoriteButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.favoriteButton.setImage(UIImage(named: "favorite_off"), for: UIControlState.normal)
+        }, completion: nil)
         if (cards.count == 0){
             self.thumbsUpConst.constant = -140
             self.thumbsDownConst.constant = -140
             setViewsOpacity(views: buttons, opacity: 0.5)
+            setMap(enabled: false)
         }
         UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
