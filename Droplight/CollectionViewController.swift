@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ImageLoaderDelegate {
+class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, MKMapViewDelegate, ImageLoaderDelegate {
     
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
@@ -19,6 +20,12 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var gradient: UIView!
     @IBOutlet weak var noImageLabel: UILabel!
     @IBOutlet weak var displayImage: UIImageView!
+    @IBOutlet weak var previewImage: UIView!
+    @IBOutlet weak var locationButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    @IBOutlet weak var mapView: MKMapView!
     
     var e : EffectsController = EffectsController()
     var l : LocationController?
@@ -27,8 +34,10 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     var cards : [Card] = []
     var displayCards : [Card] = []
+    var currentCard : Int = 0
     
     var favoritesMode : Bool = false
+    var mapOn : Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,9 +53,13 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         collection.delegate = self
         collection.dataSource = self
         collection.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "ImageCell")
+        mapView.delegate = self
         e.addShadow(view: cameraButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: userButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: favoriteButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: shareButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        e.addShadow(view: closeButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: header, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
         e.addGradient(view: gradient, start: UIColor.clear, end: UIColor.white, opacity: 0.5)
     }
@@ -92,11 +105,12 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cardToShow : Card = displayCards[indexPath.row]
-        displayImage.isUserInteractionEnabled = true
+        currentCard = indexPath.row
+        let cardToShow : Card = displayCards[currentCard]
+        previewImage.isUserInteractionEnabled = true
         displayImage.image = cardToShow.image!
         UIView.animate(withDuration: 0.3, animations: {
-            self.displayImage.alpha = 1.0
+            self.previewImage.alpha = 1.0
         })
     }
     
@@ -164,13 +178,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             break
         case .ended:
             if (rec.velocity(in: rec.view).y > 1000){
-                UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-                    rec.view?.transform = (rec.view?.transform.translatedBy(x: 0, y: (rec.view?.bounds.height)! * 2))!
-                }, completion: { (done : Bool) in
-                    self.displayImage.isUserInteractionEnabled = false
-                    self.displayImage.alpha = 0
-                    self.displayImage.transform = CGAffineTransform.identity
-                })
+                closeImage()
             } else {
                 UIView.animate(withDuration: 0.3, animations: {
                     rec.view?.transform = CGAffineTransform.identity
@@ -180,6 +188,86 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         default:
             break
         }
+    }
+    
+    func closeImage(){
+        if (mapOn){
+            locationPressed()
+        }
+        UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+            self.previewImage.transform = self.previewImage.transform.translatedBy(x: 0, y: self.previewImage.bounds.height * 2)
+        }, completion: { (done : Bool) in
+            self.previewImage.isUserInteractionEnabled = false
+            self.previewImage.alpha = 0
+            self.previewImage.transform = CGAffineTransform.identity
+        })
+    }
+    
+    @IBAction func sharePressed(){
+        loading.startAnimating()
+        if (cards.count > 0) {
+            var activityItem: [AnyObject] = [displayCards[currentCard].image as AnyObject]
+            let message : String = "Check out what I found on Droplet!"
+            activityItem.append(message as AnyObject)
+            let vc = UIActivityViewController(activityItems: activityItem as [AnyObject], applicationActivities: nil)
+            vc.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
+            self.present(vc, animated: true, completion: {
+                self.loading.stopAnimating()
+            })
+        }
+    }
+    
+    @IBAction func closePressed(){
+        closeImage()
+    }
+    
+    @IBAction func locationPressed(){
+        mapOn = !mapOn
+        let items : [UIView] = [self.locationButton, self.cameraButton, self.shareButton, self.mapView]
+        if (mapOn){
+            locationButton.setImage(UIImage(named: "location_on"), for: .normal)
+            setRegion(location: displayCards[currentCard].location)
+            animateMany(items: items, distance: CGPoint(x: 0, y: -1 * self.mapView.frame.height), length: 0.3)
+        } else {
+            locationButton.setImage(UIImage(named: "location_off"), for: .normal)
+            animateMany(items: items, distance: CGPoint(x: 0, y: self.mapView.frame.height), length: 0.3)
+        }
+    }
+    
+    func animateMany(items: [UIView], distance: CGPoint, length: TimeInterval){
+        UIView.animate(withDuration: length, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+            for item in items{
+                item.transform = item.transform.translatedBy(x: distance.x, y: distance.y)
+            }
+        }, completion: nil)
+    }
+    
+    func setRegion(location : CLLocationCoordinate2D){
+        for annotation in mapView.annotations {
+            self.mapView.removeAnnotation(annotation)
+        }
+        let drop = MKPointAnnotation()
+        drop.coordinate = location
+        drop.title = "Image Location"
+        mapView.addAnnotation(drop)
+        var region : MKCoordinateRegion = MKCoordinateRegion()
+        region.center = location
+        region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if (annotation is MKUserLocation) { return nil }
+        let reuseID = "droplet"
+        var v = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+        if (v != nil){
+            v?.annotation = annotation
+        } else {
+            v = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            v?.image = UIImage(named: "drop_pin")
+            v?.canShowCallout = true
+        }
+        return v
     }
 
 }

@@ -19,7 +19,6 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     @IBOutlet weak var thumbsUp : UIButton!
     @IBOutlet weak var thumbsDown : UIButton!
     @IBOutlet weak var favoriteButton : UIButton!
-    @IBOutlet weak var shareButton : UIButton!
     @IBOutlet weak var bottomButtons: UIStackView!
     @IBOutlet weak var loadingView : UIView!
     @IBOutlet weak var scrollView : UIScrollView!
@@ -59,7 +58,6 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         e.addShadow(view: thumbsUp, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: thumbsDown, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: favoriteButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: shareButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
     }
 
     override func didReceiveMemoryWarning() {
@@ -165,20 +163,6 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
         }
     }
     
-    @IBAction func toggleShare(){
-        if (cards.count > 0) {
-            //loading.startAnimating()
-            var activityItem: [AnyObject] = [cards[currentCard].currentImage as AnyObject]
-            let message : String = "Check out what I found on Droplet!"
-            activityItem.append(message as AnyObject)
-            let vc = UIActivityViewController(activityItems: activityItem as [AnyObject], applicationActivities: nil)
-            vc.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
-            self.present(vc, animated: true, completion: {
-                //self.loading.stopAnimating()
-            })
-        }
-    }
-    
     @IBAction func pan(rec:UIPanGestureRecognizer) {
         switch rec.state {
         case .began:
@@ -250,7 +234,7 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     func resetThumbs(){
-        let buttons : [UIButton] = [self.mapButton, self.favoriteButton, self.shareButton]
+        let buttons : [UIButton] = [self.mapButton, self.favoriteButton]
         setViewsOpacity(views: buttons, opacity: 1)
         self.thumbsUpConst.constant = -80
         self.thumbsDownConst.constant = -80
@@ -291,6 +275,9 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     }
     
     func setRegion(location : CLLocationCoordinate2D){
+        for annotation in mapView.annotations {
+            self.mapView.removeAnnotation(annotation)
+        }
         let drop = MKPointAnnotation()
         drop.coordinate = location
         drop.title = "Image Location"
