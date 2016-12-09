@@ -170,7 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */,
-				792A7FB61DD000F300612463 /* Droplight */,
+				792A7FB61DD000F300612463 /* Droplet */,
 				792A7FCB1DD000F300612463 /* DroplightTests */,
 				792A7FD61DD000F300612463 /* DroplightUITests */,
 				792A7FB51DD000F300612463 /* Products */,
@@ -187,7 +187,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		792A7FB61DD000F300612463 /* Droplight */ = {
+		792A7FB61DD000F300612463 /* Droplet */ = {
 			isa = PBXGroup;
 			children = (
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
@@ -206,6 +206,7 @@
 				792A7FC01DD000F300612463 /* LaunchScreen.storyboard */,
 				792A7FC31DD000F300612463 /* Info.plist */,
 			);
+			name = Droplet;
 			path = Droplight;
 			sourceTree = "<group>";
 		};
@@ -603,9 +604,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5N89N8NB8R;
 				INFOPLIST_FILE = Droplight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.self.Droplight;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.self.Droplet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -618,9 +620,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5N89N8NB8R;
 				INFOPLIST_FILE = Droplight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.self.Droplight;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.self.Droplet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

@@ -32,6 +32,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     
     var locationSharing : Bool = true
     var isWaitingForLocation : Bool = false
+    var didUpload : Bool = false
     var captionBottom: CGFloat = CGFloat(0)
     
     required init?(coder aDecoder: NSCoder) {
@@ -82,6 +83,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
             destination.l = self.l
             destination.i = self.i
             destination.c = self.c
+            destination.didUpload = didUpload
         }
     }
     
@@ -160,6 +162,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                                 print(imageUrl)
                                 self.c?.addCard(card: Card(image: self.currentImage, imageUrl: imageUrl, caption: captionText, location: self.l.location.coordinate, deviceID: deviceID!, favorite: false))
                                 self.addToCollection(imageUrl: imageUrl, deviceID: deviceID!, caption: captionText, latitude: latitude, longitude: longitude, favorite: "false")
+                                self.didUpload = true
                                 self.loading.stopAnimating()
                                 self.performSegue(withIdentifier: "UploadPicture", sender: self)
                             }

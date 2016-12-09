@@ -16,6 +16,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var focusPoint: UIImageView!
+    @IBOutlet weak var notification: UIView!
     
     var session: AVCaptureSession?
     var stillImageOutput: AVCaptureStillImageOutput?
@@ -27,6 +28,7 @@ class CameraViewController: UIViewController {
     var c : ImageLoader? // Collection and favorites
     
     var prepImage : UIImage?
+    var didUpload : Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -47,6 +49,7 @@ class CameraViewController: UIViewController {
             let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
             c = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/collection?device=\(deviceID!)")
         }
+        notification.transform = notification.transform.translatedBy(x: 0, y: -200)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,6 +61,9 @@ class CameraViewController: UIViewController {
         e.addShadow(view: captureButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: profileButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
         e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        if (didUpload){
+            showNotification()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -238,6 +244,17 @@ class CameraViewController: UIViewController {
                 print("Could not lock device for configuration: \(error)")
             }
         }
+    }
+    
+    func showNotification(){
+        didUpload = false
+        UIView.animate(withDuration: 0.7, delay: 0, options: [UIViewAnimationOptions.curveEaseIn], animations: {
+            self.notification.transform = self.notification.transform.translatedBy(x: 0, y: 200)
+        }, completion: { (done : Bool) in
+            UIView.animate(withDuration: 0.7, delay: 3, options: [UIViewAnimationOptions.curveEaseIn], animations: {
+                self.notification.transform = self.notification.transform.translatedBy(x: 0, y: -200)
+            })
+        })
     }
 
 }

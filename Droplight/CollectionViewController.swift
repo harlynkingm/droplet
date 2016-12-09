@@ -18,6 +18,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var gradient: UIView!
     @IBOutlet weak var noImageLabel: UILabel!
+    @IBOutlet weak var displayImage: UIImageView!
     
     var e : EffectsController = EffectsController()
     var l : LocationController?
@@ -91,7 +92,12 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        let cardToShow : Card = displayCards[indexPath.row]
+        displayImage.isUserInteractionEnabled = true
+        displayImage.image = cardToShow.image!
+        UIView.animate(withDuration: 0.3, animations: {
+            self.displayImage.alpha = 1.0
+        })
     }
     
     @IBAction func userPressed(){
@@ -138,6 +144,42 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     func didLoadCard(sender: ImageLoader, newCard: Card) {
         cards.append(newCard)
         refreshDisplay(showFavorites: favoritesMode)
+    }
+    
+    @IBAction private func dragPicture(_ rec: UIPanGestureRecognizer) {
+        let translation = rec.translation(in: rec.view)
+        
+        switch rec.state {
+        case .began:
+            break
+        case .changed:
+            if ((rec.view?.transform.ty)! >= CGFloat(0)){
+                rec.view?.transform = (rec.view?.transform.translatedBy(x: 0, y: translation.y * 1.1))!
+                rec.setTranslation(CGPoint.zero, in: rec.view)
+            } else {
+                UIView.animate(withDuration: 0.2, animations: {
+                    rec.view?.transform = CGAffineTransform.identity
+                })
+            }
+            break
+        case .ended:
+            if (rec.velocity(in: rec.view).y > 1000){
+                UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+                    rec.view?.transform = (rec.view?.transform.translatedBy(x: 0, y: (rec.view?.bounds.height)! * 2))!
+                }, completion: { (done : Bool) in
+                    self.displayImage.isUserInteractionEnabled = false
+                    self.displayImage.alpha = 0
+                    self.displayImage.transform = CGAffineTransform.identity
+                })
+            } else {
+                UIView.animate(withDuration: 0.3, animations: {
+                    rec.view?.transform = CGAffineTransform.identity
+                })
+            }
+            break
+        default:
+            break
+        }
     }
 
 }
