@@ -11,20 +11,34 @@ import UIKit
 import MapKit
 import Foundation
 
+/**
+ Allows view controllers to listen to image loaded events.
+ */
 protocol ImageLoaderDelegate : class {
     func didLoadCard(sender: ImageLoader, newCard: Card)
 }
 
+/**
+ Given a url, gets a list of images and creates Cards based on the data retrieved.
+ */
 class ImageLoader : NSObject {
     
     weak var delegate : ImageLoaderDelegate?
     
     var sourceUrl : String
     
+    // Tracks a queue of unloaded image Cards as well as a deck of loaded image Cards
     var imageQueue : [Card]
     var loadedCards : [Card]
+    
+    // Tracks seen images in a set of url strings
     var seenImages : Set<String>
     
+    /**
+     Initializes load of data from the backend API given a url
+     
+     @param url The url to retrieve data from
+     */
     init(url: String) {
         sourceUrl = url
         loadedCards = []
@@ -34,6 +48,11 @@ class ImageLoader : NSObject {
         loadImageList(url: url)
     }
     
+    /**
+     Loads image data from a server and sets up a queue to load the actual images
+     
+     @param url The url to retrieve data from
+     */
     func loadImageList(url: String){
         Alamofire.request(url).responseJSON{ response in
             if (response.data!.count > 2){
@@ -60,6 +79,9 @@ class ImageLoader : NSObject {
         }
     }
     
+    /**
+     A recursive function that goes through the image queue and loads an individual image
+     */
     func processQueue(){
         if (imageQueue.count > 0){
             var card : Card = imageQueue.popLast()!
@@ -73,6 +95,11 @@ class ImageLoader : NSObject {
         }
     }
     
+    /**
+     Adds a Card to to the loaded cards deck
+     
+     @param card The Card to add to the loaded cards
+     */
     func addCard(card : Card){
         if (!self.seenImages.contains(card.imageUrl)){
             self.seenImages.insert(card.imageUrl)
@@ -83,6 +110,9 @@ class ImageLoader : NSObject {
         }
     }
     
+    /**
+     Reloads the deck by adding new unseen cards to it
+     */
     func refresh(){
         loadImageList(url: sourceUrl)
     }

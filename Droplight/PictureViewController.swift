@@ -10,7 +10,12 @@ import UIKit
 import AVFoundation
 import Alamofire
 
+/**
+ Allows the user to see a picture they've taken and upload it to the server
+ */
 class PictureViewController: UIViewController, LocationControllerDelegate, UITextFieldDelegate {
+    
+    // MARK: - Initializers
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var uploadButton: UIButton!
@@ -25,40 +30,43 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     
     var currentImage : UIImage?
     
-    var e: EffectsController = EffectsController()
-    var l: LocationController!
-    var i: ImageLoader?
-    var c: ImageLoader?
+    var effects : EffectsController = DataController.sharedData.effects
+    var userLocation : LocationController? = DataController.sharedData.userLocation
+    var browserImages : ImageLoader? = DataController.sharedData.browserImages
+    var collectionImages : ImageLoader? = DataController.sharedData.collectionImages
     
     var locationSharing : Bool = true
     var isWaitingForLocation : Bool = false
     var didUpload : Bool = false
     var captionBottom: CGFloat = CGFloat(0)
     
+    // MARK: - Setup Functions
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override var prefersStatusBarHidden : Bool {
-        return true
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        l?.delegate = self
+        userLocation?.delegate = self
         caption.delegate = self
         updateLocationText()
         setupGestures()
         registerForKeyboardNotifications()
     }
     
+    func setupGestures(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapBackground))
+        self.view.addGestureRecognizer(tap)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        e.addShadow(view: uploadButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: closeButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: saveButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: textButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        effects.addDefaultShadow(view: uploadButton)
+        effects.addDefaultShadow(view: closeButton)
+        effects.addDefaultShadow(view: saveButton)
+        effects.addDefaultShadow(view: locationButton)
+        effects.addDefaultShadow(view: textButton)
         caption.layer.cornerRadius = caption.bounds.height/2
         locationBg.layer.cornerRadius = locationBg.bounds.height/2
     }
@@ -72,20 +80,45 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         updateImage()
     }
     
+    override var prefersStatusBarHidden : Bool {
+        return true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? CameraViewController {
+            destination.didUpload = didUpload
+        }
+    }
+    
+    // MARK: - View Updating Functions
+    
     func updateImage() {
         if let image : UIImage = currentImage {
             imageView.image = image
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? CameraViewController {
-            destination.l = self.l
-            destination.i = self.i
-            destination.c = self.c
-            destination.didUpload = didUpload
+    func didGetLocation(sender: LocationController) {
+        updateLocationText()
+    }
+    
+    func updateLocationText() {
+        if let location = userLocation {
+            if let placemark = location.placemark {
+                if let sublocality = placemark.subLocality {
+                    locationText.text = sublocality + ", " + placemark.locality!
+                } else {
+                    locationText.text = placemark.locality! + ", " + placemark.administrativeArea!
+                }
+            }
+            if (isWaitingForLocation){
+                isWaitingForLocation = false
+                asyncUpload()
+            }
         }
     }
+    
+    // MARK: - User Actions
     
     @IBAction func saveImage() {
         if let image : UIImage = currentImage {
@@ -105,41 +138,43 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
-    func updateLocationText() {
-        if let location = l {
-            if let placemark = location.placemark {
-                if let sublocality = placemark.subLocality {
-                    locationText.text = sublocality + ", " + placemark.locality!
-                } else {
-                    locationText.text = placemark.locality! + ", " + placemark.administrativeArea!
-                }
-            }
-            if (isWaitingForLocation){
-                isWaitingForLocation = false
-                asyncUpload()
-            }
+    @IBAction func toggleLocation() {
+        if (locationSharing){
+            locationButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
+            locationText.isHidden = true
+            locationBg.isHidden = true
+        } else {
+            locationButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
+            locationText.isHidden = false
+            locationBg.isHidden = false
         }
+        locationSharing = !locationSharing
     }
     
-    func didGetLocation(sender: LocationController) {
-        updateLocationText()
+    @IBAction func toggleText(){
+        self.caption.isHidden = !self.caption.isHidden
+        if !self.caption.isHidden {
+            self.caption.becomeFirstResponder()
+        }
     }
     
     @IBAction func uploadImage() {
         self.loading.startAnimating()
         self.loading.hidesWhenStopped = true
-        if (l.placemark != nil){
+        if (userLocation?.placemark != nil){
             asyncUpload()
         } else {
             isWaitingForLocation = true
         }
     }
     
+    // MARK: - Upload Functions
+    
     func asyncUpload(){
         let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
         let captionText = self.caption.text!
-        let latitude : String = "\(self.l.location.coordinate.latitude)"
-        let longitude : String = "\(self.l.location.coordinate.longitude)"
+        let latitude : String = "\(self.userLocation!.location.coordinate.latitude)"
+        let longitude : String = "\(self.userLocation!.location.coordinate.longitude)"
         if let image : UIImage = currentImage {
             if let data : Data = UIImageJPEGRepresentation(image, 0.0) {
                 let base64 : String = data.base64EncodedString() // Image data to encoded string
@@ -160,7 +195,7 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                             upload.responseJSON { response in
                                 let imageUrl = NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue) as! String
                                 print(imageUrl)
-                                self.c?.addCard(card: Card(image: self.currentImage, imageUrl: imageUrl, caption: captionText, location: self.l.location.coordinate, deviceID: deviceID!, favorite: false))
+                                self.collectionImages?.addCard(card: Card(image: self.currentImage, imageUrl: imageUrl, caption: captionText, location: (self.userLocation?.location.coordinate)!, deviceID: deviceID!, favorite: false))
                                 self.addToCollection(imageUrl: imageUrl, deviceID: deviceID!, caption: captionText, latitude: latitude, longitude: longitude, favorite: "false")
                                 self.didUpload = true
                                 self.loading.stopAnimating()
@@ -197,24 +232,8 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
                 }
         })
     }
-    
-    @IBAction func toggleLocation() {
-        if (locationSharing){
-            locationButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
-            locationText.isHidden = true
-            locationBg.isHidden = true
-        } else {
-            locationButton.setImage(UIImage(named: "location_on"), for: UIControlState.normal)
-            locationText.isHidden = false
-            locationBg.isHidden = false
-        }
-        locationSharing = !locationSharing
-    }
-    
-    func setupGestures(){
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapBackground))
-        self.view.addGestureRecognizer(tap)
-    }
+
+    // MARK: - Keyboard Handling Functions
     
     func tapBackground(){
         if (caption.isHidden){
@@ -257,13 +276,6 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.caption.transform = self.caption.transform.translatedBy(x: 0, y: self.captionBottom)
         })
-    }
-    
-    @IBAction func toggleText(){
-        self.caption.isHidden = !self.caption.isHidden
-        if !self.caption.isHidden {
-            self.caption.becomeFirstResponder()
-        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

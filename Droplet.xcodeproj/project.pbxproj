@@ -14,6 +14,7 @@
 		792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FC01DD000F300612463 /* LaunchScreen.storyboard */; };
 		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
+		79304D261DFF340300C7F1D6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79304D251DFF340300C7F1D6 /* DataController.swift */; };
 		7951BCB01DF5E046000D0943 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951BCAF1DF5E046000D0943 /* ImageLoader.swift */; };
 		79870C341DEF97F400D7EAF6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79870C1C1DEF946D00D7EAF6 /* Alamofire.framework */; };
 		79870C351DEF97F400D7EAF6 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 79870C1C1DEF946D00D7EAF6 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -128,6 +129,7 @@
 		792A7FD31DD000F300612463 /* DropletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DropletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
 		792A7FD91DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79304D251DFF340300C7F1D6 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		7951BCAF1DF5E046000D0943 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		79870C101DEF946D00D7EAF6 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		79B0227B1DDD8FC500D250F4 /* LocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			children = (
 				792A7FB71DD000F300612463 /* AppDelegate.swift */,
 				79C0BB411DE2218200D3D5BD /* BrowserView.swift */,
+				79304D251DFF340300C7F1D6 /* DataController.swift */,
 				79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */,
 				792A7FB91DD000F300612463 /* CameraViewController.swift */,
 				79E2BFCF1DF92B0D000D31D5 /* CollectionViewController.swift */,
@@ -443,6 +446,7 @@
 				79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */,
 				79F08BA61DD7C3B5002A373B /* EffectsController.swift in Sources */,
 				79E2BFD01DF92B0D000D31D5 /* CollectionViewController.swift in Sources */,
+				79304D261DFF340300C7F1D6 /* DataController.swift in Sources */,
 				79B0227C1DDD8FC500D250F4 /* LocationController.swift in Sources */,
 				79E2BFC31DF8989B000D31D5 /* CardModel.swift in Sources */,
 				79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */,

@@ -9,7 +9,12 @@
 import UIKit
 import MapKit
 
+/**
+ View that displays a card in the Browser View Controller
+ */
 class BrowserView: UIView {
+    
+    //MARK: - Initializers
     
     var view: UIView!
     
@@ -22,13 +27,9 @@ class BrowserView: UIView {
     var currentImage : UIImage!
     var currentLocation: CLLocationCoordinate2D!
     
-    var e: EffectsController = EffectsController()
+    var effects: EffectsController = DataController.sharedData.effects
     
-    func updateImage() {
-        if let image : UIImage = currentImage {
-            imageView.image = image
-        }
-    }
+    // MARK: - Setup Functions
     
     func loadViewFromNib(name: String) -> UIView {
         let bundle = Bundle(for: type(of: self))
@@ -42,7 +43,7 @@ class BrowserView: UIView {
         view.frame = bounds
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(view)
-        e.addShadow(view: imageView, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
+        effects.addShadow(view: imageView, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
         imageView.addSubview(caption)
     }
     
@@ -60,15 +61,12 @@ class BrowserView: UIView {
         }
     }
     
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        xibSetup()
-//    }
-    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         xibSetup()
     }
+    
+    // MARK: - User Actions
     
     @IBAction func pan(rec:UIPanGestureRecognizer) {
         
@@ -105,20 +103,6 @@ class BrowserView: UIView {
         }
     }
     
-    func translateX(t : CGPoint, v: UIView){
-        v.center = CGPoint(x:v.center.x + t.x, y:v.center.y)
-    }
-    
-    func rotate(v: UIView){
-        let minAngle = CGFloat(-15)
-        let maxAngle = CGFloat(15)
-        
-        let p = v.center.x/view.bounds.maxX
-        let angle = ((minAngle + p*(maxAngle - minAngle)) * CGFloat.pi)/180.0
-        
-        v.transform = CGAffineTransform(rotationAngle: angle)
-    }
-    
     func upvote(){
         UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.imageView.center = CGPoint(x: self.imageView.center.x + self.imageView.bounds.width/0.9, y: self.imageView.center.y)
@@ -135,10 +119,32 @@ class BrowserView: UIView {
             self.imageView.center = CGPoint(x: self.imageView.center.x - self.imageView.bounds.width/0.9, y: self.imageView.center.y)
             self.imageView.transform = CGAffineTransform(rotationAngle: (-15 * CGFloat.pi)/180.0)
         }, completion: { (done : Bool) in
-            //Code on downvote
             self.delegate.removeCard(card: self)
             self.delegate.resetThumbs()
         })
+    }
+    
+    // MARK: - View Updating Functions
+    
+    
+    func translateX(t : CGPoint, v: UIView){
+        v.center = CGPoint(x:v.center.x + t.x, y:v.center.y)
+    }
+    
+    func rotate(v: UIView){
+        let minAngle = CGFloat(-15)
+        let maxAngle = CGFloat(15)
+        
+        let p = v.center.x/view.bounds.maxX
+        let angle = ((minAngle + p*(maxAngle - minAngle)) * CGFloat.pi)/180.0
+        
+        v.transform = CGAffineTransform(rotationAngle: angle)
+    }
+    
+    func updateImage() {
+        if let image : UIImage = currentImage {
+            imageView.image = image
+        }
     }
 
 }

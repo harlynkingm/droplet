@@ -9,7 +9,12 @@
 import UIKit
 import AVFoundation
 
+/**
+ Allows the user to use the device's camera to capture photos
+ */
 class CameraViewController: UIViewController {
+    
+    // MARK: - Initializers
     
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var captureButton: UIButton!
@@ -22,13 +27,15 @@ class CameraViewController: UIViewController {
     var stillImageOutput: AVCaptureStillImageOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
     
-    var e : EffectsController = EffectsController() // Rendering effects
-    var l : LocationController? // Your location
-    var i : ImageLoader? // Local images
-    var c : ImageLoader? // Collection and favorites
+    var effects : EffectsController = DataController.sharedData.effects
+    var userLocation : LocationController? = DataController.sharedData.userLocation
+    var browserImages : ImageLoader? = DataController.sharedData.browserImages
+    var collectionImages : ImageLoader? = DataController.sharedData.collectionImages
     
     var prepImage : UIImage?
     var didUpload : Bool = false
+    
+    // MARK: - Setup Functions
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -42,12 +49,12 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         setupGestures()
         setupLocation()
-        if (i == nil){
-            i = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
+        if (browserImages == nil){
+            browserImages = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
         }
-        if (c == nil){
+        if (collectionImages == nil){
             let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
-            c = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/collection?device=\(deviceID!)")
+            collectionImages = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/collection?device=\(deviceID!)")
         }
         notification.transform = notification.transform.translatedBy(x: 0, y: -200)
     }
@@ -58,9 +65,9 @@ class CameraViewController: UIViewController {
         CATransaction.setDisableActions(true)
         previewLayer!.frame = previewView.bounds
         CATransaction.commit()
-        e.addShadow(view: captureButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: profileButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
+        effects.addDefaultShadow(view: captureButton)
+        effects.addDefaultShadow(view: profileButton)
+        effects.addDefaultShadow(view: locationButton)
         if (didUpload){
             showNotification()
         }
@@ -118,50 +125,11 @@ class CameraViewController: UIViewController {
         case "TakePicture":
             if let destination = segue.destination as? PictureViewController {
                 destination.currentImage = self.prepImage
-                destination.l = self.l
-                destination.i = self.i
-                destination.c = self.c
-            }
-            break
-        case "BrowseImages":
-            if let destination = segue.destination as? BrowserViewController {
-                destination.l = self.l
-                destination.i = self.i
-                destination.c = self.c
-            }
-            break
-        case "BrowseCollection":
-            if let destination = segue.destination as? CollectionViewController {
-                destination.l = self.l
-                destination.i = self.i
-                destination.c = self.c
             }
             break
         default:
             break
         }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touchPoint = touches.first {
-            let yDiff = touchPoint.previousLocation(in: previewView).y - touchPoint.location(in: previewView).y
-            setZoom(distance: yDiff)
-        }
-    }
-    
-    func setZoom(distance: CGFloat){
-        let input = self.session?.inputs.first as? AVCaptureDeviceInput
-        do {
-            try input?.device.lockForConfiguration()
-        } catch {
-            return
-        }
-        let min = CGFloat(1.0)
-        let max = (input?.device.activeFormat.videoMaxZoomFactor)!
-        let newZoom = (input?.device.videoZoomFactor)! + (distance * 0.008)
-        //input?.device.ramp(toVideoZoomFactor: CGFloat.minimum(CGFloat.maximum(min, newZoom), max), withRate: 10.0)
-        input?.device.videoZoomFactor = CGFloat.minimum(CGFloat.maximum(min, newZoom), max)
-        input?.device.unlockForConfiguration()
     }
     
     func setupGestures(){
@@ -171,8 +139,17 @@ class CameraViewController: UIViewController {
     }
     
     func setupLocation(){
-        if l == nil {
-            l = LocationController()
+        if userLocation == nil {
+            userLocation = LocationController()
+        }
+    }
+    
+    // MARK: - User Actions
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touchPoint = touches.first {
+            let yDiff = touchPoint.previousLocation(in: previewView).y - touchPoint.location(in: previewView).y
+            setZoom(distance: yDiff)
         }
     }
     
@@ -196,11 +173,11 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func depressButton (sender: UIButton){
-        e.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 1))
+        effects.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 1))
     }
     
     @IBAction func compressButton (sender: UIButton){
-        e.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 3))
+        effects.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 3))
     }
     
     @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -218,6 +195,8 @@ class CameraViewController: UIViewController {
         })
         focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint!, monitorSubjectAreaChange: true)
     }
+    
+    // MARK: - Camera Controls
     
     private func focus(with focusMode: AVCaptureFocusMode, exposureMode: AVCaptureExposureMode, at devicePoint: CGPoint, monitorSubjectAreaChange: Bool) {
         let input = self.session?.inputs.first as? AVCaptureDeviceInput
@@ -245,6 +224,23 @@ class CameraViewController: UIViewController {
             }
         }
     }
+    
+    
+    func setZoom(distance: CGFloat){
+        let input = self.session?.inputs.first as? AVCaptureDeviceInput
+        do {
+            try input?.device.lockForConfiguration()
+        } catch {
+            return
+        }
+        let min = CGFloat(1.0)
+        let max = (input?.device.activeFormat.videoMaxZoomFactor)!
+        let newZoom = (input?.device.videoZoomFactor)! + (distance * 0.008)
+        input?.device.videoZoomFactor = CGFloat.minimum(CGFloat.maximum(min, newZoom), max)
+        input?.device.unlockForConfiguration()
+    }
+    
+    // MARK: - Notification Display
     
     func showNotification(){
         didUpload = false

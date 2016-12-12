@@ -9,6 +9,9 @@
 import UIKit
 import MapKit
 
+/**
+ A card keeps track of images and image data.
+*/
 struct Card {
     var image : UIImage?
     let imageUrl : String

@@ -9,7 +9,12 @@
 import UIKit
 import MapKit
 
+/**
+ Allows the user to see photos they've taken and their favorites
+ */
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, MKMapViewDelegate, ImageLoaderDelegate {
+    
+    // MARK: - Initializers
     
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
@@ -27,10 +32,10 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     
-    var e : EffectsController = EffectsController()
-    var l : LocationController?
-    var i : ImageLoader?
-    var c : ImageLoader?
+    var effects : EffectsController = DataController.sharedData.effects
+    var userLocation : LocationController? = DataController.sharedData.userLocation
+    var browserImages : ImageLoader? = DataController.sharedData.browserImages
+    var collectionImages : ImageLoader? = DataController.sharedData.collectionImages
     
     var cards : [Card] = []
     var displayCards : [Card] = []
@@ -39,53 +44,42 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     var favoritesMode : Bool = false
     var mapOn : Bool = false
 
+    // MARK: - Setup Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let tempCards = c?.loadedCards {
+        if let tempCards = collectionImages?.loadedCards {
             cards.append(contentsOf: tempCards)
             refreshDisplay(showFavorites: favoritesMode)
         }
         if (displayCards.count > 0){
             noImageLabel.isHidden = true
         }
-        c?.delegate = self
-        c?.refresh()
+        collectionImages?.delegate = self
+        collectionImages?.refresh()
         collection.delegate = self
         collection.dataSource = self
         collection.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "ImageCell")
         mapView.delegate = self
-        e.addShadow(view: cameraButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: userButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: favoriteButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: locationButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: shareButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: closeButton, opacity: 1.0, offset: CGSize(width: 0, height: 3), radius: 0, color: UIColor(white:0.75, alpha:1.0))
-        e.addShadow(view: header, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
-        e.addGradient(view: gradient, start: UIColor.clear, end: UIColor.white, opacity: 0.5)
+        effects.addDefaultShadow(view: cameraButton)
+        effects.addDefaultShadow(view: userButton)
+        effects.addDefaultShadow(view: favoriteButton)
+        effects.addDefaultShadow(view: locationButton)
+        effects.addDefaultShadow(view: shareButton)
+        effects.addDefaultShadow(view: closeButton)
+        effects.addShadow(view: header, opacity: 0.5, offset: CGSize.zero, radius: 20.0, color: nil)
+        effects.addGradient(view: gradient, start: UIColor.clear, end: UIColor.white, opacity: 0.5)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override var prefersStatusBarHidden : Bool {
         return true
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch (segue.identifier!){
-        case "OpenCamera":
-            if let destination = segue.destination as? CameraViewController {
-                destination.l = self.l
-                destination.i = self.i
-                destination.c = self.c
-            }
-            break
-        default:
-            break
-        }
-    }
+    
+    // MARK: - Collection View Functions
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return displayCards.count
@@ -114,6 +108,8 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         })
     }
     
+    // MARK: - User Actions
+    
     @IBAction func userPressed(){
         refreshDisplay(showFavorites: false)
         UIView.transition(with: userButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
@@ -138,26 +134,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         UIView.transition(with: headerLabel, duration: 0.3, options: .transitionFlipFromLeft, animations: {
             self.headerLabel.text = "Your Favorites"
         }, completion: nil)
-    }
-    
-    func refreshDisplay(showFavorites: Bool){
-        self.favoritesMode = showFavorites
-        if (showFavorites){
-            displayCards = cards.filter { $0.favorite }
-        } else {
-            displayCards = cards.filter { !$0.favorite }
-        }
-        collection.reloadData()
-        if (displayCards.count > 0){
-            noImageLabel.isHidden = true
-        } else {
-            noImageLabel.isHidden = false
-        }
-    }
-    
-    func didLoadCard(sender: ImageLoader, newCard: Card) {
-        cards.append(newCard)
-        refreshDisplay(showFavorites: favoritesMode)
     }
     
     @IBAction private func dragPicture(_ rec: UIPanGestureRecognizer) {
@@ -188,19 +164,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         default:
             break
         }
-    }
-    
-    func closeImage(){
-        if (mapOn){
-            locationPressed()
-        }
-        UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
-            self.previewImage.transform = self.previewImage.transform.translatedBy(x: 0, y: self.previewImage.bounds.height * 2)
-        }, completion: { (done : Bool) in
-            self.previewImage.isUserInteractionEnabled = false
-            self.previewImage.alpha = 0
-            self.previewImage.transform = CGAffineTransform.identity
-        })
     }
     
     @IBAction func sharePressed(){
@@ -234,6 +197,41 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // MARK: - Display Updating Functions
+    
+    func refreshDisplay(showFavorites: Bool){
+        self.favoritesMode = showFavorites
+        if (showFavorites){
+            displayCards = cards.filter { $0.favorite }
+        } else {
+            displayCards = cards.filter { !$0.favorite }
+        }
+        collection.reloadData()
+        if (displayCards.count > 0){
+            noImageLabel.isHidden = true
+        } else {
+            noImageLabel.isHidden = false
+        }
+    }
+    
+    func didLoadCard(sender: ImageLoader, newCard: Card) {
+        cards.append(newCard)
+        refreshDisplay(showFavorites: favoritesMode)
+    }
+    
+    func closeImage(){
+        if (mapOn){
+            locationPressed()
+        }
+        UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
+            self.previewImage.transform = self.previewImage.transform.translatedBy(x: 0, y: self.previewImage.bounds.height * 2)
+        }, completion: { (done : Bool) in
+            self.previewImage.isUserInteractionEnabled = false
+            self.previewImage.alpha = 0
+            self.previewImage.transform = CGAffineTransform.identity
+        })
+    }
+    
     func animateMany(items: [UIView], distance: CGPoint, length: TimeInterval){
         UIView.animate(withDuration: length, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             for item in items{
@@ -241,6 +239,8 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             }
         }, completion: nil)
     }
+    
+    // MARK: - Map Updating Functions
     
     func setRegion(location : CLLocationCoordinate2D){
         for annotation in mapView.annotations {

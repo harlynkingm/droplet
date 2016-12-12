@@ -8,12 +8,19 @@
 
 import MapKit
 
+/**
+ Allows view controllers to listen to location received events
+ */
 protocol  LocationControllerDelegate : class {
     func didGetLocation(sender: LocationController)
 }
 
+/**
+ Given a url, gets a list of images and creates Cards based on the data retrieved.
+ */
 class LocationController: NSObject, CLLocationManagerDelegate{
     
+    // Defines location and placemark for keeping track of location name
     var manager = CLLocationManager()
     var location: CLLocation!
     var placemark: CLPlacemark?
@@ -28,9 +35,11 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         manager.startUpdatingLocation()
     }
     
+    /**
+     CLLocationManagerDelegate function for when locations are received
+     */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     {
-        // returns when location received
         let latestLocation: CLLocation = locations[locations.count - 1]
         location = latestLocation
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error)->Void in
@@ -42,6 +51,9 @@ class LocationController: NSObject, CLLocationManagerDelegate{
         
     }
     
+    /**
+     Required function for the CLLocationManagerDelegate
+     */
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
     }
