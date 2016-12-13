@@ -127,6 +127,7 @@ class BrowserView: UIView {
             self.imageView.center = CGPoint(x: self.imageView.center.x - self.imageView.bounds.width/0.9, y: self.imageView.center.y)
             self.imageView.transform = CGAffineTransform(rotationAngle: (-15 * CGFloat.pi)/180.0)
         }, completion: { (done : Bool) in
+            // Code on downvote
             self.delegate.removeCard(view: self)
             self.delegate.resetThumbs()
         })

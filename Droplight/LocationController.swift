@@ -38,8 +38,7 @@ class LocationController: NSObject, CLLocationManagerDelegate{
     /**
      CLLocationManagerDelegate function for when locations are received
      */
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let latestLocation: CLLocation = locations[locations.count - 1]
         location = latestLocation
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error)->Void in
@@ -48,13 +47,10 @@ class LocationController: NSObject, CLLocationManagerDelegate{
                 self.delegate?.didGetLocation(sender: self)
             }
         })
-        
     }
     
     /**
-     Required function for the CLLocationManagerDelegate
+     Required function for the CLLocationManagerDelegate, no implementation necessary
      */
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
-    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
 }

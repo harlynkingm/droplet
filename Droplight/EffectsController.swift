@@ -10,6 +10,7 @@ import UIKit
 
 /**
  Handles view effects like shadow and gradient
+ These effects are handled in code rather than storyboards so they can be tweaked programatically or animated
  */
 class EffectsController {
     
