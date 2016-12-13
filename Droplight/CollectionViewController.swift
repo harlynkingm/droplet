@@ -37,6 +37,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     var browserImages : ImageLoader? = DataController.sharedData.browserImages
     var collectionImages : ImageLoader? = DataController.sharedData.collectionImages
     
+    // The 'cards' set holds all cards while 'displayCards' holds the cards that will appear on screen
     var cards : [Card] = []
     var displayCards : [Card] = []
     var currentCard : Int = 0
@@ -81,14 +82,23 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     // MARK: - Collection View Functions
     
+    /**
+     Sets the number of cards to show in the collection
+     */
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return displayCards.count
     }
     
+    /**
+     Defines the number of sections to show in the collection
+     */
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
+    /**
+     Defines the contents of the cell using the ImageCell reuse identifier set up in the storyboard
+     */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collection.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath as IndexPath)
         let newView : UIImageView = UIImageView(image: displayCards[indexPath.row].image)
@@ -98,6 +108,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         return cell
     }
     
+    /**
+     Shows the selected image full screen
+     */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentCard = indexPath.row
         let cardToShow : Card = displayCards[currentCard]
@@ -110,6 +123,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     // MARK: - User Actions
     
+    /**
+     Filters the cards by the user's collection when the favorite button is pressed
+     */
     @IBAction func userPressed(){
         refreshDisplay(showFavorites: false)
         UIView.transition(with: userButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
@@ -123,6 +139,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }, completion: nil)
     }
     
+    /**
+     Filters the cards by favorites when the favorite button is pressed
+     */
     @IBAction func favoritePressed(){
         refreshDisplay(showFavorites: true)
         UIView.transition(with: favoriteButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
@@ -136,6 +155,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }, completion: nil)
     }
     
+    /**
+     Drags a picture vertically using a PanGestureRecognizer
+     */
     @IBAction private func dragPicture(_ rec: UIPanGestureRecognizer) {
         let translation = rec.translation(in: rec.view)
         
@@ -166,6 +188,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    /**
+     Shares the photo using a set of applications when the share button is pressed
+     */
     @IBAction func sharePressed(){
         loading.startAnimating()
         if (cards.count > 0) {
@@ -180,10 +205,16 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    /**
+     Closes the viewed image when close is pressed
+     */
     @IBAction func closePressed(){
         closeImage()
     }
     
+    /**
+     Animates the map into the view when location button is pressed
+     */
     @IBAction func locationPressed(){
         mapOn = !mapOn
         let items : [UIView] = [self.locationButton, self.cameraButton, self.shareButton, self.mapView]
@@ -199,6 +230,11 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     // MARK: - Display Updating Functions
     
+    /**
+     Refreshes the display with a new set of cards
+     
+     - parameter showFavorites: Indicates whether the cards should be filtered by favorites or not
+     */
     func refreshDisplay(showFavorites: Bool){
         self.favoritesMode = showFavorites
         if (showFavorites){
@@ -214,11 +250,20 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    /**
+     Delegate function to add a card to the collection when it is received
+     
+     - parameter sender: The ImageLoader that sent the card
+     - parameter newCard: The card that was sent
+     */
     func didLoadCard(sender: ImageLoader, newCard: Card) {
         cards.append(newCard)
         refreshDisplay(showFavorites: favoritesMode)
     }
     
+    /**
+     Closes an image by sending it downwards off the screen
+     */
     func closeImage(){
         if (mapOn){
             locationPressed()
@@ -232,6 +277,13 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         })
     }
     
+    /**
+     Animates an array of views by a given distance over a given time
+     
+     - parameter items: The list of views to animate
+     - parameter distance: The distance to animate the views by
+     - parameter length: How long to animate the items
+     */
     func animateMany(items: [UIView], distance: CGPoint, length: TimeInterval){
         UIView.animate(withDuration: length, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             for item in items{
@@ -242,6 +294,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     // MARK: - Map Updating Functions
     
+    /**
+     Centers the map view on the pin location
+     */
     func setRegion(location : CLLocationCoordinate2D){
         for annotation in mapView.annotations {
             self.mapView.removeAnnotation(annotation)
@@ -256,6 +311,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         mapView.setRegion(region, animated: true)
     }
     
+    /**
+     Adds a custom annotation (black dot) to the map to represent the uploaded image
+     */
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation) { return nil }
         let reuseID = "droplet"

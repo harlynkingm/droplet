@@ -84,6 +84,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         return true
     }
     
+    /**
+     Passes forward the variable that says whether an image was uploaded
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? CameraViewController {
             destination.didUpload = didUpload
@@ -92,16 +95,25 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     
     // MARK: - View Updating Functions
     
+    /**
+     Updates the background of the picture view to display the current image
+     */
     func updateImage() {
         if let image : UIImage = currentImage {
             imageView.image = image
         }
     }
     
+    /**
+     Delegate function that is called when new location data is retrieved
+     */
     func didGetLocation(sender: LocationController) {
         updateLocationText()
     }
     
+    /**
+     Updates the text of the location using the Geocoder data of the placemark
+     */
     func updateLocationText() {
         if let location = userLocation {
             if let placemark = location.placemark {
@@ -120,6 +132,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
     
     // MARK: - User Actions
     
+    /**
+     Saves an image to the device locally
+     */
     @IBAction func saveImage() {
         if let image : UIImage = currentImage {
             self.loading.startAnimating()
@@ -127,6 +142,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
+    /**
+     Callback function to be called once an image is saved to the local device
+     */
     func imageSaved(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
         self.loading.stopAnimating()
         if let error = error {
@@ -138,6 +156,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
+    /**
+     Toggles location to appear/disappear when the location button is pressed
+     */
     @IBAction func toggleLocation() {
         if (locationSharing){
             locationButton.setImage(UIImage(named: "location_off"), for: UIControlState.normal)
@@ -151,6 +172,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         locationSharing = !locationSharing
     }
     
+    /**
+     Toggles the text field to appear when the text button is pressed
+     */
     @IBAction func toggleText(){
         self.caption.isHidden = !self.caption.isHidden
         if !self.caption.isHidden {
@@ -158,18 +182,26 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
+    /**
+     Starts the loading animation and begins the uploading process
+     */
     @IBAction func uploadImage() {
         self.loading.startAnimating()
         self.loading.hidesWhenStopped = true
+        // Only allows image to upload once a location has been retrieved
         if (userLocation?.placemark != nil){
             asyncUpload()
         } else {
+            // Sets a flag to indicate the app is waiting for a retrieved location
             isWaitingForLocation = true
         }
     }
     
     // MARK: - Upload Functions
     
+    /**
+     Uploads a photo to the database using multipart form data
+     */
     func asyncUpload(){
         let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
         let captionText = self.caption.text!
@@ -210,6 +242,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
+    /**
+     Sends an asynchronus call to the database to add an item to your collection when you upload a photo
+     */
     func addToCollection(imageUrl: String, deviceID: String, caption: String, latitude: String, longitude: String, favorite: String){
         Alamofire.upload(
             multipartFormData: { multipartFormData in
@@ -235,6 +270,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
 
     // MARK: - Keyboard Handling Functions
     
+    /**
+     Hides the keyboard when the background is pressed
+     */
     func tapBackground(){
         if (caption.isHidden){
             toggleText()
@@ -243,17 +281,26 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         }
     }
     
+    /**
+     Registers for keyboard listeners when view controller is started
+     */
     func registerForKeyboardNotifications(){
         captionBottom = self.caption.frame.minY
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    /**
+     Deregisters from keyboard listeners when view controller is ending
+     */
     func deregisterFromKeyboardNotifications(){
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    /**
+     Brings text field to above the keyboard when a keyboard is created or changed
+     */
     func keyboardWasShown(notification: NSNotification){
         var info = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.origin.y
@@ -263,11 +310,17 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         })
     }
     
+    /**
+     Hides the text field when 'Done' is pressed
+     */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         tapBackground()
         return false
     }
     
+    /**
+     Sets text field to appear at bottom of screen when keyboard is about to be hidden
+     */
     func keyboardWillBeHidden(notification: NSNotification){
         if self.caption.text == "" {
             toggleText()
@@ -278,6 +331,9 @@ class PictureViewController: UIViewController, LocationControllerDelegate, UITex
         })
     }
     
+    /**
+     Limits characters to fit inside text field
+     */
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard var text = textField.text as NSString? else { return true }
         text = text.replacingCharacters(in: range, with: string) as NSString

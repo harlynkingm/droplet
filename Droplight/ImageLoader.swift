@@ -37,7 +37,7 @@ class ImageLoader : NSObject {
     /**
      Initializes load of data from the backend API given a url
      
-     @param url The url to retrieve data from
+     - parameter url: The url to retrieve data from
      */
     init(url: String) {
         sourceUrl = url
@@ -51,7 +51,7 @@ class ImageLoader : NSObject {
     /**
      Loads image data from a server and sets up a queue to load the actual images
      
-     @param url The url to retrieve data from
+     - parameter url: The url to retrieve data from
      */
     func loadImageList(url: String){
         Alamofire.request(url).responseJSON{ response in
@@ -98,7 +98,7 @@ class ImageLoader : NSObject {
     /**
      Adds a Card to to the loaded cards deck
      
-     @param card The Card to add to the loaded cards
+     - parameter card: The Card to add to the loaded cards
      */
     func addCard(card : Card){
         if (!self.seenImages.contains(card.imageUrl)){

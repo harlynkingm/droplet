@@ -68,8 +68,10 @@ class BrowserView: UIView {
     
     // MARK: - User Actions
     
+    /**
+     Gesture recognizer built into BrowserView that handles touch/swipe events
+     */
     @IBAction func pan(rec:UIPanGestureRecognizer) {
-        
         let translation:CGPoint = rec.translation(in: self)
         
         switch rec.state {
@@ -103,34 +105,50 @@ class BrowserView: UIView {
         }
     }
     
+    /**
+     Sends a BrowserView away to the right, will eventually make a server call
+     */
     func upvote(){
         UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.imageView.center = CGPoint(x: self.imageView.center.x + self.imageView.bounds.width/0.9, y: self.imageView.center.y)
             self.imageView.transform = CGAffineTransform(rotationAngle: (15 * CGFloat.pi)/180.0)
         }, completion: { (done : Bool) in
             // Code on upvote
-            self.delegate.removeCard(card: self)
+            self.delegate.removeCard(view: self)
             self.delegate.resetThumbs()
         })
     }
     
+    /**
+     Sends a BrowserView away to the left, will eventually make a server call
+     */
     func downvote(){
         UIView.animate(withDuration: 0.4, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.imageView.center = CGPoint(x: self.imageView.center.x - self.imageView.bounds.width/0.9, y: self.imageView.center.y)
             self.imageView.transform = CGAffineTransform(rotationAngle: (-15 * CGFloat.pi)/180.0)
         }, completion: { (done : Bool) in
-            self.delegate.removeCard(card: self)
+            self.delegate.removeCard(view: self)
             self.delegate.resetThumbs()
         })
     }
     
     // MARK: - View Updating Functions
     
-    
+    /**
+     Translates a view by a transform property
+     
+     - parameter t: The transformation to make on the view
+     - parameter v: The view to transform
+     */
     func translateX(t : CGPoint, v: UIView){
         v.center = CGPoint(x:v.center.x + t.x, y:v.center.y)
     }
     
+    /**
+     Rotates a given view based on its distance from the center of the screen based on a min and max angle
+     
+     - parameter v: The view to rotate
+     */
     func rotate(v: UIView){
         let minAngle = CGFloat(-15)
         let maxAngle = CGFloat(15)

@@ -33,6 +33,8 @@ class CameraViewController: UIViewController {
     var collectionImages : ImageLoader? = DataController.sharedData.collectionImages
     
     var prepImage : UIImage?
+    
+    // Decides whether to show the 'uploaded' notification
     var didUpload : Bool = false
     
     // MARK: - Setup Functions
@@ -45,6 +47,9 @@ class CameraViewController: UIViewController {
         return true
     }
 
+    /**
+     Initializes browser and collection loading on load
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGestures()
@@ -73,6 +78,9 @@ class CameraViewController: UIViewController {
         }
     }
     
+    /**
+     Pauses the camera session
+     */
     override func viewWillDisappear(_ animated: Bool) {
         if (self.session?.isRunning)! {
             self.session?.stopRunning()
@@ -80,6 +88,9 @@ class CameraViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
+    /**
+     Initializes the camera capture session
+     */
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
         // Start capture session
@@ -120,6 +131,9 @@ class CameraViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    /**
+     Sends the captured image to the new view controller
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch (segue.identifier!){
         case "TakePicture":
@@ -132,12 +146,18 @@ class CameraViewController: UIViewController {
         }
     }
     
+    /**
+     Sets up a gesture recognizer to snap a photo on two taps
+     */
     func setupGestures(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(snapPhoto))
         tap.numberOfTapsRequired = 2
         previewView.addGestureRecognizer(tap)
     }
     
+    /**
+     Sets up the location controller if it has not been initialized
+     */
     func setupLocation(){
         if userLocation == nil {
             userLocation = LocationController()
@@ -146,6 +166,9 @@ class CameraViewController: UIViewController {
     
     // MARK: - User Actions
     
+    /**
+     Sets the zoom of the camera based on touch movements
+     */
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touchPoint = touches.first {
             let yDiff = touchPoint.previousLocation(in: previewView).y - touchPoint.location(in: previewView).y
@@ -153,6 +176,9 @@ class CameraViewController: UIViewController {
         }
     }
     
+    /**
+     Snaps a photo from the camera view and begins the segue to the picture view
+     */
     @IBAction func snapPhoto () {
         if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo){
             stillImageOutput?.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (sampleBuffer, error) -> Void in
@@ -168,24 +194,32 @@ class CameraViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindToViewController (sender: UIStoryboardSegue){
-        
-    }
+    @IBAction func unwindToViewController (sender: UIStoryboardSegue){ }
     
+    /**
+     Adjsuts a shadow to lessed when a finger is pressed on a button
+     */
     @IBAction func depressButton (sender: UIButton){
         effects.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 1))
     }
     
+    /**
+     Adjusts the shadow to grow when a finger is lifted
+     */
     @IBAction func compressButton (sender: UIButton){
         effects.adjustShadow(view: sender, newOffset: CGSize(width: 0, height: 3))
     }
     
+    /**
+     Sets a tap for focusing and exposing using a gesture recognizer
+     */
     @IBAction private func focusAndExposeTap(_ gestureRecognizer: UITapGestureRecognizer) {
         let devicePoint = self.previewLayer?.captureDevicePointOfInterest(for: gestureRecognizer.location(in: gestureRecognizer.view))
         focusPoint.layer.removeAllAnimations()
         focusPoint.center = gestureRecognizer.location(in: view)
         focusPoint.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
         focusPoint.alpha = 1
+        // Does a small animation after tapping
         UIView.animate(withDuration: 0.2, delay: 0, options: [UIViewAnimationOptions.curveEaseOut], animations: {
             self.focusPoint.transform = CGAffineTransform(scaleX: 1, y: 1)
         }, completion: { (done : Bool) in
@@ -198,6 +232,9 @@ class CameraViewController: UIViewController {
     
     // MARK: - Camera Controls
     
+    /**
+     Focuses the camera and sets the exposure based on a tap
+     */
     private func focus(with focusMode: AVCaptureFocusMode, exposureMode: AVCaptureExposureMode, at devicePoint: CGPoint, monitorSubjectAreaChange: Bool) {
         let input = self.session?.inputs.first as? AVCaptureDeviceInput
         if let device = input?.device {
@@ -225,7 +262,9 @@ class CameraViewController: UIViewController {
         }
     }
     
-    
+    /**
+     Sets the zoom using a vertical finger movement distance
+     */
     func setZoom(distance: CGFloat){
         let input = self.session?.inputs.first as? AVCaptureDeviceInput
         do {
@@ -242,6 +281,9 @@ class CameraViewController: UIViewController {
     
     // MARK: - Notification Display
     
+    /**
+     Animates the uploaded notification down from the top of the screen
+     */
     func showNotification(){
         didUpload = false
         UIView.animate(withDuration: 0.7, delay: 0, options: [UIViewAnimationOptions.curveEaseIn], animations: {
