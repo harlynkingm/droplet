@@ -1,6 +1,6 @@
 #Droplet: Localized Anonymous Image Sharing
 
-Droplet is a new way to share and see what's going on around you using your iPhone.
+Droplet is a new way to share and see what's going on around you.
 
 ##Requirements
 Due to the fact that it uses the camera, Droplet must be run on a real iOS device.
