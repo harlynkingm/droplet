@@ -55,11 +55,11 @@ class CameraViewController: UIViewController {
         setupGestures()
         setupLocation()
         if (browserImages == nil){
-            browserImages = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
+            DataController.sharedData.browserImages = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/local_feed")
         }
         if (collectionImages == nil){
             let deviceID = UIDevice.current.identifierForVendor?.uuidString as String!
-            collectionImages = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/collection?device=\(deviceID!)")
+            DataController.sharedData.collectionImages = ImageLoader(url: "https://droplightapi.herokuapp.com/apiv1/collection?device=\(deviceID!)")
         }
         notification.transform = notification.transform.translatedBy(x: 0, y: -200)
     }
@@ -160,7 +160,7 @@ class CameraViewController: UIViewController {
      */
     func setupLocation(){
         if userLocation == nil {
-            userLocation = LocationController()
+            DataController.sharedData.userLocation = LocationController()
         }
     }
     

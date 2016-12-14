@@ -71,7 +71,7 @@ class BrowserView: UIView {
     /**
      Gesture recognizer built into BrowserView that handles touch/swipe events
      */
-    @IBAction func pan(rec:UIPanGestureRecognizer) {
+    @IBAction func swipe(rec:UIPanGestureRecognizer) {
         let translation:CGPoint = rec.translation(in: self)
         
         switch rec.state {

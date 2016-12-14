@@ -112,18 +112,18 @@ class BrowserViewController: UIViewController, ImageLoaderDelegate, MKMapViewDel
     /**
      Slides the image around based on a gesture recognizer
      */
-    @IBAction func pan(rec:UIPanGestureRecognizer) {
+    @IBAction func swipe(rec:UIPanGestureRecognizer) {
         switch rec.state {
         case .began:
             break
         case .changed:
             if (passGesture && cards.count > 0){
-                cards[currentCard].pan(rec: rec)
+                cards[currentCard].swipe(rec: rec)
             }
             break
         case .ended:
             if (passGesture && cards.count > 0){
-                cards[currentCard].pan(rec: rec)
+                cards[currentCard].swipe(rec: rec)
             }
             passGesture = false
             break

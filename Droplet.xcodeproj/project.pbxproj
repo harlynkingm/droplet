@@ -12,7 +12,6 @@
 		792A7FBD1DD000F300612463 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FBB1DD000F300612463 /* Main.storyboard */; };
 		792A7FBF1DD000F300612463 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FBE1DD000F300612463 /* Assets.xcassets */; };
 		792A7FC21DD000F300612463 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792A7FC01DD000F300612463 /* LaunchScreen.storyboard */; };
-		792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FCC1DD000F300612463 /* DroplightTests.swift */; };
 		792A7FD81DD000F300612463 /* DroplightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792A7FD71DD000F300612463 /* DroplightUITests.swift */; };
 		79304D261DFF340300C7F1D6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79304D251DFF340300C7F1D6 /* DataController.swift */; };
 		7951BCB01DF5E046000D0943 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951BCAF1DF5E046000D0943 /* ImageLoader.swift */; };
@@ -22,6 +21,10 @@
 		79C0BB3E1DE21F6F00D3D5BD /* BrowserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */; };
 		79C0BB421DE2218200D3D5BD /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB411DE2218200D3D5BD /* BrowserView.swift */; };
 		79C0BB441DE22CD000D3D5BD /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */; };
+		79E0EEDA1E00E36300BD9B62 /* CardModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E0EED11E00E21F00BD9B62 /* CardModelTest.swift */; };
+		79E0EEDD1E01072300BD9B62 /* ImageLoaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E0EEDB1E00EFA800BD9B62 /* ImageLoaderTest.swift */; };
+		79E0EEE11E011F1600BD9B62 /* EffectsControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E0EEDE1E010A2800BD9B62 /* EffectsControllerTest.swift */; };
+		79E0EEE31E01233700BD9B62 /* BrowserViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E0EEE21E01233700BD9B62 /* BrowserViewTest.swift */; };
 		79E2BFC31DF8989B000D31D5 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E2BFC21DF8989B000D31D5 /* CardModel.swift */; };
 		79E2BFD01DF92B0D000D31D5 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E2BFCF1DF92B0D000D31D5 /* CollectionViewController.swift */; };
 		79F08BA41DD79A9F002A373B /* PictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F08BA31DD79A9F002A373B /* PictureViewController.swift */; };
@@ -125,7 +128,6 @@
 		792A7FC11DD000F300612463 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		792A7FC31DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		792A7FC81DD000F300612463 /* DropletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DropletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		792A7FCC1DD000F300612463 /* DroplightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightTests.swift; sourceTree = "<group>"; };
 		792A7FCE1DD000F300612463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		792A7FD31DD000F300612463 /* DropletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DropletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		792A7FD71DD000F300612463 /* DroplightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroplightUITests.swift; sourceTree = "<group>"; };
@@ -137,6 +139,10 @@
 		79C0BB3D1DE21F6F00D3D5BD /* BrowserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowserView.xib; sourceTree = "<group>"; };
 		79C0BB411DE2218200D3D5BD /* BrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		79C0BB431DE22CD000D3D5BD /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		79E0EED11E00E21F00BD9B62 /* CardModelTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModelTest.swift; sourceTree = "<group>"; };
+		79E0EEDB1E00EFA800BD9B62 /* ImageLoaderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoaderTest.swift; sourceTree = "<group>"; };
+		79E0EEDE1E010A2800BD9B62 /* EffectsControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectsControllerTest.swift; sourceTree = "<group>"; };
+		79E0EEE21E01233700BD9B62 /* BrowserViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrowserViewTest.swift; path = DroplightTests/BrowserViewTest.swift; sourceTree = SOURCE_ROOT; };
 		79E2BFC21DF8989B000D31D5 /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		79E2BFCF1DF92B0D000D31D5 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		79F08BA31DD79A9F002A373B /* PictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureViewController.swift; sourceTree = "<group>"; };
@@ -219,7 +225,10 @@
 		792A7FCB1DD000F300612463 /* DroplightTests */ = {
 			isa = PBXGroup;
 			children = (
-				792A7FCC1DD000F300612463 /* DroplightTests.swift */,
+				79E0EEE21E01233700BD9B62 /* BrowserViewTest.swift */,
+				79E0EED11E00E21F00BD9B62 /* CardModelTest.swift */,
+				79E0EEDB1E00EFA800BD9B62 /* ImageLoaderTest.swift */,
+				79E0EEDE1E010A2800BD9B62 /* EffectsControllerTest.swift */,
 				792A7FCE1DD000F300612463 /* Info.plist */,
 			);
 			path = DroplightTests;
@@ -463,7 +472,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				792A7FCD1DD000F300612463 /* DroplightTests.swift in Sources */,
+				79E0EEDD1E01072300BD9B62 /* ImageLoaderTest.swift in Sources */,
+				79E0EEE11E011F1600BD9B62 /* EffectsControllerTest.swift in Sources */,
+				79E0EEE31E01233700BD9B62 /* BrowserViewTest.swift in Sources */,
+				79E0EEDA1E00E36300BD9B62 /* CardModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,8 +682,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.self.DroplightUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Droplight;
+				TEST_TARGET_NAME = Droplet;
 			};
 			name = Debug;
 		};
@@ -682,8 +695,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.self.DroplightUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Droplight;
+				TEST_TARGET_NAME = Droplet;
 			};
 			name = Release;
 		};

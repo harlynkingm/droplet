@@ -57,7 +57,7 @@
         </view>
         <panGestureRecognizer minimumNumberOfTouches="1" id="2e1-Gj-Jgw">
             <connections>
-                <action selector="panWithRec:" destination="-1" id="2Q7-BO-2j9"/>
+                <action selector="swipeWithRec:" destination="-1" id="O6U-zd-4Cd"/>
             </connections>
         </panGestureRecognizer>
     </objects>

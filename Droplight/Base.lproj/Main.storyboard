@@ -366,7 +366,7 @@
                 <exit id="p6A-B5-jRY" userLabel="Exit" sceneMemberID="exit"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="SyY-Bd-TcF">
                     <connections>
-                        <action selector="panWithRec:" destination="huz-Pz-hvq" id="Uq3-MB-1C5"/>
+                        <action selector="swipeWithRec:" destination="huz-Pz-hvq" id="9Gv-Jf-ptO"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
